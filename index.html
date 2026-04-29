@@ -1589,7 +1589,7 @@ function renderTimeline(data){
       <td class="sticky-col col-proj editable" title="Click to edit ${p.name}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${gripSvg}${p.name}</td>
       <td class="sticky-col col-status"><span class="status-pill" style="${statusStyle(p.status)};font-size:10px;padding:2px 8px" onclick="cycleStatus(${p.id})">${p.status}</span></td>
       <td class="sticky-col col-sn" onclick="tlNoteEdit(event,${p.id})" title="${snText||'Click to add status note'}">${snDisplay}</td>
-      <td style="padding:0;width:0;overflow:visible;position:relative;border:none">${barHtml}</td>
+      <td style="padding:0;width:0;overflow:visible;position:relative;border:none;z-index:4">${barHtml}</td>
       ${dayCells}
     </tr>`;
   }
@@ -1613,6 +1613,35 @@ function renderTimeline(data){
     </tr>`;
     rows+=ps.map(p=>buildProjectRow(p)).join('');
   });
+
+  // ── Dedicated Milestones row ──────────────────────────────────────────────
+  const allMs=data.flatMap(p=>p.milestones.map(m=>({...m,projId:p.id,projName:p.name})));
+  if(allMs.length){
+    const msRowMarkers=allMs.map(ms=>{
+      const mDn=parseDateNum(ms.date);const mi=mDn?dayNumToIdx(mDn):-1;
+      if(mi<0)return'';
+      const color=msTypeColor(ms.event);
+      const endDn=ms.endDate?parseDateNum(ms.endDate):null;
+      const ei2=endDn?dayNumToIdx(endDn):-1;
+      const safeEvt=(ms.event||'').replace(/'/g,"\\'").replace(/`/g,'');
+      const safeName=(ms.projName||'').replace(/'/g,"\\'").replace(/`/g,'');
+      const safeDate=(ms.date||'').replace(/`/g,'');
+      const safeEnd=(ms.endDate||'').replace(/`/g,'');
+      if(ei2>mi){
+        const spanW=(ei2-mi+1)*PX;const leftPx=mi*PX;const labelW=Math.max(0,spanW-14);
+        return`<div style="position:absolute;top:50%;left:${leftPx}px;transform:translateY(-50%);height:18px;width:${spanW}px;background:${color};border-radius:9px;z-index:5;cursor:pointer;box-shadow:0 1px 6px ${color}88;border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;overflow:hidden" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','${safeEnd}');this.style.filter='brightness(1.2)'" onmouseleave="hideMsTip();this.style.filter=''">${labelW>16?`<span style="font-size:9px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:${labelW}px;padding:0 7px;pointer-events:none">${ms.event}</span>`:''}</div>`;
+      }
+      return`<div style="position:absolute;top:50%;left:${mi*PX+PX/2}px;transform:translate(-50%,-50%) rotate(45deg);width:12px;height:12px;background:${color};border-radius:2px;z-index:5;cursor:pointer;box-shadow:0 1px 6px rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.8)" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','')" onmouseleave="hideMsTip()"></div>`;
+    }).join('');
+    rows+=`<tr style="background:var(--surface2);border-top:2px solid var(--border-med)">
+      <td class="sticky-col col-proj" style="background:var(--surface2);z-index:20;padding:4px 10px">
+        <span style="font-size:10px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:.04em;color:var(--text-3);text-transform:uppercase">◆ Milestones</span>
+      </td>
+      <td class="sticky-col col-status" style="background:var(--surface2)"></td>
+      <td class="sticky-col col-sn" style="background:var(--surface2);border-right:2px solid var(--border-med)"></td>
+      <td style="padding:0;width:0;overflow:visible;position:relative;border:none;height:32px;z-index:4">${msRowMarkers}</td>
+      ${ALL_DAYS.map(d=>`<td style="min-width:${PX}px;max-width:${PX}px;${d.day===1?'border-left:2px solid var(--border-med);':''}background:var(--surface2);position:relative;overflow:visible"></td>`).join('')}
+    </tr>`;
 
   // ── Headers ──────────────────────────────────────────────────────────────────
   const numHeaderRows = tlZoom==='month' ? 1 : 2;
@@ -1722,13 +1751,33 @@ function openEdit(id){
   document.getElementById('modal').style.display='flex';
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
+function _msDateToInput(s){
+  // Convert "May 20" → "2026-05-20" for date input
+  if(!s)return'';
+  const p=(s+'').trim().split(' ');
+  if(p.length<2)return'';
+  const MIDX={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
+  const mo=MIDX[p[0]];const d=parseInt(p[1]);
+  if(!mo||isNaN(d))return'';
+  return`2026-${mo}-${String(d).padStart(2,'0')}`;
+}
+function _inputToMsDate(v){
+  // Convert "2026-05-20" → "May 20"
+  if(!v)return'';
+  const MNAME=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const parts=v.split('-');if(parts.length<3)return'';
+  const mo=parseInt(parts[1]),d=parseInt(parts[2]);
+  return MNAME[mo]?`${MNAME[mo]} ${d}`:'';
+}
 function addMsRow(date='',endDate='',event=''){
   const row=document.createElement('div');row.className='ms-row';
   const typeOpts=milestoneTypes.map(t=>`<option${t.name===event?' selected':''}>${t.name}</option>`).join('');
+  const sv=_msDateToInput(date);
+  const ev=_msDateToInput(endDate||'');
   row.innerHTML=`
-    <input class="form-input ms-date-input" type="text" placeholder="Start (e.g. May 20)" value="${date}">
+    <input class="form-input ms-date-input" type="date" value="${sv}" style="min-width:130px">
     <span class="ms-date-sep">→</span>
-    <input class="form-input ms-date-input" type="text" placeholder="End (optional)" value="${endDate||''}">
+    <input class="form-input ms-date-input" type="date" value="${ev}" style="min-width:130px">
     <select class="form-input ms-type-select">${typeOpts}</select>
     <button class="ms-del-btn" onclick="this.parentElement.remove()" type="button">✕</button>`;
   document.getElementById('ms-list').appendChild(row);
@@ -1747,9 +1796,12 @@ function saveProject(){
   const milestones=[];
   document.querySelectorAll('#ms-list .ms-row').forEach(r=>{
     const inputs=r.querySelectorAll('input.ms-date-input');
-    const d=inputs[0]?inputs[0].value.trim():'';
-    const ed=inputs[1]?inputs[1].value.trim():'';
+    const rawD=inputs[0]?inputs[0].value.trim():'';
+    const rawEd=inputs[1]?inputs[1].value.trim():'';
     const e=r.querySelector('select').value;
+    // Convert date input "2026-05-20" → "May 20"; pass through if already "Mon D"
+    const d=rawD.includes('-')?_inputToMsDate(rawD):rawD;
+    const ed=rawEd?(rawEd.includes('-')?_inputToMsDate(rawEd):rawEd):'';
     if(d)milestones.push({date:d,endDate:ed||null,event:e});
   });
   if(editId){
