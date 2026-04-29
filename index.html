@@ -1205,6 +1205,7 @@ function setView(v){
     const b=document.getElementById('vb-'+x);
     if(b)b.classList.toggle('active',x===v);
   });
+  _saveNavState();
   render();
 }
 
@@ -2600,16 +2601,19 @@ function openClientProject(id,e){
   const mv=document.getElementById('main-view');
   if(mv){mv.style.overflowY='';mv.style.padding='';}
   setView(currentView);
+  _saveNavState();
 }
 
 function closeClientProject(){
   activeClientId=null;
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
+  _saveNavState();
   showPortalHome();
 }
 
 function showPortalHome(){
   activeClientId=null;
+  _saveNavState();
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
   const mv=document.getElementById('main-view');if(!mv)return;
   mv.style.overflowY='auto';
@@ -3656,6 +3660,30 @@ showPortalHome();
 // ─── CLIENT MODE INIT ─────────────────────────────────────────────────────────
 initClientMode();
 
+// ─── NAV STATE PERSISTENCE ───────────────────────────────────────────────────
+const _NAV_KEY='wa_nav_2026';
+function _saveNavState(){
+  try{
+    sessionStorage.setItem(_NAV_KEY,JSON.stringify({
+      clientId:activeClientId||null,
+      view:currentView||'timeline'
+    }));
+  }catch(e){}
+}
+function _restoreNavState(){
+  try{
+    const raw=sessionStorage.getItem(_NAV_KEY);
+    if(!raw){showPortalHome();return;}
+    const s=JSON.parse(raw);
+    if(s.clientId&&portalClients.find(c=>c.id===s.clientId)){
+      if(s.view)currentView=s.view;
+      openClientProject(s.clientId);
+    } else {
+      showPortalHome();
+    }
+  }catch(e){showPortalHome();}
+}
+
 // ─── LOGIN GATE ──────────────────────────────────────────────────────────────
 const _WA_CREDS={username:'admin',password:'whatarmy2026'};
 const _WA_KEY='wa_authed_2026';
@@ -3667,6 +3695,7 @@ function _checkLogin(){
     screen.classList.add('wa-hidden');
     document.getElementById('login-user')&&(document.getElementById('login-user').value='');
     document.getElementById('login-pass')&&(document.getElementById('login-pass').value='');
+    _restoreNavState();
   } else {
     screen.classList.remove('wa-hidden');
     setTimeout(()=>{const u=document.getElementById('login-user');if(u)u.focus();},80);
@@ -3682,6 +3711,7 @@ function submitLogin(){
     sessionStorage.setItem(_WA_KEY,'1');
     err.textContent='';
     document.getElementById('login-screen').classList.add('wa-hidden');
+    _restoreNavState();
   } else {
     err.textContent='Incorrect username or password.';
     card.classList.remove('shake');
