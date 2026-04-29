@@ -326,8 +326,10 @@
   .cal-ev-note{font-size:9px;color:var(--text-3);margin-top:2px;font-style:italic;white-space:normal;word-break:break-word;line-height:1.2;opacity:.8}
   .cal-ev-end-lbl{font-size:9px;opacity:.6;margin-left:4px}
   /* Milestone card */
-  .cal-ev-ms-card{border-radius:4px;margin-bottom:2px;padding:3px 5px;cursor:pointer;transition:all .15s;border-left:2px solid transparent;word-break:break-word}
-  .cal-ev-ms-card:hover{filter:brightness(.88)}
+  .cal-ev-ms-card{border-radius:4px;margin-bottom:2px;padding:3px 5px;cursor:grab;transition:all .15s;border-left:2px solid transparent;word-break:break-word;user-select:none}
+  .cal-ev-ms-card:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .cal-ev-ms-card:active{cursor:grabbing}
+  .cal-ev-ms-card.cal-dragging{opacity:.35;pointer-events:none}
   .cal-ev-ms-type{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px;white-space:normal;word-break:break-word}
   .cal-tip{position:fixed;z-index:99999;background:#1e1e2e;color:#f0f0f0;padding:8px 12px;border-radius:8px;font-size:11px;line-height:1.6;max-width:220px;pointer-events:none;display:none;box-shadow:0 4px 16px rgba(0,0,0,.3)}
 
@@ -2053,15 +2055,19 @@ function calDragStart(e,id,fromDn){
   e.dataTransfer.effectAllowed='move';
   e.dataTransfer.setData('text/plain',String(id));
 }
-function calMsDragStart(e,id,msIdx){
+function calMsDragStart(e,id,msIdx,fromDn){
   e.stopPropagation();
-  calDragId=id;calDragMsIdx=msIdx;calDragType='milestone';
+  calDragId=id;calDragMsIdx=msIdx;calDragFromDn=fromDn;calDragType='milestone';
   e.dataTransfer.effectAllowed='move';
   e.dataTransfer.setData('text/plain',String(id));
+  // Fade out the card being dragged
+  const el=e.currentTarget;
+  setTimeout(()=>el.classList.add('cal-dragging'),0);
 }
 function calDragEnd(){
   calDragId=null;calDragFromDn=null;calDragMsIdx=null;calDragType=null;
-  document.querySelectorAll('.cal-cell.drag-over').forEach(c=>c.classList.remove('drag-over'));
+  document.querySelectorAll('.cal-cell.drag-over,.cal-week-col.drag-over').forEach(c=>c.classList.remove('drag-over'));
+  document.querySelectorAll('.cal-ev-ms-card.cal-dragging').forEach(c=>c.classList.remove('cal-dragging'));
   hideCalTip();
 }
 function showCalTip(e,el){
@@ -2103,8 +2109,20 @@ function calDrop(e,toDn,el){
   if(type==='milestone'){
     const ms=p.milestones[msIdx];
     if(!ms)return;
-    ms.date=dayNumToDate(toDn);
-    render();showToast('Milestone moved');
+    // Calculate day-delta so multi-day spans shift together
+    const fi=dayNumToIdx(fromDn),ti=dayNumToIdx(toDn);
+    const delta=(fi>=0&&ti>=0)?ti-fi:0;
+    const startDn2=parseDateNum(ms.date);
+    const endDn2=ms.endDate?parseDateNum(ms.endDate):null;
+    const si2=dayNumToIdx(startDn2);
+    const newSi=Math.max(0,Math.min(ALL_DAYS.length-1,si2+delta));
+    ms.date=ALL_DAYS[newSi].key;
+    if(endDn2){
+      const ei2=dayNumToIdx(endDn2);
+      const newEi=Math.max(newSi,Math.min(ALL_DAYS.length-1,ei2+delta));
+      ms.endDate=ALL_DAYS[newEi].key;
+    }
+    persist();render();showToast('Milestone moved');
     return;
   }
   const fi=dayNumToIdx(fromDn),ti=dayNumToIdx(toDn),delta=ti-fi;
@@ -2157,7 +2175,7 @@ function renderCalendar(data){
         const noteLine=p.statusNotes?`<div class="cal-ev-note">${p.statusNotes}</div>`:'';
         const catLine=`<div class="cal-ev-meta">${p.cat}</div>`;
         const spanIndicator=isSpan?`<div style="font-size:9px;opacity:.6;margin-top:1px">${isStart?'starts':isEnd?'ends':'continues'}</div>`:'';
-        ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" onclick="openMsEdit(${p.id},${idx},this)">
+        ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" draggable="true" ondragstart="calMsDragStart(event,${p.id},${idx},${dn})" ondragend="calDragEnd()" onclick="openMsEdit(${p.id},${idx},this)">
           <div class="cal-ev-ms-type" style="color:${border}">${ms.event}</div>
           <div class="cal-ev-name">${p.name}</div>
           ${catLine}${spanIndicator}${noteLine}
@@ -2229,7 +2247,7 @@ function renderCalendarWeek(data){
         const bg=msBg(ms.event);const border=msBorder(ms.event);
         const noteLine=p.statusNotes?`<div class="cal-ev-note">${p.statusNotes}</div>`:'';
         const spanIndicator=isSpan?`<div style="font-size:9px;opacity:.6;margin-top:1px">${isStart?'starts':isEnd?'ends':'continues'}</div>`:'';
-        ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" onclick="openMsEdit(${p.id},${idx},this)">
+        ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" draggable="true" ondragstart="calMsDragStart(event,${p.id},${idx},${dn})" ondragend="calDragEnd()" onclick="openMsEdit(${p.id},${idx},this)">
           <div class="cal-ev-ms-type" style="color:${border}">${ms.event}</div>
           <div class="cal-ev-name">${p.name}</div>
           <div class="cal-ev-meta">${p.cat}</div>
