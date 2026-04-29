@@ -1177,20 +1177,21 @@ function openMsEdit(projId,msIdx,anchor){
   const typeOpts=milestoneTypes.map(t=>`<option${t.name===ms.event?' selected':''}>${t.name}</option>`).join('');
   const pop=document.createElement('div');
   pop.className='ms-popover';
+  const lbl='font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px';
   pop.innerHTML=`
     <div class="ms-pop-title">Edit milestone</div>
-    <div class="ms-pop-type-row">
-      <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">Type</label>
-      <select class="form-input ms-pop-type" style="width:100%;margin-top:3px">${typeOpts}</select>
+    <div style="margin-bottom:10px">
+      <div style="${lbl}">Type</div>
+      <select class="form-input ms-pop-type" style="width:100%">${typeOpts}</select>
     </div>
-    <div class="ms-pop-dates-row">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div>
-        <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">Start date</label>
-        <input class="form-input ms-pop-date" type="date" value="${_msDateToInput(ms.date)}" style="width:100%;margin-top:3px">
+        <div style="${lbl}">Start date</div>
+        <input class="form-input ms-pop-date" type="date" value="${_msDateToInput(ms.date)}" style="width:100%;box-sizing:border-box">
       </div>
       <div>
-        <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">End <span style="font-weight:400;opacity:.6">(opt)</span></label>
-        <input class="form-input ms-pop-enddate" type="date" value="${_msDateToInput(ms.endDate||'')}" style="width:100%;margin-top:3px">
+        <div style="${lbl}">End <span style="font-weight:400;text-transform:none;opacity:.55">(opt)</span></div>
+        <input class="form-input ms-pop-enddate" type="date" value="${_msDateToInput(ms.endDate||'')}" style="width:100%;box-sizing:border-box">
       </div>
     </div>
     <div class="ms-pop-footer">
@@ -1199,7 +1200,8 @@ function openMsEdit(projId,msIdx,anchor){
     </div>`;
   document.body.appendChild(pop);
   const rect=anchor.getBoundingClientRect();
-  const pw=316,ph=pop.offsetHeight||170;
+  const pw=pop.offsetWidth||300;
+  const ph=pop.offsetHeight||180;
   let left=rect.left;let top=rect.bottom+6;
   if(left+pw>window.innerWidth-8)left=window.innerWidth-pw-8;
   if(top+ph>window.innerHeight-8)top=rect.top-ph-6;
