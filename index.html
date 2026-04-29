@@ -3875,35 +3875,45 @@ const _WA_CREDS={username:'admin',password:'whatarmy2026'};
 const _WA_KEY='wa_authed_2026';
 
 function _checkLogin(){
-  const screen=document.getElementById('login-screen');
-  if(!screen)return;
-  if(sessionStorage.getItem(_WA_KEY)==='1'){
-    screen.classList.add('wa-hidden');
-    document.getElementById('login-user')&&(document.getElementById('login-user').value='');
-    document.getElementById('login-pass')&&(document.getElementById('login-pass').value='');
-    _routeFromHash(_startHash); // restore exact URL the user was on
-  } else {
-    screen.classList.remove('wa-hidden');
-    setTimeout(()=>{const u=document.getElementById('login-user');if(u)u.focus();},80);
+  try{
+    const screen=document.getElementById('login-screen');
+    if(!screen)return;
+    if(sessionStorage.getItem(_WA_KEY)==='1'){
+      screen.classList.add('wa-hidden');
+      document.getElementById('login-user')&&(document.getElementById('login-user').value='');
+      document.getElementById('login-pass')&&(document.getElementById('login-pass').value='');
+      try{_routeFromHash(_startHash);}catch(re){try{showPortalHome();}catch(_){}}
+    } else {
+      screen.classList.remove('wa-hidden');
+      setTimeout(()=>{const u=document.getElementById('login-user');if(u)u.focus();},80);
+    }
+  }catch(e){
+    // Ensure login screen is always visible if something goes wrong
+    const s=document.getElementById('login-screen');if(s)s.classList.remove('wa-hidden');
   }
 }
 
 function submitLogin(){
-  const u=(document.getElementById('login-user').value||'').trim();
-  const p=(document.getElementById('login-pass').value||'').trim();
-  const err=document.getElementById('login-err');
-  const card=document.getElementById('login-card');
-  if(u===_WA_CREDS.username && p===_WA_CREDS.password){
-    sessionStorage.setItem(_WA_KEY,'1');
-    err.textContent='';
-    document.getElementById('login-screen').classList.add('wa-hidden');
-    _routeFromHash(_startHash);
-  } else {
-    err.textContent='Incorrect username or password.';
-    card.classList.remove('shake');
-    void card.offsetWidth;
-    card.classList.add('shake');
-    setTimeout(()=>card.classList.remove('shake'),400);
+  try{
+    const u=(document.getElementById('login-user').value||'').trim();
+    const p=(document.getElementById('login-pass').value||'').trim();
+    const err=document.getElementById('login-err');
+    const card=document.getElementById('login-card');
+    if(u===_WA_CREDS.username && p===_WA_CREDS.password){
+      sessionStorage.setItem(_WA_KEY,'1');
+      err.textContent='';
+      document.getElementById('login-screen').classList.add('wa-hidden');
+      try{_routeFromHash(_startHash);}catch(re){try{showPortalHome();}catch(_){}}
+    } else {
+      err.textContent='Incorrect username or password.';
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+      setTimeout(()=>card.classList.remove('shake'),400);
+    }
+  }catch(e){
+    const err=document.getElementById('login-err');
+    if(err)err.textContent='Sign in error — please refresh and try again.';
   }
 }
 
