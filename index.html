@@ -275,8 +275,9 @@
   /* ── Calendar ─────────────────────────────────────────────────────────── */
   .cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column}
   .cal-grid-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
-  .cal-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-  .cal-nav-title{font-size:15px;font-weight:600;letter-spacing:-0.3px}
+  .cal-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 20px}
+  .cal-nav-title{font-size:15px;font-weight:600;letter-spacing:-0.3px;text-align:center;white-space:nowrap}
+  .cal-nav-right{display:flex;align-items:center;gap:8px;justify-content:flex-end}
   .cal-legend-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:8px 20px 10px;border-bottom:1px solid var(--border);background:var(--surface2)}
   .cal-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;font-size:10px;color:var(--text-3)}
   .cal-legend-item{display:flex;align-items:center;gap:5px}
@@ -2206,7 +2207,7 @@ function renderCalendar(data){
     <div class="cal-nav">
       <button class="btn-secondary" onclick="calNav(-1)"${calMonth<=1?' disabled style="opacity:.4"':''}>&#8592; Prev</button>
       <div class="cal-nav-title">${MFULL[m-1]} ${y}</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-left:auto">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${calMonth>=12?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
+      <div class="cal-nav-right">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${calMonth>=12?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
     </div>
     <div class="cal-legend-bar">${legend}</div>
     <div class="cal-grid-wrap">
@@ -2279,7 +2280,7 @@ function renderCalendarWeek(data){
       <button class="btn-secondary" onclick="calNav(-1)"${atStart?' disabled style="opacity:.4"':''}>&#8592; Prev</button>
       <div class="cal-nav-title">${title}</div>
       ${legend}
-      <div style="display:flex;align-items:center;gap:8px;margin-left:auto">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${atEnd?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
+      <div class="cal-nav-right">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${atEnd?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
     </div>
     <div class="cal-grid-wrap" style="overflow:hidden;display:flex;flex-direction:column">
       <div class="cal-week-grid">${cols}</div>
