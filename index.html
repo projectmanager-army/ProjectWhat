@@ -688,6 +688,8 @@ tr.tl-row-dragging td{visibility:hidden!important}
 <div class="toast" id="toast"></div>
 
 <script>
+// Capture URL hash immediately — before showPortalHome() or any JS overwrites it
+var _startHash = location.hash;
 // ─── EMBEDDED SNAPSHOT (replaced by Download Snapshot) ───────────────────────
 var __DATA_SNAPSHOT__ = {"projects":[{"id":2,"cat":"Planning","name":"Review SOW/Create Kick Off Deck","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":3,"cat":"Planning","name":"Kick Off Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":4,"cat":"Planning","name":"Follow up Email/Create Timeline","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":5,"cat":"Planning","name":"Collect any necessary logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":6,"cat":"Planning","name":"Collect Content/Branding Assets","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":7,"cat":"Design","name":"Hand off site to designer","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":8,"cat":"Design","name":"Design Initial Wireframes/Mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":9,"cat":"Design","name":"Initial Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":10,"cat":"Design","name":"Design rest of wireframe/mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":11,"cat":"Design","name":"Internal Revision Cycle","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":12,"cat":"Design","name":"Final Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":13,"cat":"Design","name":"Design Responsive Mockups or Guidelines","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":14,"cat":"Design","name":"Prepare files for Development","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":15,"cat":"Development","name":"Create development brief & Instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":16,"cat":"Development","name":"Set up new instance - ensure up to date PHP","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":17,"cat":"Development","name":"Create Staging site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":18,"cat":"Development","name":"CMS, Plugins, Custom fields, etc. instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":19,"cat":"Development","name":"Provide any and all needed logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":20,"cat":"Development","name":"Initial development of site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":21,"cat":"Development","name":"Check developed site against design wireframes","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":22,"cat":"Development","name":"Perform initial QA of site for functionality","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":23,"cat":"Development","name":"Initial Development Review Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":24,"cat":"Development","name":"Collect and Implement any remaining content","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":25,"cat":"Development","name":"Test all plugins, ecommerce and features","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":26,"cat":"Development","name":"Set up External Volley for Client to QA","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":27,"cat":"Development","name":"Test Mobile Responsiveness","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":28,"cat":"Development","name":"Perform QA on backend CMS","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":29,"cat":"Development","name":"Implement all final edits and comments","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":30,"cat":"Development","name":"Privacy Policy Page","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":31,"cat":"Development","name":"Final Development Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":32,"cat":"Development","name":"Collect and connect analytics info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":33,"cat":"Development","name":"Collect and connect Mailchimp info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":34,"cat":"Launch","name":"Review redirects and search results","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":35,"cat":"Launch","name":"Cookies Banner & ReCaptcha","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":36,"cat":"Launch","name":"What address should forms be delivered to?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":37,"cat":"Launch","name":"Who is responsible for updating DNS?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":38,"cat":"Launch","name":"How will SSL be dealt with?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":39,"cat":"Launch","name":"Should any portion of this site be blocked from Search Engines?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":40,"cat":"Launch","name":"Is the site to be launched fully up to date? (WP and Plugins)","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":41,"cat":"Launch","name":"Check all unused plugins been removed from the site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":42,"cat":"Launch","name":"Is the favicon on the site updated","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":43,"cat":"Launch","name":"Check for any secondary domains","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":44,"cat":"Launch","name":"Does this site use Office 365 or Hosted?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":101,"cat":"Planning","name":"Requirements Gathering","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 6","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":102,"cat":"Planning","name":"Stakeholder Interviews","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 8","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":103,"cat":"Planning","name":"Competitive Analysis","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":104,"cat":"Planning","name":"Technical Audit","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 21","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":105,"cat":"Planning","name":"Discovery Report & Project Brief","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 24","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":106,"cat":"Design","name":"UX Research & User Flows","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 28","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":107,"cat":"Design","name":"Information Architecture","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":108,"cat":"Design","name":"Wireframes","status":"In Progress","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":109,"cat":"Design","name":"UI Design System","status":"In Progress","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":110,"cat":"Design","name":"High-Fidelity Mockups","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":111,"cat":"Design","name":"Accessibility Review","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":112,"cat":"Design","name":"Usability Testing","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":113,"cat":"Development","name":"Dev Environment Setup","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 16","endDate":"May 22","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":114,"cat":"Development","name":"Core Component Library","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"May 23","endDate":"Jun 12","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":115,"cat":"Development","name":"HIPAA Compliance Audit","status":"Pending","priority":"Critical","owner":"Sarah Chen","notes":"","startDate":"Jun 13","endDate":"Jun 26","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":116,"cat":"Development","name":"Integration Testing","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Jun 27","endDate":"Jul 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":121,"cat":"Planning","name":"Project Kickoff","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 7","endDate":"Nov 14","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":122,"cat":"Planning","name":"Requirements & Site Audit","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 15","endDate":"Nov 21","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":123,"cat":"Planning","name":"Competitive Research","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 22","endDate":"Nov 28","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":124,"cat":"Design","name":"Wireframes & User Flows","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Dec 2","endDate":"Dec 19","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":125,"cat":"Design","name":"Visual Design & Brand Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Dec 20","endDate":"Jan 16","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":126,"cat":"Design","name":"Client Design Approval","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Jan 17","endDate":"Jan 23","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":127,"cat":"Development","name":"Frontend Development","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Jan 24","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":128,"cat":"Development","name":"MLS Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":129,"cat":"Development","name":"QA & Browser Testing","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Mar 21","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":130,"cat":"Development","name":"Content Migration","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":131,"cat":"Launch","name":"Pre-Launch QA","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":132,"cat":"Launch","name":"DNS Transfer & Go Live","status":"Complete","priority":"Critical","owner":"James Wu","notes":"","startDate":"Apr 18","endDate":"Apr 22","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":133,"cat":"Launch","name":"Post-Launch Monitoring","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":134,"cat":"Launch","name":"Client Training Sessions","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"Apr 30","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":135,"cat":"Launch","name":"Final Documentation","status":"Pending","priority":"Low","owner":"James Wu","notes":"","startDate":"Apr 25","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":141,"cat":"Planning","name":"Project Kickoff & Goal Setting","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Mar 27","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":142,"cat":"Planning","name":"Brand Audit","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":143,"cat":"Planning","name":"Competitor Research","status":"In Progress","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":144,"cat":"Planning","name":"Collect Brand Assets from Client","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":145,"cat":"Planning","name":"Content Inventory","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":146,"cat":"Planning","name":"Define Target Audience & Personas","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":147,"cat":"Planning","name":"Discovery Report","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 25","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":148,"cat":"Design","name":"Moodboard & Creative Direction","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":149,"cat":"Design","name":"Logo & Brand Identity","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"May 16","endDate":"Jun 5","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":150,"cat":"Design","name":"Site Wireframes","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Jun 6","endDate":"Jun 19","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":151,"cat":"Design","name":"Visual Design","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"Jun 20","endDate":"Jul 10","milestones":[],"statusNotes":"","clientId":"verdant"}],"categories":[{"name":"Planning","color":"blue","short":"PLN"},{"name":"Design","color":"purple","short":"DSN"},{"name":"Development","color":"teal","short":"DEV"},{"name":"Launch","color":"green","short":"LNC"}],"statuses":[{"name":"Pending","color":"gray"},{"name":"In Progress","color":"blue"},{"name":"Complete","color":"green"},{"name":"Blocked","color":"red"}],"priorities":[{"name":"Critical","color":"red"},{"name":"High","color":"accent"},{"name":"Medium","color":"amber"},{"name":"Low","color":"blue"}],"teamMembers":[],"milestoneTypes":[{"name":"Kick Off","color":"#A7E000"},{"name":"Status Call","color":"#2196F3"},{"name":"Design Handoff","color":"#A855F7"},{"name":"Dev Handoff","color":"#10B981"},{"name":"Launch","color":"#E74C3C"},{"name":"Follow Up","color":"#F59E0B"},{"name":"Meeting","color":"#60B8FF"},{"name":"Event","color":"#E67E22"},{"name":"Vacation","color":"#9A9080"}],"currentView":"timeline","nextId":200,"snapshotId":20260429002};
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -721,10 +723,20 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 const MONTH_IDX={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
 function parseDateNum(s){
   if(!s)return null;
-  const p=s.trim().split(' ');
-  if(p.length<2)return null;
-  const m=MONTH_IDX[p[0]];const d=parseInt(p[1]);
-  return(m&&!isNaN(d))?m*100+d:null;
+  const FULL={January:1,February:2,March:3,April:4,May:5,June:6,July:7,August:8,September:9,October:10,November:11,December:12};
+  const str=s.trim();
+  // ISO format: 2026-04-16
+  const iso=str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(iso)return parseInt(iso[2])*100+parseInt(iso[3]);
+  // Numeric: 04/16 or 04/16/2026 or 4/16
+  const num=str.match(/^(\d{1,2})\/(\d{1,2})/);
+  if(num)return parseInt(num[1])*100+parseInt(num[2]);
+  // "Mon D" or "Month D" or "Mon Dth"
+  const parts=str.split(/[\s,]+/);
+  if(parts.length<2)return null;
+  const mo=MONTH_IDX[parts[0]]||FULL[parts[0]]||MONTH_IDX[parts[0].slice(0,3)];
+  const d=parseInt(parts[1]);
+  return(mo&&!isNaN(d))?mo*100+d:null;
 }
 const STATUS_BAR={
   'Planning': {bg:'rgba(33,150,243,0.15)',   bd:'rgba(33,150,243,0.8)'},
@@ -805,7 +817,6 @@ function updateBarDOM(id,sn,en){
   barEl.style.width=((ei-si+1)*_px)+'px';
 }
 document.addEventListener('mousemove',e=>{
-  if(rowDragState){_tlRowDragMove(e);return;}
   if(!dragState&&!drawState)return;
   const cell=document.elementFromPoint(e.clientX,e.clientY)?.closest('td[data-dn]');
   if(!cell)return;
@@ -836,7 +847,6 @@ document.addEventListener('mousemove',e=>{
   }
 });
 document.addEventListener('mouseup',()=>{
-  if(rowDragState){_tlRowDragEnd();return;}
   if(dragState){
     dragState=null;
     document.body.style.cursor='';document.body.style.userSelect='';
@@ -1584,7 +1594,7 @@ function renderTimeline(data){
     const snText=p.statusNotes||'';
     const snDisplay=snText?`<span>${snText.length>22?snText.slice(0,22)+'…':snText}</span>`:`<span class="sn-placeholder">Click to add…</span>`;
 
-    const gripSvg=`<svg class="tl-grip" width="10" height="14" viewBox="0 0 10 14" fill="currentColor" onmousedown="tlGripDown(event,${p.id})"><circle cx="3" cy="2.5" r="1.1"/><circle cx="7" cy="2.5" r="1.1"/><circle cx="3" cy="7" r="1.1"/><circle cx="7" cy="7" r="1.1"/><circle cx="3" cy="11.5" r="1.1"/><circle cx="7" cy="11.5" r="1.1"/></svg>`;
+    const gripSvg=`<svg class="tl-grip" width="10" height="14" viewBox="0 0 10 14" fill="currentColor" onpointerdown="tlGripDown(event,${p.id})" style="touch-action:none"><circle cx="3" cy="2.5" r="1.2"/><circle cx="7" cy="2.5" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="11.5" r="1.2"/><circle cx="7" cy="11.5" r="1.2"/></svg>`;
     return`<tr data-proj="${p.id}">
       <td class="sticky-col col-proj editable" title="Click to edit ${p.name}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${gripSvg}${p.name}</td>
       <td class="sticky-col col-status"><span class="status-pill" style="${statusStyle(p.status)};font-size:10px;padding:2px 8px" onclick="cycleStatus(${p.id})">${p.status}</span></td>
@@ -1815,10 +1825,10 @@ function saveProject(){
   closeModal();render();
 }
 
-// ─── TIMELINE ROW DRAG-TO-REORDER ────────────────────────────────────────────
-let rowDragState=null;
+// ─── TIMELINE ROW DRAG-TO-REORDER (pointer events + setPointerCapture) ────────
 let _dragGhost=null;
 let _dropIndicator=null;
+let _rowDrag=null; // {id, startY, startX, active, targetId, before}
 
 function _removeDragUI(){
   if(_dragGhost){_dragGhost.remove();_dragGhost=null;}
@@ -1830,74 +1840,73 @@ function tlGripDown(e,id){
   e.preventDefault();e.stopPropagation();
   const p=projects.find(x=>x.id===id);
   if(!p)return;
-  rowDragState={id,startY:e.clientY,startX:e.clientX,active:false,targetId:null,before:true};
+  // Capture pointer so all subsequent move/up events go to this element
+  try{e.target.setPointerCapture(e.pointerId);}catch(_){}
+  _rowDrag={id,startY:e.clientY,startX:e.clientX,active:false,targetId:null,before:true};
   document.body.style.userSelect='none';
-  // Build ghost card
+  // Ghost card
   const ghost=document.createElement('div');
   ghost.id='tl-drag-ghost';
-  const cc=catColor(p.category||'');
-  ghost.innerHTML=`<span class="ghost-cat" style="background:${cc}"></span><span>${p.name}</span><span style="margin-left:4px;font-size:11px;opacity:.6">${p.status||''}</span>`;
-  ghost.style.left=(e.clientX+14)+'px';
-  ghost.style.top=(e.clientY-16)+'px';
+  const cc=catColor(p.cat||'');
+  ghost.innerHTML=`<span class="ghost-cat" style="background:${cc}"></span><span>${p.name}</span><span style="margin-left:6px;font-size:11px;opacity:.55">${p.status||''}</span>`;
+  ghost.style.left=(e.clientX+16)+'px';
+  ghost.style.top=(e.clientY-14)+'px';
   document.body.appendChild(ghost);
   _dragGhost=ghost;
-  // Build drop indicator line
+  // Drop indicator line
   const ind=document.createElement('div');
   ind.className='tl-drop-indicator';
   ind.style.display='none';
   document.body.appendChild(ind);
   _dropIndicator=ind;
+  // Attach move/up to the grip element so pointer capture delivers them here
+  e.target.addEventListener('pointermove',_tlPtrMove,{passive:true});
+  e.target.addEventListener('pointerup',_tlPtrUp);
+  e.target.addEventListener('pointercancel',_tlPtrUp);
 }
 
-function _tlRowDragMove(e){
-  if(!rowDragState)return;
-  if(!rowDragState.active&&(Math.abs(e.clientY-rowDragState.startY)>4||Math.abs(e.clientX-rowDragState.startX)>4)){
-    rowDragState.active=true;
+function _tlPtrMove(e){
+  if(!_rowDrag)return;
+  if(!_rowDrag.active&&(Math.abs(e.clientY-_rowDrag.startY)>5||Math.abs(e.clientX-_rowDrag.startX)>5)){
+    _rowDrag.active=true;
     document.body.style.cursor='grabbing';
-    const tr=document.querySelector(`tr[data-proj="${rowDragState.id}"]`);
+    const tr=document.querySelector(`tr[data-proj="${_rowDrag.id}"]`);
     if(tr)tr.classList.add('tl-row-dragging');
   }
-  if(!rowDragState.active)return;
-  // Move ghost with cursor
-  if(_dragGhost){
-    _dragGhost.style.left=(e.clientX+14)+'px';
-    _dragGhost.style.top=(e.clientY-16)+'px';
-  }
-  // Find closest row by Y scan
-  let bestTr=null,bestDist=Infinity;
+  if(!_rowDrag.active)return;
+  if(_dragGhost){_dragGhost.style.left=(e.clientX+16)+'px';_dragGhost.style.top=(e.clientY-14)+'px';}
+  // Y-scan: find which row the cursor is over
+  let best=null,bestDist=Infinity;
   document.querySelectorAll('tr[data-proj]').forEach(r=>{
     const tid=parseInt(r.dataset.proj);
-    if(tid===rowDragState.id)return;
+    if(tid===_rowDrag.id)return;
     const rect=r.getBoundingClientRect();
-    if(e.clientY>=rect.top&&e.clientY<=rect.bottom){bestTr=r;bestDist=0;}
-    else{const d=Math.min(Math.abs(e.clientY-rect.top),Math.abs(e.clientY-rect.bottom));if(d<bestDist){bestDist=d;bestTr=r;}}
+    if(e.clientY>=rect.top&&e.clientY<=rect.bottom){best=r;bestDist=0;}
+    else{const d=Math.min(Math.abs(e.clientY-rect.top),Math.abs(e.clientY-rect.bottom));if(d<bestDist){bestDist=d;best=r;}}
   });
-  if(bestTr&&bestDist<40){
-    const tid=parseInt(bestTr.dataset.proj);
-    const rect=bestTr.getBoundingClientRect();
+  if(best&&bestDist<40){
+    const rect=best.getBoundingClientRect();
     const before=e.clientY<rect.top+rect.height/2;
-    rowDragState.targetId=tid;rowDragState.before=before;
-    if(_dropIndicator){
-      const y=before?rect.top:rect.bottom;
-      _dropIndicator.style.display='block';
-      _dropIndicator.style.top=(y-1.5+window.scrollY)+'px';
-    }
-  } else {
-    rowDragState.targetId=null;
+    _rowDrag.targetId=parseInt(best.dataset.proj);
+    _rowDrag.before=before;
+    if(_dropIndicator){_dropIndicator.style.display='block';_dropIndicator.style.top=((before?rect.top:rect.bottom)-1.5)+'px';}
+  }else{
+    _rowDrag.targetId=null;
     if(_dropIndicator)_dropIndicator.style.display='none';
   }
 }
 
-function _tlRowDragEnd(){
-  if(!rowDragState)return;
+function _tlPtrUp(e){
+  e.target.removeEventListener('pointermove',_tlPtrMove);
+  e.target.removeEventListener('pointerup',_tlPtrUp);
+  e.target.removeEventListener('pointercancel',_tlPtrUp);
+  try{e.target.releasePointerCapture(e.pointerId);}catch(_){}
+  if(!_rowDrag)return;
   document.body.style.cursor='';document.body.style.userSelect='';
-  const wasActive=rowDragState.active;
-  const targetId=rowDragState.targetId;
-  const before=rowDragState.before;
-  const id=rowDragState.id;
-  rowDragState=null;
+  const{id,active,targetId,before}=_rowDrag;
+  _rowDrag=null;
   _removeDragUI();
-  if(wasActive&&targetId!=null){
+  if(active&&targetId!=null){
     const fromIdx=projects.findIndex(p=>p.id===id);
     let toIdx=projects.findIndex(p=>p.id===targetId);
     if(fromIdx>=0&&toIdx>=0&&fromIdx!==toIdx){
@@ -3832,8 +3841,7 @@ showPortalHome();
 initClientMode();
 
 // ─── HASH ROUTER ─────────────────────────────────────────────────────────────
-// Capture the URL hash before any JS navigation overwrites it
-var _startHash=location.hash;
+// _startHash captured at top of script before any navigation
 var _hashBusy=false; // prevents our own hash writes from re-triggering the router
 
 function _pushHash(h){
