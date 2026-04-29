@@ -1841,8 +1841,6 @@ function tlGripDown(e,id){
   e.preventDefault();e.stopPropagation();
   const p=projects.find(x=>x.id===id);
   if(!p)return;
-  // Capture pointer so all subsequent move/up events go to this element
-  try{e.target.setPointerCapture(e.pointerId);}catch(_){}
   _rowDrag={id,startY:e.clientY,startX:e.clientX,active:false,targetId:null,before:true};
   document.body.style.userSelect='none';
   // Ghost card
@@ -1860,10 +1858,10 @@ function tlGripDown(e,id){
   ind.style.display='none';
   document.body.appendChild(ind);
   _dropIndicator=ind;
-  // Attach move/up to the grip element so pointer capture delivers them here
-  e.target.addEventListener('pointermove',_tlPtrMove,{passive:true});
-  e.target.addEventListener('pointerup',_tlPtrUp);
-  e.target.addEventListener('pointercancel',_tlPtrUp);
+  // Listen on document so events fire wherever the pointer moves
+  document.addEventListener('pointermove',_tlPtrMove);
+  document.addEventListener('pointerup',_tlPtrUp);
+  document.addEventListener('pointercancel',_tlPtrUp);
 }
 
 function _tlPtrMove(e){
@@ -1898,10 +1896,9 @@ function _tlPtrMove(e){
 }
 
 function _tlPtrUp(e){
-  e.target.removeEventListener('pointermove',_tlPtrMove);
-  e.target.removeEventListener('pointerup',_tlPtrUp);
-  e.target.removeEventListener('pointercancel',_tlPtrUp);
-  try{e.target.releasePointerCapture(e.pointerId);}catch(_){}
+  document.removeEventListener('pointermove',_tlPtrMove);
+  document.removeEventListener('pointerup',_tlPtrUp);
+  document.removeEventListener('pointercancel',_tlPtrUp);
   if(!_rowDrag)return;
   document.body.style.cursor='';document.body.style.userSelect='';
   const{id,active,targetId,before}=_rowDrag;
