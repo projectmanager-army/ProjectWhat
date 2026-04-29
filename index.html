@@ -1652,6 +1652,7 @@ function renderTimeline(data){
       <td style="padding:0;width:0;overflow:visible;position:relative;border:none;height:32px;z-index:4">${msRowMarkers}</td>
       ${ALL_DAYS.map(d=>`<td style="min-width:${PX}px;max-width:${PX}px;${d.day===1?'border-left:2px solid var(--border-med);':''}background:var(--surface2);position:relative;overflow:visible"></td>`).join('')}
     </tr>`;
+  } // end if(allMs.length)
 
   // ── Headers ──────────────────────────────────────────────────────────────────
   const numHeaderRows = tlZoom==='month' ? 1 : 2;
