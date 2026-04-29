@@ -432,6 +432,12 @@ body.client-mode #tb-manage-btn{display:none!important}
 .doc-pending-row:last-child{border-bottom:none}
 .doc-name-edit{flex:1;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;min-width:0}
 .doc-name-edit:focus{color:var(--accent-text)}
+/* Timeline row drag-to-reorder */
+.tl-grip{width:14px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:grab;color:var(--text-5);flex-shrink:0;opacity:0;transition:opacity .15s;vertical-align:middle;margin-right:4px}
+tr:hover .tl-grip{opacity:1}
+tr.tl-drag-src td{opacity:.4}
+tr.tl-drop-before td{box-shadow:inset 0 2px 0 0 var(--accent);}
+tr.tl-drop-after td{box-shadow:inset 0 -2px 0 0 var(--accent);}
 
 /* ── LOGIN SCREEN ─────────────────────────────────────────── */
 #login-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -618,6 +624,10 @@ body.client-mode #tb-manage-btn{display:none!important}
     </div>
   </div>
   <div class="modal-footer">
+    <button class="btn-danger" id="modal-del-btn" onclick="deleteProject(editId)" style="display:none;margin-right:auto">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 4 13 4"/><path d="M6 4V2h4v2M5 4l1 10h4l1-10"/></svg>
+      Delete
+    </button>
     <button class="btn-secondary" onclick="closeModal()">Cancel</button>
     <button class="btn-primary" id="modal-save-btn" onclick="saveProject()">Add Item</button>
   </div>
@@ -1569,8 +1579,9 @@ function renderTimeline(data){
     const snText=p.statusNotes||'';
     const snDisplay=snText?`<span>${snText.length>22?snText.slice(0,22)+'…':snText}</span>`:`<span class="sn-placeholder">Click to add…</span>`;
 
-    return`<tr data-proj="${p.id}">
-      <td class="sticky-col col-proj editable" title="Click to edit ${p.name}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${p.name}</td>
+    const gripSvg=`<svg class="tl-grip" width="10" height="14" viewBox="0 0 10 14" fill="currentColor" draggable="false"><circle cx="3" cy="2.5" r="1.1"/><circle cx="7" cy="2.5" r="1.1"/><circle cx="3" cy="7" r="1.1"/><circle cx="7" cy="7" r="1.1"/><circle cx="3" cy="11.5" r="1.1"/><circle cx="7" cy="11.5" r="1.1"/></svg>`;
+    return`<tr data-proj="${p.id}" draggable="true" ondragstart="tlDragStart(event,${p.id})" ondragover="tlDragOver(event,${p.id})" ondragleave="tlDragLeave(event)" ondrop="tlDrop(event,${p.id})" ondragend="tlDragEnd()">
+      <td class="sticky-col col-proj editable" title="Click to edit ${p.name}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${gripSvg}${p.name}</td>
       <td class="sticky-col col-status"><span class="status-pill" style="${statusStyle(p.status)};font-size:10px;padding:2px 8px" onclick="cycleStatus(${p.id})">${p.status}</span></td>
       <td class="sticky-col col-sn" onclick="tlNoteEdit(event,${p.id})" title="${snText||'Click to add status note'}">${snDisplay}</td>
       <td style="padding:0;width:0;overflow:visible;position:relative;border:none">${barHtml}</td>
@@ -1666,11 +1677,6 @@ function cycleStatus(id){
   p.status=names[(i+1)%names.length]||names[0];
   render();showToast(`Status → ${p.status}`);
 }
-function deleteProject(id){
-  if(!confirm('Delete this project? This cannot be undone.'))return;
-  projects=projects.filter(x=>x.id!==id);
-  render();showToast('Project deleted');
-}
 function openAdd(){
   editId=null;
   refreshAllDropdowns();
@@ -1686,6 +1692,7 @@ function openAdd(){
   document.getElementById('m-end').value='';
   document.getElementById('ms-list').innerHTML='';
   document.getElementById('modal-save-btn').textContent='Add Item';
+  document.getElementById('modal-del-btn').style.display='none';
   document.getElementById('modal').style.display='flex';
   setTimeout(()=>document.getElementById('m-name').focus(),50);
 }
@@ -1706,6 +1713,7 @@ function openEdit(id){
   const msl=document.getElementById('ms-list');msl.innerHTML='';
   (p.milestones||[]).forEach(m=>addMsRow(m.date,m.endDate||'',m.event));
   document.getElementById('modal-save-btn').textContent='Save changes';
+  document.getElementById('modal-del-btn').style.display='';
   document.getElementById('modal').style.display='flex';
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
@@ -1748,6 +1756,56 @@ function saveProject(){
     showToast('Project added');
   }
   closeModal();render();
+}
+
+// ─── TIMELINE ROW DRAG-TO-REORDER ────────────────────────────────────────────
+let _tlDragId=null;
+function tlDragStart(e,id){
+  _tlDragId=id;
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain',String(id));
+  setTimeout(()=>{const tr=e.currentTarget;if(tr)tr.classList.add('tl-drag-src');},0);
+}
+function tlDragOver(e,id){
+  if(!_tlDragId||_tlDragId===id)return;
+  e.preventDefault();e.stopPropagation();
+  e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('tr.tl-drop-before,tr.tl-drop-after').forEach(r=>r.classList.remove('tl-drop-before','tl-drop-after'));
+  const tr=e.currentTarget;
+  const rect=tr.getBoundingClientRect();
+  tr.classList.add(e.clientY<rect.top+rect.height/2?'tl-drop-before':'tl-drop-after');
+}
+function tlDragLeave(e){
+  const tr=e.currentTarget;
+  if(!tr.contains(e.relatedTarget))tr.classList.remove('tl-drop-before','tl-drop-after');
+}
+function tlDrop(e,id){
+  e.preventDefault();e.stopPropagation();
+  if(!_tlDragId||_tlDragId===id)return;
+  const tr=e.currentTarget;
+  const before=tr.classList.contains('tl-drop-before');
+  const fromIdx=projects.findIndex(p=>p.id===_tlDragId);
+  let toIdx=projects.findIndex(p=>p.id===id);
+  if(fromIdx<0||toIdx<0)return;
+  const [moved]=projects.splice(fromIdx,1);
+  toIdx=projects.findIndex(p=>p.id===id);
+  projects.splice(before?toIdx:toIdx+1,0,moved);
+  tlDragEnd();persist();render();
+}
+function tlDragEnd(){
+  _tlDragId=null;
+  document.querySelectorAll('tr.tl-drag-src,tr.tl-drop-before,tr.tl-drop-after').forEach(r=>r.classList.remove('tl-drag-src','tl-drop-before','tl-drop-after'));
+}
+
+function deleteProject(id){
+  const p=projects.find(x=>x.id===id);
+  if(!p)return;
+  if(!confirm(`Delete "${p.name}"?\nThis cannot be undone.`))return;
+  projects=projects.filter(x=>x.id!==id);
+  closeModal();
+  persist();
+  render();
+  showToast('Item deleted');
 }
 
 // ─── EXPORT CSV ───────────────────────────────────────────────────────────────
