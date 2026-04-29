@@ -257,7 +257,9 @@
   .toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:200;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none}
   .toast.show{opacity:1;transform:translateY(0)}
   /* Milestone edit popover */
-  .ms-popover{position:fixed;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);z-index:400;padding:12px;width:260px;font-family:'Inter',sans-serif}
+  .ms-popover{position:fixed;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);z-index:400;padding:14px 16px;width:300px;font-family:'Inter',sans-serif}
+  .ms-pop-type-row{margin-bottom:10px}
+  .ms-pop-dates-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
   .ms-pop-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:10px}
   .ms-pop-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
   .ms-pop-row label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);display:block;margin-bottom:3px}
@@ -273,9 +275,10 @@
   /* ── Calendar ─────────────────────────────────────────────────────────── */
   .cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column}
   .cal-grid-wrap{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
-  .cal-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)}
+  .cal-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
   .cal-nav-title{font-size:15px;font-weight:600;letter-spacing:-0.3px}
-  .cal-legend{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--text-3)}
+  .cal-legend-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:8px 20px 10px;border-bottom:1px solid var(--border);background:var(--surface2)}
+  .cal-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;font-size:10px;color:var(--text-3)}
   .cal-legend-item{display:flex;align-items:center;gap:5px}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);align-items:start}
   .cal-dow{padding:8px 4px;text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);background:var(--surface2);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -1176,20 +1179,18 @@ function openMsEdit(projId,msIdx,anchor){
   pop.className='ms-popover';
   pop.innerHTML=`
     <div class="ms-pop-title">Edit milestone</div>
-    <div class="ms-pop-row">
-      <div>
-        <label>Type</label>
-        <select class="form-input ms-pop-type">${typeOpts}</select>
-      </div>
+    <div class="ms-pop-type-row">
+      <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">Type</label>
+      <select class="form-input ms-pop-type" style="width:100%;margin-top:3px">${typeOpts}</select>
     </div>
-    <div class="ms-pop-row" style="grid-template-columns:1fr 1fr">
+    <div class="ms-pop-dates-row">
       <div>
-        <label>Start date</label>
-        <input class="form-input ms-pop-date" type="text" value="${ms.date}" placeholder="e.g. May 20">
+        <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">Start date</label>
+        <input class="form-input ms-pop-date" type="date" value="${_msDateToInput(ms.date)}" style="width:100%;margin-top:3px">
       </div>
       <div>
-        <label>End date <span style="font-weight:400;color:var(--text-4)">(optional)</span></label>
-        <input class="form-input ms-pop-enddate" type="text" value="${ms.endDate||''}" placeholder="e.g. May 22">
+        <label class="ms-pop-row" style="grid-template-columns:1fr;margin-bottom:0">End <span style="font-weight:400;opacity:.6">(opt)</span></label>
+        <input class="form-input ms-pop-enddate" type="date" value="${_msDateToInput(ms.endDate||'')}" style="width:100%;margin-top:3px">
       </div>
     </div>
     <div class="ms-pop-footer">
@@ -1198,7 +1199,7 @@ function openMsEdit(projId,msIdx,anchor){
     </div>`;
   document.body.appendChild(pop);
   const rect=anchor.getBoundingClientRect();
-  const pw=280,ph=pop.offsetHeight||160;
+  const pw=316,ph=pop.offsetHeight||170;
   let left=rect.left;let top=rect.bottom+6;
   if(left+pw>window.innerWidth-8)left=window.innerWidth-pw-8;
   if(top+ph>window.innerHeight-8)top=rect.top-ph-6;
@@ -1208,12 +1209,14 @@ function openMsEdit(projId,msIdx,anchor){
 function saveMsEdit(projId,msIdx,pop){
   const proj=projects.find(x=>x.id===projId);if(!proj)return;
   const ms=proj.milestones[msIdx];if(!ms)return;
-  const newDate=pop.querySelector('.ms-pop-date').value.trim();
-  const newEndDate=pop.querySelector('.ms-pop-enddate').value.trim();
+  const rawDate=pop.querySelector('.ms-pop-date').value.trim();
+  const rawEndDate=pop.querySelector('.ms-pop-enddate').value.trim();
   const newType=pop.querySelector('.ms-pop-type').value;
-  if(!newDate)return;
+  if(!rawDate)return;
+  const newDate=rawDate.includes('-')?_inputToMsDate(rawDate):rawDate;
+  const newEndDate=rawEndDate?(rawEndDate.includes('-')?_inputToMsDate(rawEndDate):rawEndDate):'';
   ms.date=newDate;ms.endDate=newEndDate||null;ms.event=newType;
-  pop.remove();render();showToast('Milestone updated');
+  pop.remove();persist();render();showToast('Milestone updated');
 }
 function deleteMsEdit(projId,msIdx){
   const proj=projects.find(x=>x.id===projId);if(!proj)return;
@@ -1557,11 +1560,11 @@ function renderTimeline(data){
         const spanW=(ei2-mi+1)*PX;
         const leftPx=mi*PX;
         const labelW=Math.max(0,spanW-14);
-        return`<div style="position:absolute;top:50%;left:${leftPx}px;transform:translateY(-50%);height:16px;width:${spanW}px;background:${color};border-radius:8px;z-index:5;pointer-events:all;cursor:pointer;box-shadow:0 1px 6px ${color}88;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;overflow:hidden;transition:filter .12s" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','${safeEnd}');this.style.filter='brightness(1.15)'" onmouseleave="hideMsTip();this.style.filter=''" onclick="event.stopPropagation();openMsEdit(${p.id},${idx},this)">${labelW>16?`<span style="font-size:9px;font-weight:700;color:rgba(255,255,255,.95);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:${labelW}px;padding:0 7px;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.45);letter-spacing:.01em;flex-shrink:0">${ms.event}</span>`:''}</div>`;
+        return`<div style="position:absolute;top:50%;left:${leftPx}px;transform:translateY(-50%);height:16px;width:${spanW}px;background:${color};border-radius:8px;z-index:5;pointer-events:all;cursor:grab;touch-action:none;box-shadow:0 1px 6px ${color}88;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;overflow:hidden;transition:filter .12s" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','${safeEnd}');this.style.filter='brightness(1.15)'" onmouseleave="hideMsTip();this.style.filter=''" onpointerdown="event.stopPropagation();msDragDown(event,${p.id},${idx})" onclick="event.stopPropagation();if(!_msDragWasMoved)openMsEdit(${p.id},${idx},this)">${labelW>16?`<span style="font-size:9px;font-weight:700;color:rgba(255,255,255,.95);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:${labelW}px;padding:0 7px;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.45);letter-spacing:.01em;flex-shrink:0">${ms.event}</span>`:''}</div>`;
       }else{
         // Single-day: diamond centered on the row
         const leftPx=mi*PX+PX/2;
-        return`<div style="position:absolute;top:50%;left:${leftPx}px;transform:translate(-50%,-50%) rotate(45deg);width:11px;height:11px;background:${color};border-radius:2px;z-index:6;pointer-events:all;cursor:pointer;box-shadow:0 1px 5px rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.75);transition:transform .12s,box-shadow .12s" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','')" onmouseleave="hideMsTip()" onclick="event.stopPropagation();openMsEdit(${p.id},${idx},this)"></div>`;
+        return`<div style="position:absolute;top:50%;left:${leftPx}px;transform:translate(-50%,-50%) rotate(45deg);width:11px;height:11px;background:${color};border-radius:2px;z-index:6;pointer-events:all;cursor:grab;touch-action:none;box-shadow:0 1px 5px rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.75);transition:box-shadow .12s" onmouseenter="showMsTip(event,'${safeEvt}','${safeName}','${safeDate}','')" onmouseleave="hideMsTip()" onpointerdown="event.stopPropagation();msDragDown(event,${p.id},${idx})" onclick="event.stopPropagation();if(!_msDragWasMoved)openMsEdit(${p.id},${idx},this)"></div>`;
       }
     }).join('');
 
@@ -1830,6 +1833,8 @@ function saveProject(){
 let _dragGhost=null;
 let _dropIndicator=null;
 let _rowDrag=null; // {id, startY, startX, active, targetId, before}
+let _msDrag=null;  // {projId, msIdx, origMi, origEi, startX, el, origLeft, moved, dayDelta}
+let _msDragWasMoved=false;
 
 function _removeDragUI(){
   if(_dragGhost){_dragGhost.remove();_dragGhost=null;}
@@ -1915,6 +1920,57 @@ function _tlPtrUp(e){
     }
   }
   render();
+}
+
+// ── Milestone drag (left/right on timeline) ──────────────────────────────────
+function msDragDown(e,projId,msIdx){
+  e.preventDefault();e.stopPropagation();
+  const proj=projects.find(x=>x.id===projId);if(!proj)return;
+  const ms=proj.milestones[msIdx];if(!ms)return;
+  const PX=TL_ZOOM_PX[tlZoom]||24;
+  const mDn=parseDateNum(ms.date);
+  const mi=mDn?dayNumToIdx(mDn):-1;
+  if(mi<0)return;
+  const endDn=ms.endDate?parseDateNum(ms.endDate):null;
+  const ei=endDn?dayNumToIdx(endDn):-1;
+  const el=e.currentTarget;
+  const origLeft=parseFloat(el.style.left)||0;
+  _msDrag={projId,msIdx,origMi:mi,origEi:ei,startX:e.clientX,el,origLeft,moved:false,dayDelta:0};
+  document.body.style.userSelect='none';
+  document.body.style.cursor='grabbing';
+  document.addEventListener('pointermove',_msDragMove);
+  document.addEventListener('pointerup',_msDragUp);
+  document.addEventListener('pointercancel',_msDragUp);
+}
+function _msDragMove(e){
+  if(!_msDrag)return;
+  const PX=TL_ZOOM_PX[tlZoom]||24;
+  const dx=e.clientX-_msDrag.startX;
+  if(Math.abs(dx)>3)_msDrag.moved=true;
+  const dayDelta=Math.round(dx/PX);
+  _msDrag.dayDelta=dayDelta;
+  _msDrag.el.style.left=(_msDrag.origLeft+dayDelta*PX)+'px';
+}
+function _msDragUp(e){
+  document.removeEventListener('pointermove',_msDragMove);
+  document.removeEventListener('pointerup',_msDragUp);
+  document.removeEventListener('pointercancel',_msDragUp);
+  document.body.style.cursor='';document.body.style.userSelect='';
+  if(!_msDrag)return;
+  const{projId,msIdx,origMi,origEi,moved,dayDelta}=_msDrag;
+  _msDrag=null;
+  if(!moved||!dayDelta){render();return;}
+  _msDragWasMoved=true;
+  const proj=projects.find(x=>x.id===projId);if(!proj)return;
+  const ms=proj.milestones[msIdx];if(!ms)return;
+  const newMi=Math.max(0,Math.min(ALL_DAYS.length-1,origMi+dayDelta));
+  ms.date=ALL_DAYS[newMi].key;
+  if(origEi>=0){
+    const newEi=Math.max(newMi,Math.min(ALL_DAYS.length-1,origEi+dayDelta));
+    ms.endDate=ALL_DAYS[newEi].key;
+  }
+  persist();render();showToast('Milestone moved');
+  setTimeout(()=>{_msDragWasMoved=false;},200);
 }
 
 function deleteProject(id){
@@ -2130,9 +2186,9 @@ function renderCalendar(data){
     <div class="cal-nav">
       <button class="btn-secondary" onclick="calNav(-1)"${calMonth<=1?' disabled style="opacity:.4"':''}>&#8592; Prev</button>
       <div class="cal-nav-title">${MFULL[m-1]} ${y}</div>
-      ${legend}
       <div style="display:flex;align-items:center;gap:8px;margin-left:auto">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${calMonth>=12?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
     </div>
+    <div class="cal-legend-bar">${legend}</div>
     <div class="cal-grid-wrap">
       <div class="cal-grid">${dowHtml}${cells}</div>
     </div>
