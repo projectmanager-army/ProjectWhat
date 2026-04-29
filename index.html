@@ -939,10 +939,16 @@ function setSettingsTab(tab){
   if(tab==='cats')renderCatsList();
   else if(tab==='statuses')renderStatusList();
   else if(tab==='priorities')renderPriorityList();
-  else if(tab==='owners')renderOwnerList();
+  else if(tab==='owners'){
+    // Merge project owners into teamMembers once on open — after this renderOwnerList uses teamMembers only
+    const all=[...new Set([...teamMembers,...projects.map(p=>p.owner).filter(Boolean)])].sort();
+    teamMembers=[...all];
+    renderOwnerList();
+  }
   else if(tab==='mstypes')renderMsTypeList();
 }
 function saveSettings(){
+  persist();
   closeSettings();
   refreshAllDropdowns();
   render();
@@ -988,21 +994,28 @@ function deletePriority(idx){priorities.splice(idx,1);renderPriorityList();}
 function addPriority(){priorities.push({name:'New priority',color:'gray'});renderPriorityList();const inputs=document.getElementById('priorities-list').querySelectorAll('input');const last=inputs[inputs.length-1];if(last){last.focus();last.select();}}
 // owner list
 function renderOwnerList(){
-  const list=document.getElementById('owners-list');list.innerHTML='';
-  const all=[...new Set([...teamMembers,...projects.map(p=>p.owner).filter(Boolean)])].sort();
-  teamMembers=[...all];
+  const list=document.getElementById('owners-list');
+  if(!list)return;
+  list.innerHTML='';
+  // Render teamMembers as-is — no re-merge so deletes actually stick
   teamMembers.forEach((o,idx)=>{
-    const initials=o.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const initials=(o||'?').trim().split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'?';
     const row=document.createElement('div');row.className='owner-item-row';
     row.innerHTML=`
       <span class="owner-avatar" style="font-size:9px">${initials}</span>
-      <input class="form-input" style="font-size:12px;padding:6px 8px" value="${o.replace(/"/g,'&quot;')}" oninput="teamMembers[${idx}]=this.value">
+      <input class="form-input" style="font-size:12px;padding:6px 8px" value="${(o||'').replace(/"/g,'&quot;')}" oninput="teamMembers[${idx}]=this.value">
       <button class="icon-btn cat-del-btn" onclick="deleteOwner(${idx})">✕</button>`;
     list.appendChild(row);
   });
 }
 function deleteOwner(idx){teamMembers.splice(idx,1);renderOwnerList();}
-function addOwner(){teamMembers.push('New owner');renderOwnerList();const inputs=document.getElementById('owners-list').querySelectorAll('input');const last=inputs[inputs.length-1];if(last){last.focus();last.select();}}
+function addOwner(){
+  teamMembers.push('');
+  renderOwnerList();
+  const inputs=document.getElementById('owners-list').querySelectorAll('input');
+  const last=inputs[inputs.length-1];
+  if(last){last.focus();}
+}
 // milestone type list
 function renderMsTypeList(){
   const list=document.getElementById('mstypes-list');list.innerHTML='';
