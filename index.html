@@ -1231,6 +1231,12 @@ function deleteMsEdit(projId,msIdx){
 }
 
 // ─── VIEWS ────────────────────────────────────────────────────────────────────
+function _saveNavState(){
+  try{
+    if(activeClientId)localStorage.setItem('wa_nav',JSON.stringify({id:activeClientId,v:currentView}));
+    else localStorage.removeItem('wa_nav');
+  }catch(_){}
+}
 function setView(v){
   currentView=v;
   if(v==='timeline')tlScrolledToToday=false; // always jump to today when entering timeline
@@ -1239,6 +1245,7 @@ function setView(v){
     if(b)b.classList.toggle('active',x===v);
   });
   if(activeClientId)_pushHash('#client/'+activeClientId+'/'+v);
+  _saveNavState();
   render();
 }
 
@@ -2856,11 +2863,13 @@ function openClientProject(id,e){
   const mv=document.getElementById('main-view');
   if(mv){mv.style.overflowY='';mv.style.padding='';}
   _pushHash('#client/'+id+'/'+(currentView||'timeline'));
+  _saveNavState();
   render();
 }
 
 function closeClientProject(){
   activeClientId=null;
+  try{localStorage.removeItem('wa_nav');}catch(_){}
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
   showPortalHome();
 }
@@ -3927,7 +3936,7 @@ function _pushHash(h){
 
 function _routeFromHash(h){
   h=((h||location.hash)+'').replace(/^#\/?/,'');
-  if(!h||h==='home'){showPortalHome();return;}
+  // Try hash first
   const m=h.match(/^client\/([^/]+)(?:\/([^/]+))?$/);
   if(m){
     const cid=m[1],view=m[2]||'timeline';
@@ -3937,6 +3946,19 @@ function _routeFromHash(h){
       return;
     }
   }
+  // Hash didn't match a client — try localStorage fallback
+  try{
+    const s=localStorage.getItem('wa_nav');
+    if(s){
+      const{id,v}=JSON.parse(s);
+      if(id&&v&&portalClients.find(c=>c.id===id)){
+        currentView=v;
+        openClientProject(id);
+        return;
+      }
+    }
+  }catch(_){}
+  // Nothing to restore — show home
   showPortalHome();
 }
 
