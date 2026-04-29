@@ -2286,9 +2286,9 @@ function renderCalendarWeek(data){
     <div class="cal-nav">
       <button class="btn-secondary" onclick="calNav(-1)"${atStart?' disabled style="opacity:.4"':''}>&#8592; Prev</button>
       <div class="cal-nav-title">${title}</div>
-      ${legend}
       <div class="cal-nav-right">${viewToggle}<button class="btn-secondary" onclick="calNav(1)"${atEnd?' disabled style="opacity:.4"':''}>Next &#8594;</button></div>
     </div>
+    <div class="cal-legend-bar">${legend}</div>
     <div class="cal-grid-wrap" style="overflow:hidden;display:flex;flex-direction:column">
       <div class="cal-week-grid">${cols}</div>
     </div>
