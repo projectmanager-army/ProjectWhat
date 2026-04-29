@@ -2159,51 +2159,89 @@ function closeDash(){
   const b=document.getElementById('dash-btn');if(b)b.classList.remove('active');
 }
 function renderDash(){
-  const all=projects;
-  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const now=new Date();
+  const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const curMon=now.getMonth()+1;
-  const total=all.length;
-  const byStatus={},byPriority={},byCat={};
-  all.forEach(p=>{
+  const todayDnD=(MONTH_IDX[mn[now.getMonth()]]||0)*100+now.getDate();
+
+  // ── Only count real client tasks (not blank template items) ──
+  const clientTasks=projects.filter(p=>p.clientId);
+  const total=clientTasks.length;
+  const byStatus={},byPriority={},byCat={},byOwner={};
+  clientTasks.forEach(p=>{
     byStatus[p.status]=(byStatus[p.status]||0)+1;
     byPriority[p.priority]=(byPriority[p.priority]||0)+1;
     byCat[p.cat]=(byCat[p.cat]||0)+1;
+    const o=p.owner||'Unassigned';
+    byOwner[o]=(byOwner[o]||0)+1;
   });
-  const msThisMon=all.reduce((a,p)=>a+p.milestones.filter(m=>{const dn=parseDateNum(m.date);return dn&&Math.floor(dn/100)===curMon;}).length,0);
-  const todayDnD=(MONTH_IDX[mn[now.getMonth()]]||0)*100+now.getDate();
-  const msToday=all.reduce((a,p)=>a+p.milestones.filter(m=>parseDateNum(m.date)===todayDnD).length,0);
+  const completedCount=byStatus['Complete']||0;
+  const overallPct=total?Math.round((completedCount/total)*100):0;
+
+  // milestones (all projects)
+  const msThisMon=projects.reduce((a,p)=>a+p.milestones.filter(m=>{const dn=parseDateNum(m.date);return dn&&Math.floor(dn/100)===curMon;}).length,0);
 
   // ── Stat cards ──
   const stats=[
-    {num:total,           lbl:'Total Projects', col:'var(--text)'},
-    {num:byStatus['Live']||0,     lbl:'Live',           col:'var(--accent)'},
-    {num:byStatus['Planning']||0, lbl:'Planning',        col:'#2196F3'},
-    {num:byStatus['Blocked']||0,  lbl:'Blocked',         col:'#ef4444'},
-    {num:byPriority['Critical']||0,lbl:'Critical',       col:'#f59e0b'},
-    {num:msThisMon,       lbl:'Milestones This Month', col:'var(--text-2)'},
-    {num:msToday,         lbl:'Milestones Today', col:'#A855F7'},
+    {num:portalClients.length, lbl:'Active Clients',   col:'var(--accent)'},
+    {num:total,                lbl:'Total Tasks',       col:'var(--text)'},
+    {num:completedCount,       lbl:'Complete',          col:'var(--teal)'},
+    {num:byStatus['In Progress']||0, lbl:'In Progress', col:'var(--blue-text)'},
+    {num:byStatus['Blocked']||0,     lbl:'Blocked',      col:'var(--red-text)'},
+    {num:byPriority['Critical']||0,  lbl:'Critical',     col:'var(--amber-text)'},
+    {num:overallPct+'%',       lbl:'Overall Complete',  col:'var(--accent)'},
   ];
   const statsHtml=stats.map(s=>`<div class="dash-stat">
     <div class="dash-stat-num" style="color:${s.col}">${s.num}</div>
     <div class="dash-stat-lbl">${s.lbl}</div>
   </div>`).join('');
 
-  // ── Priority donut ──
-  const prioSegs=priorities.map(pr=>({name:pr.name,count:byPriority[pr.name]||0,color:CAT_HEX[pr.color]||'#9A9080'})).filter(s=>s.count>0);
-  const donutHtml=buildDashDonut(prioSegs,total,'Projects');
-
-  // ── Blocked projects list ──
-  const blockedProjects=all.filter(p=>p.status==='Blocked');
-  const blockedHtml=blockedProjects.length
-    ? blockedProjects.map(p=>`<div style="display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)">
-        <div style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;margin-top:4px"></div>
-        <div style="min-width:0">
-          <div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
-          <div style="font-size:10px;color:var(--text-3);margin-top:1px">${p.cat||''}${p.notes?` · ${p.notes}`:''}</div>
+  // ── Per-client progress ──
+  const clientProgressHtml=portalClients.length ? portalClients.map(c=>{
+    const tasks=clientTasks.filter(p=>p.clientId===c.id);
+    if(!tasks.length)return'';
+    const done=tasks.filter(p=>p.status==='Complete').length;
+    const blocked=tasks.filter(p=>p.status==='Blocked').length;
+    const inProg=tasks.filter(p=>p.status==='In Progress').length;
+    const pct=Math.round((done/tasks.length)*100);
+    const barCol=pct>=75?'var(--accent)':pct>=40?'var(--amber)':'var(--blue)';
+    const initials=(c.initials||(c.name||'?').trim().split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'?');
+    const clientCol=c.color?CAT_HEX[c.color]||c.color:'var(--accent)';
+    return`<div style="padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <div style="width:26px;height:26px;border-radius:6px;background:${clientCol}22;border:1px solid ${clientCol}44;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${clientCol};flex-shrink:0">${initials}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name||c.id}</div>
+          <div style="font-size:10px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.project||''}</div>
         </div>
-      </div>`).join('')
-    : `<div style="font-size:11px;color:var(--text-4);padding:6px 0">No blocked projects</div>`;
+        <div style="font-size:13px;font-weight:700;color:${barCol};font-family:var(--font-heading);letter-spacing:-.02em;flex-shrink:0">${pct}%</div>
+      </div>
+      <div style="height:5px;background:var(--border-med);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${barCol};border-radius:3px;transition:width .5s ease"></div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:5px">
+        <span style="font-size:10px;color:var(--text-3)">${done}/${tasks.length} done</span>
+        ${inProg?`<span style="font-size:10px;color:var(--blue-text)">${inProg} in progress</span>`:''}
+        ${blocked?`<span style="font-size:10px;color:var(--red-text)">⚠ ${blocked} blocked</span>`:''}
+      </div>
+    </div>`;
+  }).join('')
+  : `<div style="font-size:11px;color:var(--text-4);padding:8px 0">No clients yet</div>`;
+
+  // ── Blocked tasks list ──
+  const blockedTasks=clientTasks.filter(p=>p.status==='Blocked');
+  const blockedHtml=blockedTasks.length
+    ? blockedTasks.map(p=>{
+        const cl=portalClients.find(c=>c.id===p.clientId);
+        return`<div style="display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px"></div>
+          <div style="min-width:0">
+            <div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:1px">${cl?cl.name+' · ':''}<span style="color:var(--text-4)">${p.cat||''}</span></div>
+          </div>
+        </div>`;
+      }).join('')
+    : `<div style="font-size:11px;color:var(--text-4);padding:6px 0">No blocked tasks 🎉</div>`;
 
   // ── Status bars ──
   const statusBarsHtml=statuses.map(s=>{
@@ -2227,14 +2265,11 @@ function renderDash(){
     </div>`;
   }).join('');
 
-  // ── Owner bandwidth bars ──
-  const byOwner={};
-  all.forEach(p=>{
-    const o=p.owner||'Unassigned';
-    byOwner[o]=(byOwner[o]||0)+1;
-  });
-  const maxOwner=Math.max(...Object.values(byOwner),1);
-  const ownerBarsHtml=Object.entries(byOwner)
+  // ── Owner bandwidth bars (assigned tasks only) ──
+  const assignedOwners=Object.entries(byOwner).filter(([n])=>n!=='Unassigned');
+  const ownerEntries=assignedOwners.length?assignedOwners:Object.entries(byOwner);
+  const maxOwner=Math.max(...ownerEntries.map(e=>e[1]),1);
+  const ownerBarsHtml=ownerEntries
     .sort((a,b)=>b[1]-a[1])
     .map(([name,count])=>{
       const pct=Math.round((count/maxOwner)*100);
@@ -2252,7 +2287,7 @@ function renderDash(){
     }).join('');
 
   // ── Today widget ──
-  const todayMsList=all.flatMap(p=>p.milestones
+  const todayMsList=projects.flatMap(p=>p.milestones
     .filter(m=>{const s=parseDateNum(m.date);const e=m.endDate?parseDateNum(m.endDate):s;return s&&todayDnD>=s&&todayDnD<=(e||s);})
     .map(m=>{const s=parseDateNum(m.date);const e=m.endDate?parseDateNum(m.endDate):s;const isSpan=e&&e!==s;return{event:m.event,proj:p.name,cat:p.cat,color:msTypeColor(m.event),dateStr:isSpan?`${m.date} → ${m.endDate}`:m.date};})
   );
@@ -2264,24 +2299,24 @@ function renderDash(){
       <button onclick="closeDash()" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:20px;line-height:1;padding:2px 6px;border-radius:4px" onmouseenter="this.style.color='var(--text)'" onmouseleave="this.style.color='var(--text-3)'">✕</button>
     </div>
     <div class="dash-stat-grid">${statsHtml}</div>
-    <div class="dash-charts" style="grid-template-columns:1fr 1fr 1fr 1fr">
+    <div class="dash-charts" style="grid-template-columns:1.2fr 1fr 1fr 1fr">
       <div class="dash-card" style="display:flex;flex-direction:column">
-        <div class="dash-card-title">Priority Allocation</div>
-        ${donutHtml}
-        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);flex:1;min-height:0;display:flex;flex-direction:column">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-shrink:0">
-            <div class="dash-card-title" style="margin:0">Blocked</div>
-            ${blockedProjects.length?`<span style="background:#ef4444;color:#fff;border-radius:99px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:.02em">${blockedProjects.length}</span>`:''}
-          </div>
-          <div style="overflow-y:auto;flex:1;min-height:0">${blockedHtml}</div>
-        </div>
+        <div class="dash-card-title">Client Progress</div>
+        <div style="overflow-y:auto;flex:1;min-height:0">${clientProgressHtml}</div>
       </div>
-      <div class="dash-card">
+      <div class="dash-card" style="display:flex;flex-direction:column">
         <div class="dash-card-title">Status Breakdown</div>
         ${statusBarsHtml||'<div style="color:var(--text-4);font-size:12px">No data</div>'}
         <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
           <div class="dash-card-title" style="margin-bottom:10px">By Category</div>
           ${catBarsHtml||'<div style="color:var(--text-4);font-size:12px">No data</div>'}
+        </div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);flex:1;min-height:0;display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-shrink:0">
+            <div class="dash-card-title" style="margin:0">Blocked Tasks</div>
+            ${blockedTasks.length?`<span style="background:var(--red);color:#fff;border-radius:99px;padding:1px 7px;font-size:9px;font-weight:800">${blockedTasks.length}</span>`:''}
+          </div>
+          <div style="overflow-y:auto;flex:1;min-height:0">${blockedHtml}</div>
         </div>
       </div>
       <div class="dash-card">
