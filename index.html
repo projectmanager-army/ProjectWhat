@@ -433,8 +433,9 @@ body.client-mode #tb-manage-btn{display:none!important}
 .doc-name-edit{flex:1;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;min-width:0}
 .doc-name-edit:focus{color:var(--accent-text)}
 /* Timeline row drag-to-reorder */
-.tl-grip{width:14px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:grab;color:var(--text-4);flex-shrink:0;opacity:0;transition:opacity .12s;vertical-align:middle;margin-right:5px}
-tr:hover .tl-grip{opacity:1}
+.tl-grip{width:16px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:grab;color:var(--text-4);flex-shrink:0;opacity:.25;transition:opacity .12s;vertical-align:middle;margin-right:5px}
+tr:hover .tl-grip{opacity:.8}
+.tl-grip:hover{opacity:1!important;color:var(--accent)}
 .tl-grip:active{cursor:grabbing}
 tr.tl-row-dragging td{opacity:.35;background:var(--surface2)!important}
 tr.tl-drop-before .sticky-col{box-shadow:inset 0 2px 0 0 var(--accent)}
@@ -1776,16 +1777,21 @@ function _tlRowDragMove(e){
   if(!rowDragState.active&&Math.abs(e.clientY-rowDragState.startY)>4)rowDragState.active=true;
   if(!rowDragState.active)return;
   document.querySelectorAll('tr.tl-drop-before,tr.tl-drop-after').forEach(r=>r.classList.remove('tl-drop-before','tl-drop-after'));
-  const el=document.elementFromPoint(e.clientX,e.clientY);
-  const tr=el&&el.closest('tr[data-proj]');
-  if(tr){
-    const tid=parseInt(tr.dataset.proj);
-    if(tid!==rowDragState.id){
-      const rect=tr.getBoundingClientRect();
-      const before=e.clientY<rect.top+rect.height/2;
-      tr.classList.add(before?'tl-drop-before':'tl-drop-after');
-      rowDragState.targetId=tid;rowDragState.before=before;
-    }
+  // Scan rows by Y position — elementFromPoint blocked by gantt overlay
+  let bestTr=null,bestDist=Infinity;
+  document.querySelectorAll('tr[data-proj]').forEach(r=>{
+    const tid=parseInt(r.dataset.proj);
+    if(tid===rowDragState.id)return;
+    const rect=r.getBoundingClientRect();
+    if(e.clientY>=rect.top&&e.clientY<=rect.bottom){bestTr=r;bestDist=0;}
+    else{const d=Math.min(Math.abs(e.clientY-rect.top),Math.abs(e.clientY-rect.bottom));if(d<bestDist){bestDist=d;bestTr=r;}}
+  });
+  if(bestTr&&bestDist<32){
+    const tid=parseInt(bestTr.dataset.proj);
+    const rect=bestTr.getBoundingClientRect();
+    const before=e.clientY<rect.top+rect.height/2;
+    bestTr.classList.add(before?'tl-drop-before':'tl-drop-after');
+    rowDragState.targetId=tid;rowDragState.before=before;
   }
 }
 function _tlRowDragEnd(){
