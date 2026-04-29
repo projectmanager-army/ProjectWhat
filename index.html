@@ -422,9 +422,45 @@ body.client-mode #tb-manage-btn{display:none!important}
 .doc-pending-row:last-child{border-bottom:none}
 .doc-name-edit{flex:1;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;min-width:0}
 .doc-name-edit:focus{color:var(--accent-text)}
+
+/* ── LOGIN SCREEN ─────────────────────────────────────────── */
+#login-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column}
+#login-screen.wa-hidden{display:none}
+.login-card{background:var(--surface);border:1px solid var(--border-med);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:20px;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.login-logo{font-family:var(--font-heading);font-size:22px;font-weight:800;letter-spacing:-0.03em;text-align:center}
+.login-logo span{color:var(--accent)}
+.login-subtitle{font-size:12px;color:var(--text-3);text-align:center;margin-top:-12px}
+.login-field{display:flex;flex-direction:column;gap:6px}
+.login-field label{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
+.login-field input{background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.login-field input:focus{border-color:var(--accent)}
+.login-btn{background:var(--accent);color:#0A2224;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;padding:11px;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s;letter-spacing:-.01em}
+.login-btn:hover{opacity:.88}
+.login-err{font-size:12px;color:var(--red-text);text-align:center;min-height:18px;transition:opacity .2s}
+@keyframes wa-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.login-card.shake{animation:wa-shake .35s ease}
 </style>
 </head>
 <body>
+
+<!-- ── LOGIN SCREEN ─────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card" id="login-card">
+    <div class="login-logo"><span style="font-style:italic;color:#fff">WHAT</span><span>ARMY</span></div>
+    <div class="login-subtitle">Project Management Portal</div>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="login-user" autocomplete="username" placeholder="Enter username" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="login-pass" autocomplete="current-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')submitLogin()">
+    </div>
+    <div class="login-err" id="login-err"></div>
+    <button class="login-btn" onclick="submitLogin()">Sign In</button>
+  </div>
+</div>
+
 <div class="app">
 
 <!-- Header -->
@@ -449,6 +485,10 @@ body.client-mode #tb-manage-btn{display:none!important}
     <button class="btn-secondary" onclick="exportCSV()">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10v3h12v-3M8 2v8M5 7l3 3 3-3"></path></svg>
       CSV
+    </button>
+    <button class="btn-secondary" onclick="logOut()" title="Sign out" style="color:var(--text-3)">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"></path></svg>
+      Sign Out
     </button>
   </div>
 </header>
@@ -3550,6 +3590,51 @@ function renderPortalBody(){
 showPortalHome();
 // ─── CLIENT MODE INIT ─────────────────────────────────────────────────────────
 initClientMode();
+
+// ─── LOGIN GATE ──────────────────────────────────────────────────────────────
+const _WA_CREDS={username:'admin',password:'whatarmy2026'};
+const _WA_KEY='wa_authed_2026';
+
+function _checkLogin(){
+  const screen=document.getElementById('login-screen');
+  if(!screen)return;
+  if(sessionStorage.getItem(_WA_KEY)==='1'){
+    screen.classList.add('wa-hidden');
+    document.getElementById('login-user')&&(document.getElementById('login-user').value='');
+    document.getElementById('login-pass')&&(document.getElementById('login-pass').value='');
+  } else {
+    screen.classList.remove('wa-hidden');
+    setTimeout(()=>{const u=document.getElementById('login-user');if(u)u.focus();},80);
+  }
+}
+
+function submitLogin(){
+  const u=(document.getElementById('login-user').value||'').trim();
+  const p=(document.getElementById('login-pass').value||'').trim();
+  const err=document.getElementById('login-err');
+  const card=document.getElementById('login-card');
+  if(u===_WA_CREDS.username && p===_WA_CREDS.password){
+    sessionStorage.setItem(_WA_KEY,'1');
+    err.textContent='';
+    document.getElementById('login-screen').classList.add('wa-hidden');
+  } else {
+    err.textContent='Incorrect username or password.';
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+    setTimeout(()=>card.classList.remove('shake'),400);
+  }
+}
+
+function logOut(){
+  sessionStorage.removeItem(_WA_KEY);
+  document.getElementById('login-pass')&&(document.getElementById('login-pass').value='');
+  document.getElementById('login-err')&&(document.getElementById('login-err').textContent='');
+  document.getElementById('login-screen').classList.remove('wa-hidden');
+  setTimeout(()=>{const u=document.getElementById('login-user');if(u)u.focus();},80);
+}
+
+_checkLogin();
 </script>
 
 
