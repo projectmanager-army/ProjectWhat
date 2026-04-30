@@ -4097,6 +4097,148 @@ function logOut(){
 }
 
 _checkLogin();
+
+// ─── SELF-TEST SUITE ─────────────────────────────────────────────────────────
+// Run from browser console: runTests()
+// Tests all core subsystems. Green = safe to deploy. Red = something broke.
+window.runTests=function(){
+  const R=[];let pass=0,fail=0;
+  function t(name,fn){
+    try{
+      const v=fn();
+      const ok=v===true||v===undefined||v===null||typeof v==='number'&&!isNaN(v);
+      if(ok){R.push({ok:true,name});pass++;}
+      else{R.push({ok:false,name,msg:'returned: '+JSON.stringify(v)});fail++;}
+    }catch(e){R.push({ok:false,name,msg:e.message});fail++;}
+  }
+  function eq(a,b){if(a!==b)throw new Error(`expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}`);return true;}
+
+  // ── Date parsing ────────────────────────────────────────────────────────────
+  t('parseDateNum: "May 20"',        ()=>eq(parseDateNum('May 20'),520));
+  t('parseDateNum: "Jan 1"',         ()=>eq(parseDateNum('Jan 1'),101));
+  t('parseDateNum: "Dec 31"',        ()=>eq(parseDateNum('Dec 31'),1231));
+  t('parseDateNum: ISO 2026-05-20',  ()=>eq(parseDateNum('2026-05-20'),520));
+  t('parseDateNum: "May 20th"',      ()=>eq(parseDateNum('May 20th'),520));
+  t('parseDateNum: null',            ()=>eq(parseDateNum(null),null));
+  t('parseDateNum: empty string',    ()=>eq(parseDateNum(''),null));
+
+  // ── ALL_DAYS structure ───────────────────────────────────────────────────────
+  t('ALL_DAYS length = 365',         ()=>eq(ALL_DAYS.length,365));
+  t('ALL_DAYS[0] = Jan 1',          ()=>eq(ALL_DAYS[0].key,'Jan 1'));
+  t('ALL_DAYS[364] = Dec 31',       ()=>eq(ALL_DAYS[364].key,'Dec 31'));
+  t('ALL_DAYS[59] = Mar 1',         ()=>eq(ALL_DAYS[59].key,'Mar 1'));
+  t('ALL_DAYS every entry has key',  ()=>{ALL_DAYS.forEach(d=>{if(!d.key||!d.num)throw new Error('missing key/num at '+JSON.stringify(d));});return true;});
+
+  // ── dayNumToIdx ──────────────────────────────────────────────────────────────
+  t('dayNumToIdx(101) = 0',          ()=>eq(dayNumToIdx(101),0));
+  t('dayNumToIdx(520) = 139',        ()=>eq(dayNumToIdx(520),139));
+  t('dayNumToIdx(1231) = 364',       ()=>eq(dayNumToIdx(1231),364));
+  t('dayNumToIdx round-trip',        ()=>{
+    const idx=dayNumToIdx(parseDateNum('Jun 15'));
+    return eq(ALL_DAYS[idx].key,'Jun 15');
+  });
+
+  // ── Date input conversion ───────────────────────────────────────────────────
+  t('_msDateToInput("May 20")',      ()=>eq(_msDateToInput('May 20'),'2026-05-20'));
+  t('_msDateToInput("")',            ()=>eq(_msDateToInput(''),''));
+  t('_inputToMsDate("2026-05-20")', ()=>eq(_inputToMsDate('2026-05-20'),'May 20'));
+  t('_inputToMsDate round-trip',    ()=>eq(_inputToMsDate(_msDateToInput('Mar 7')),'Mar 7'));
+
+  // ── TL_ZOOM_PX ──────────────────────────────────────────────────────────────
+  t('TL_ZOOM_PX has day/week/month', ()=>{
+    if(!TL_ZOOM_PX.day||!TL_ZOOM_PX.week||!TL_ZOOM_PX.month)throw new Error('missing zoom keys');
+    return true;
+  });
+
+  // ── projects array ───────────────────────────────────────────────────────────
+  t('projects is array',             ()=>{if(!Array.isArray(projects))throw new Error('not array');return true;});
+  t('projects have required fields', ()=>{
+    projects.forEach((p,i)=>{
+      if(p.id===undefined)throw new Error('project '+i+' missing id');
+      if(typeof p.name!=='string')throw new Error('project '+i+' missing name');
+      if(!Array.isArray(p.milestones))throw new Error('project '+i+' milestones not array');
+    });
+    return true;
+  });
+  t('milestones have date+event',    ()=>{
+    projects.forEach(p=>{
+      p.milestones.forEach((m,i)=>{
+        if(!m.date)throw new Error(`${p.name} milestone ${i} missing date`);
+        if(!m.event)throw new Error(`${p.name} milestone ${i} missing event`);
+      });
+    });
+    return true;
+  });
+  t('milestone dates parseable',     ()=>{
+    projects.forEach(p=>{
+      p.milestones.forEach((m,i)=>{
+        const dn=parseDateNum(m.date);
+        if(!dn)throw new Error(`${p.name} ms ${i}: unparseable date "${m.date}"`);
+        if(dayNumToIdx(dn)<0)throw new Error(`${p.name} ms ${i}: date "${m.date}" not in ALL_DAYS`);
+      });
+    });
+    return true;
+  });
+
+  // ── portalClients ────────────────────────────────────────────────────────────
+  t('portalClients is array',        ()=>{if(!Array.isArray(portalClients))throw new Error('not array');return true;});
+  t('portalClients have id+name',    ()=>{
+    portalClients.forEach((c,i)=>{
+      if(!c.id)throw new Error('client '+i+' missing id');
+      if(!c.name)throw new Error('client '+i+' missing name');
+    });
+    return true;
+  });
+
+  // ── Drag state isolation ─────────────────────────────────────────────────────
+  t('_msDrag starts null',           ()=>eq(_msDrag,null));
+  t('_rowDrag starts null',          ()=>eq(_rowDrag,null));
+  t('_msDragWasMoved starts false',  ()=>eq(_msDragWasMoved,false));
+
+  // ── getFiltered / getSorted ──────────────────────────────────────────────────
+  t('getFiltered returns array',     ()=>{const f=getFiltered();if(!Array.isArray(f))throw new Error('not array');return true;});
+  t('getSorted returns array',       ()=>{const s=getSorted(projects.slice(0,3));if(!Array.isArray(s))throw new Error('not array');return true;});
+  t('getSorted preserves count',     ()=>{const n=5;const s=getSorted(projects.slice(0,n));return eq(s.length,Math.min(n,projects.length));});
+
+  // ── persist / reload cycle ───────────────────────────────────────────────────
+  t('persist writes to localStorage',()=>{
+    persist();
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)throw new Error('nothing in localStorage after persist()');
+    const d=JSON.parse(raw);
+    if(!Array.isArray(d.projects))throw new Error('saved data missing projects');
+    return true;
+  });
+  t('saved project count matches',   ()=>{
+    const d=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return eq(d.projects.length,projects.length);
+  });
+
+  // ── render doesn't throw ────────────────────────────────────────────────────
+  t('render() on timeline',          ()=>{const prev=currentView;currentView='timeline';try{render();}finally{currentView=prev;}return true;});
+  t('render() on calendar',          ()=>{const prev=currentView;currentView='calendar';try{render();}finally{currentView=prev;}return true;});
+  t('render() on table',             ()=>{const prev=currentView;currentView='table';try{render();}finally{currentView=prev;}return true;});
+
+  // ── Key functions exist ──────────────────────────────────────────────────────
+  const fns=['render','persist','openMsEdit','saveMsEdit','msDragDown','_msDragMove','_msDragUp',
+             'tlGripDown','_tlPtrMove','_tlPtrUp','calDrop','calMsDragStart','calDragEnd',
+             'showClientLogin','verifyClientCode','showClientPortalView','initClientMode',
+             'openEdit','cycleStatus','showToast','getFiltered','getSorted'];
+  fns.forEach(fn=>t('fn exists: '+fn,()=>{if(typeof window[fn]!=='function')throw new Error('not a function');return true;}));
+
+  // ── Output ───────────────────────────────────────────────────────────────────
+  const div=document.createElement('div');
+  div.style.cssText='position:fixed;top:12px;right:12px;z-index:9999;background:#111;border:1px solid #333;border-radius:10px;padding:14px 18px;font-family:Inter,monospace;font-size:12px;max-height:80vh;overflow-y:auto;min-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+  div.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><b style="font-size:13px;color:${fail?'#E74C3C':'#A7E000'}">WhatArmy Tests — ${fail?fail+' FAILED':'All Passed ✓'}</b><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;padding:0 4px">×</button></div>`+
+    R.map(r=>`<div style="display:flex;gap:7px;padding:2px 0;color:${r.ok?'#8aff8a':'#ff6b6b'}"><span>${r.ok?'✓':'✗'}</span><span style="flex:1;color:${r.ok?'#aaa':'#ff6b6b'}">${r.name}${r.msg?` — <i>${r.msg}</i>`:''}</span></div>`).join('')+
+    `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666">${pass}/${pass+fail} tests passed</div>`;
+  document.body.appendChild(div);
+  console.group('%cWhatArmy runTests()','color:'+(fail?'#E74C3C':'#A7E000')+';font-weight:bold');
+  R.forEach(r=>console.log(r.ok?'%c✓ '+r.name:'%c✗ '+r.name+(r.msg?' — '+r.msg:''),'color:'+(r.ok?'#8aff8a':'#ff6b6b')));
+  console.log(`${pass}/${pass+fail} passed`);
+  console.groupEnd();
+  return{pass,fail,results:R};
+};
 </script>
 
 
