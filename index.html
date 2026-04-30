@@ -2322,7 +2322,7 @@ let _saveToastTimer=null;
 let portalClients=[];
 function persist(){
   try{
-    const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||''}));
+    const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode,phases,notes})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||'',phases:phases||[],notes:notes||''}));
     const payload={projects,categories,statuses,priorities,teamMembers,milestoneTypes,currentView,nextId,portalClients:pcMeta,snapshotId:(__DATA_SNAPSHOT__&&__DATA_SNAPSHOT__.snapshotId)||0};
     localStorage.setItem(STORAGE_KEY,JSON.stringify(payload));
     // Flash save toast
@@ -2708,7 +2708,7 @@ function applyData(d){
   if(d.milestoneTypes!==undefined&&d.milestoneTypes!==null)milestoneTypes=d.milestoneTypes;
   if(d.currentView)currentView=d.currentView;
   if(d.nextId)nextId=d.nextId;
-  if(d.portalClients&&d.portalClients.length)portalClients=d.portalClients.map(c=>({phases:[],documents:[],accessCode:'',...c}));
+  if(d.portalClients&&d.portalClients.length)portalClients=d.portalClients.map(c=>({phases:[],documents:[],accessCode:'',notes:'',...c}));
   // Always sync teamMembers from project owners so owner dropdowns are populated
   const fromProjects=projects.filter(p=>p.clientId).map(p=>p.owner).filter(Boolean);
   teamMembers=[...new Set([...teamMembers,...fromProjects])].sort();
@@ -3074,6 +3074,8 @@ const _DEFAULT_PORTAL_CLIENTS=[
   ]},
 ];
 if(!portalClients.length)portalClients=_DEFAULT_PORTAL_CLIENTS.map(c=>({...c}));
+// Restore default phases for any client whose phases were stripped by an older save
+portalClients.forEach(c=>{if(!c.phases||!c.phases.length){const def=_DEFAULT_PORTAL_CLIENTS.find(d=>d.id===c.id);if(def&&def.phases)c.phases=def.phases.map(p=>({...p,tasks:(p.tasks||[]).map(t=>({...t}))});}});
 
 function pResolveStatus(status,dueStr){
   if(status==='Complete'||status==='Blocked')return status;
@@ -3924,7 +3926,7 @@ function openAccessSettings(clientId){
   const c=portalClients.find(x=>x.id===clientId);
   if(!c)return;
   const existing=document.getElementById('access-modal');if(existing)existing.remove();
-  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}${c.accessCode?'&code='+encodeURIComponent(c.accessCode):''}`;
+  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}`;
   const modal=document.createElement('div');
   modal.id='access-modal';
   modal.style.cssText='position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center';
@@ -3933,7 +3935,7 @@ function openAccessSettings(clientId){
       <h2 style="font-size:16px;font-weight:700;font-family:var(--font-heading);margin:0">Client Access</h2>
       <button onclick="document.getElementById('access-modal').remove()" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
     </div>
-    <div style="font-size:12px;color:var(--text-3);margin-bottom:20px">Share the URL below with your client. They'll enter the access code to view project progress and documents.</div>
+    <div style="font-size:12px;color:var(--text-3);margin-bottom:20px">Share the URL and access code below with your client. They'll enter the code on the portal page to view project progress and documents.</div>
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Access Code</label>
     <input id="ac-code-input" type="text" value="${c.accessCode||''}" placeholder="e.g. meridian2026" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box;margin-bottom:16px;transition:border-color .15s">
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Client Portal URL</label>
@@ -3976,18 +3978,10 @@ function initClientMode(){
     // Hide header (all header actions are admin-only) and stats bar
     const hdr=document.querySelector('.header');if(hdr)hdr.style.display='none';
     const sp=document.getElementById('stats-bar');if(sp)sp.style.display='none';
-    // Toolbar stays hidden until after login; render() will show it via showClientPortalView
+    // Toolbar stays hidden until after login
     const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
-    // Auto-verify if the access code is embedded in the URL (shared link) or no code is set
-    const urlCode=params.get('code');
-    const c=portalClients.find(x=>x.id===cid);
-    const codeOk=!c?.accessCode||(urlCode&&urlCode.toLowerCase()===(c.accessCode).toLowerCase());
-    if(codeOk){
-      clientModeAuthed=true;
-      showClientPortalView(cid);
-    } else {
-      showClientLogin(cid);
-    }
+    // Always show the access-code login screen first — client must enter their code
+    showClientLogin(cid);
   }catch(e){}
 }
 
