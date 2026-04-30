@@ -3732,7 +3732,7 @@ function openAccessSettings(clientId){
   const c=portalClients.find(x=>x.id===clientId);
   if(!c)return;
   const existing=document.getElementById('access-modal');if(existing)existing.remove();
-  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}`;
+  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}${c.accessCode?'&code='+encodeURIComponent(c.accessCode):''}`;
   const modal=document.createElement('div');
   modal.id='access-modal';
   modal.style.cssText='position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center';
@@ -3786,7 +3786,16 @@ function initClientMode(){
     const sp=document.getElementById('stats-bar');if(sp)sp.style.display='none';
     // Toolbar stays hidden until after login; render() will show it via showClientPortalView
     const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
-    showClientLogin(cid);
+    // Auto-verify if the access code is embedded in the URL (shared link) or no code is set
+    const urlCode=params.get('code');
+    const c=portalClients.find(x=>x.id===cid);
+    const codeOk=!c?.accessCode||(urlCode&&urlCode.toLowerCase()===(c.accessCode).toLowerCase());
+    if(codeOk){
+      clientModeAuthed=true;
+      showClientPortalView(cid);
+    } else {
+      showClientLogin(cid);
+    }
   }catch(e){}
 }
 
