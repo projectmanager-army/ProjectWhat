@@ -1947,12 +1947,15 @@ function msDragDown(e,projId,msIdx){
   const ei=endDn?dayNumToIdx(endDn):-1;
   const el=e.currentTarget;
   const origLeft=parseFloat(el.style.left)||0;
-  _msDrag={projId,msIdx,origMi:mi,origEi:ei,startX:e.clientX,el,origLeft,moved:false,dayDelta:0};
+  _msDrag={projId,msIdx,origMi:mi,origEi:ei,startX:e.clientX,el,origLeft,moved:false,dayDelta:0,pid:e.pointerId};
   document.body.style.userSelect='none';
   document.body.style.cursor='grabbing';
-  document.addEventListener('pointermove',_msDragMove);
-  document.addEventListener('pointerup',_msDragUp);
-  document.addEventListener('pointercancel',_msDragUp);
+  // Use pointer capture so events follow the pointer even outside the element
+  try{el.setPointerCapture(e.pointerId);}catch(_){}
+  el.addEventListener('pointermove',_msDragMove);
+  el.addEventListener('pointerup',_msDragUp);
+  el.addEventListener('pointercancel',_msDragUp);
+  el.addEventListener('lostpointercapture',_msDragUp);
 }
 function _msDragMove(e){
   if(!_msDrag)return;
@@ -1964,11 +1967,14 @@ function _msDragMove(e){
   _msDrag.el.style.left=(_msDrag.origLeft+dayDelta*PX)+'px';
 }
 function _msDragUp(e){
-  document.removeEventListener('pointermove',_msDragMove);
-  document.removeEventListener('pointerup',_msDragUp);
-  document.removeEventListener('pointercancel',_msDragUp);
-  document.body.style.cursor='';document.body.style.userSelect='';
   if(!_msDrag)return;
+  const el=_msDrag.el;
+  el.removeEventListener('pointermove',_msDragMove);
+  el.removeEventListener('pointerup',_msDragUp);
+  el.removeEventListener('pointercancel',_msDragUp);
+  el.removeEventListener('lostpointercapture',_msDragUp);
+  try{el.releasePointerCapture(_msDrag.pid);}catch(_){}
+  document.body.style.cursor='';document.body.style.userSelect='';
   const{projId,msIdx,origMi,origEi,moved,dayDelta}=_msDrag;
   _msDrag=null;
   if(!moved||!dayDelta){render();return;}
