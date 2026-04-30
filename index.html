@@ -426,6 +426,7 @@
 .client-portal-wrap{max-width:680px;margin:0 auto;padding:48px 32px}
 @keyframes spin{to{transform:rotate(360deg)}}
 /* Client-mode: hide admin-only controls */
+body.client-mode .toolbar{display:none!important}
 body.client-mode #tb-add-btn,
 body.client-mode #tb-add-divider,
 body.client-mode #tb-export-btn,
@@ -1271,17 +1272,24 @@ function render(){
     const _c=portalClients.find(c=>c.id===activeClientId);
     const _st=_c?pClientStats(_c):{pct:0,health:'good'};
     const _hc=pHealthColor(_st.health);
-    // Toolbar: show for tasks tab, hide for docs tab
+    // Always hide admin toolbar; client portal has its own nav tabs
     const tb=document.querySelector('.toolbar');
-    if(tb)tb.style.display=(clientActiveTab==='docs')?'none':'';
-    const contentHtml=(clientActiveTab==='docs')?renderDocumentsView(activeClientId):viewHtml;
+    if(tb)tb.style.display=isClientMode?'none':'';
+    // Route content by active tab — client portal uses portalClient phases/tasks data (not admin projects array)
+    let contentHtml;
+    if(clientActiveTab==='docs') contentHtml=renderDocumentsView(activeClientId);
+    else if(clientActiveTab==='table') contentHtml=_c?renderClientPortalTable(_c):'<div style="padding:40px;text-align:center;color:var(--text-3)">No project data.</div>';
+    else if(clientActiveTab==='calendar') contentHtml=_c?renderClientPortalCalendar(_c):'<div style="padding:40px;text-align:center;color:var(--text-3)">No project data.</div>';
+    else contentHtml=_c?renderClientPortalTimeline(_c):'<div style="padding:40px;text-align:center;color:var(--text-3)">No project data.</div>';
     mv.innerHTML=`<div class="cv-nav">
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
         ${isClientMode?'':`<button onclick="closeClientProject()" class="cv-back-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All Projects</button><div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>`}
         ${_c?`<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:8px;background:${_c.color}18;border:1.5px solid ${_c.color}40;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${_c.color};flex-shrink:0">${_c.initials}</div><div><div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${_c.project}</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${_c.name}</div></div></div>`:''}
         <div style="display:flex;gap:4px;margin-left:4px">
-          <button class="cv-tab-btn ${clientActiveTab==='tasks'?'active':''}" onclick="setClientTab('tasks')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M1 5h14M1 9h14M5 5v9"/></svg>Tasks</button>
-          <button class="cv-tab-btn ${clientActiveTab==='docs'?'active':''}" onclick="setClientTab('docs')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 2h6l4 4v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>Documents</button>
+          <button class="cv-tab-btn ${clientActiveTab==='timeline'?'active':''}" onclick="setClientTab('timeline')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h10"/></svg>Timeline</button>
+          <button class="cv-tab-btn ${clientActiveTab==='table'?'active':''}" onclick="setClientTab('table')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M1 5h14M1 9h14M5 5v9"/></svg>Table</button>
+          <button class="cv-tab-btn ${clientActiveTab==='calendar'?'active':''}" onclick="setClientTab('calendar')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="2" width="14" height="13" rx="2"/><path d="M1 6h14M5 1v2M11 1v2"/></svg>Calendar</button>
+          <button class="cv-tab-btn ${clientActiveTab==='docs'?'active':''}" onclick="setClientTab('docs')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 2h6l4 4v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M9 2v4h4"/></svg>Docs</button>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
@@ -3217,6 +3225,185 @@ function setClientTab(tab){
   render();
 }
 
+// ─── CLIENT PORTAL VIEWS (Timeline / Table / Calendar) ───────────────────────
+// These render the portalClient's own phases+tasks data — NOT the admin projects array.
+
+function _cpStatusColor(s){return s==='Complete'?'#A7E000':s==='In Progress'?'#3B82F6':s==='Blocked'?'#F59E0B':'rgba(255,255,255,0.25)';}
+function _cpStatusBg(s){return s==='Complete'?'rgba(167,224,0,0.13)':s==='In Progress'?'rgba(59,130,246,0.13)':s==='Blocked'?'rgba(245,158,11,0.13)':'rgba(255,255,255,0.06)';}
+const _CP_STATUSES=['Not Started','In Progress','Complete','Blocked'];
+
+function updateClientTaskStatus(clientId,phIdx,tkIdx){
+  const c=portalClients.find(x=>x.id===clientId);if(!c)return;
+  const tk=(c.phases[phIdx]||{tasks:[]}).tasks[tkIdx];if(!tk)return;
+  const cur=_CP_STATUSES.indexOf(tk.s);
+  tk.s=_CP_STATUSES[(cur+1)%_CP_STATUSES.length];
+  persist();render();showToast('Status updated');
+}
+
+function saveClientPortalNotes(clientId){
+  const ta=document.getElementById('cp-notes-ta');if(!ta)return;
+  const c=portalClients.find(x=>x.id===clientId);if(!c)return;
+  c.notes=ta.value;persist();showToast('Notes saved');
+}
+
+function renderClientPortalTimeline(client){
+  const phases=client.phases||[];
+  const allDates=phases.flatMap(ph=>(ph.tasks||[]).map(t=>t.d)).filter(Boolean);
+  if(!allDates.length)return`<div style="padding:60px;text-align:center;color:var(--text-3)">No timeline dates set yet.</div>`;
+  const parsed=allDates.map(d=>new Date(d)).filter(d=>!isNaN(d));
+  const minD=new Date(Math.min(...parsed.map(d=>d.getTime())));
+  const maxD=new Date(Math.max(...parsed.map(d=>d.getTime())));
+  const vStart=new Date(minD);vStart.setDate(vStart.getDate()-14);
+  const vEnd=new Date(maxD);vEnd.setDate(vEnd.getDate()+14);
+  const totalDays=Math.max(1,Math.round((vEnd-vStart)/86400000));
+  const PX=26,LW=180;
+  const dayLeft=d=>Math.max(0,(new Date(d)-vStart)/86400000*PX);
+  const today=new Date();today.setHours(0,0,0,0);
+  const todayL=(today-vStart)/86400000*PX;
+  const showToday=todayL>=0&&todayL<=totalDays*PX;
+  // Month header labels
+  const months=[];const mc=new Date(vStart);mc.setDate(1);
+  while(mc<=vEnd){months.push({label:mc.toLocaleDateString('en-US',{month:'short',year:'2-digit'}),left:(new Date(mc)-vStart)/86400000*PX});mc.setMonth(mc.getMonth()+1);}
+  const monthHdr=months.map(m=>`<div style="position:absolute;left:${m.left}px;top:0;bottom:0;display:flex;align-items:center;font-size:9px;color:var(--text-4);font-weight:600;white-space:nowrap;padding:0 6px;border-left:1px solid var(--border)">${m.label}</div>`).join('');
+  const todayLine=showToday?`<div style="position:absolute;top:0;bottom:0;left:${todayL}px;width:2px;background:var(--accent);opacity:.5;z-index:1"></div>`:'';
+  const phaseRows=phases.map((ph,pi)=>{
+    const tasks=ph.tasks||[];
+    const phColor=cPhaseColor(ph.name,client.color);
+    const done=tasks.filter(t=>t.s==='Complete').length;
+    const phaseDts=tasks.map(t=>new Date(t.d)).filter(d=>!isNaN(d));
+    let phBar='';
+    if(phaseDts.length>=2){
+      const ps=new Date(Math.min(...phaseDts.map(d=>d.getTime())));
+      const pe=new Date(Math.max(...phaseDts.map(d=>d.getTime())));
+      const bl=dayLeft(ps),bw=Math.max(4,(pe-ps)/86400000*PX);
+      phBar=`<div style="position:absolute;top:50%;transform:translateY(-50%);left:${bl}px;width:${bw}px;height:5px;background:${phColor}28;border-radius:3px;border:1px solid ${phColor}44"></div>`;
+    }
+    const dots=tasks.map((tk,ti)=>{
+      const dt=new Date(tk.d);if(isNaN(dt))return'';
+      const tl=dayLeft(dt);
+      const sc=_cpStatusColor(tk.s);
+      return`<div title="${tk.t.replace(/"/g,'&quot;')} — ${tk.s}" onclick="updateClientTaskStatus('${client.id}',${pi},${ti})" style="position:absolute;top:50%;transform:translate(-50%,-50%);left:${tl}px;width:11px;height:11px;border-radius:50%;background:${sc};border:2px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.35);z-index:2;cursor:pointer;transition:transform .1s" onmouseenter="this.style.transform='translate(-50%,-50%) scale(1.3)'" onmouseleave="this.style.transform='translate(-50%,-50%) scale(1)'" title="${tk.t.replace(/"/g,'&quot;')}"></div>`;
+    }).join('');
+    return`<div style="display:flex;border-bottom:1px solid var(--border);min-height:38px">
+      <div style="width:${LW}px;flex-shrink:0;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);background:var(--surface2)">
+        <div style="font-size:10px;font-weight:700;color:${phColor};text-transform:uppercase;letter-spacing:.05em;line-height:1.2">${ph.name}</div>
+        <div style="font-size:9px;color:var(--text-4);margin-top:2px">${done}/${tasks.length} complete</div>
+      </div>
+      <div style="flex:1;position:relative;overflow:hidden;min-height:38px">${todayLine}${phBar}${dots}</div>
+    </div>`;
+  }).join('');
+  const notesSection=`<div style="padding:18px 20px;border-top:1px solid var(--border-med);background:var(--surface)">
+    <div style="font-size:10px;font-weight:700;color:var(--text-4);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px">Project Notes</div>
+    <textarea id="cp-notes-ta" placeholder="Add notes, questions, or feedback…" style="width:100%;min-height:72px;background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;padding:10px 12px;outline:none;resize:vertical;box-sizing:border-box;line-height:1.5">${(client.notes||'').replace(/</g,'&lt;')}</textarea>
+    <button onclick="saveClientPortalNotes('${client.id}')" style="margin-top:8px;padding:6px 14px;border-radius:6px;border:none;background:var(--accent);color:#0A2224;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Notes</button>
+  </div>`;
+  const legend=['Complete','In Progress','Not Started','Blocked'].map(s=>`<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-3)"><span style="width:8px;height:8px;border-radius:50%;background:${_cpStatusColor(s)}"></span>${s}</span>`).join('');
+  return`<div style="overflow:auto;max-height:calc(100vh - 160px)">
+    <div style="overflow-x:auto">
+      <div style="min-width:${LW+totalDays*PX}px">
+        <div style="display:flex;border-bottom:1px solid var(--border-med)">
+          <div style="width:${LW}px;flex-shrink:0;height:26px;border-right:1px solid var(--border);background:var(--surface2)"></div>
+          <div style="flex:1;height:26px;position:relative;background:var(--surface2);overflow:hidden">${monthHdr}${todayLine}</div>
+        </div>
+        ${phaseRows}
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;padding:10px 20px;border-top:1px solid var(--border);background:var(--surface);flex-wrap:wrap">${legend}<span style="font-size:10px;color:var(--text-4);margin-left:auto">Click a dot to cycle status</span></div>
+    ${notesSection}
+  </div>`;
+}
+
+function renderClientPortalTable(client){
+  const phases=client.phases||[];
+  if(!phases.length)return`<div style="padding:60px;text-align:center;color:var(--text-3)">No tasks yet for this project.</div>`;
+  const rows=phases.map((ph,pi)=>{
+    const tasks=ph.tasks||[];
+    const done=tasks.filter(t=>t.s==='Complete').length;
+    const pct=tasks.length?Math.round(done/tasks.length*100):0;
+    const phColor=cPhaseColor(ph.name,client.color);
+    const taskRows=tasks.map((tk,ti)=>{
+      const dt=tk.d?new Date(tk.d):null;
+      const dStr=dt&&!isNaN(dt)?dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+      const isPast=dt&&dt<new Date()&&tk.s!=='Complete';
+      return`<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:10px 16px 10px 28px;font-size:13px;color:var(--text-2)">${tk.t.replace(/</g,'&lt;')}</td>
+        <td style="padding:10px 16px;white-space:nowrap">
+          <button onclick="updateClientTaskStatus('${client.id}',${pi},${ti})" title="Click to change status" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:${_cpStatusBg(tk.s)};color:${_cpStatusColor(tk.s)};border:1px solid ${_cpStatusColor(tk.s)}28;cursor:pointer;font-family:'Inter',sans-serif;transition:filter .15s" onmouseenter="this.style.filter='brightness(1.15)'" onmouseleave="this.style.filter=''">${tk.s}</button>
+        </td>
+        <td style="padding:10px 16px;font-size:12px;color:${isPast?'#F59E0B':'var(--text-3)'};white-space:nowrap">${dStr}${isPast?' ⚠':''}</td>
+      </tr>`;
+    }).join('');
+    return`<tr style="background:var(--surface2)">
+      <td colspan="3" style="padding:9px 16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:11px;font-weight:700;color:${phColor};text-transform:uppercase;letter-spacing:.05em">${ph.name}</span>
+          <div style="flex:1;height:3px;background:var(--border);border-radius:2px;max-width:120px"><div style="height:100%;width:${pct}%;background:${phColor};border-radius:2px"></div></div>
+          <span style="font-size:10px;color:var(--text-4)">${done}/${tasks.length}</span>
+        </div>
+      </td>
+    </tr>${taskRows}`;
+  }).join('');
+  const notesSection=`<div style="padding:18px 20px;border-top:1px solid var(--border-med);background:var(--surface)">
+    <div style="font-size:10px;font-weight:700;color:var(--text-4);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px">Project Notes</div>
+    <textarea id="cp-notes-ta" placeholder="Add notes, questions, or feedback…" style="width:100%;min-height:72px;background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;padding:10px 12px;outline:none;resize:vertical;box-sizing:border-box;line-height:1.5">${(client.notes||'').replace(/</g,'&lt;')}</textarea>
+    <button onclick="saveClientPortalNotes('${client.id}')" style="margin-top:8px;padding:6px 14px;border-radius:6px;border:none;background:var(--accent);color:#0A2224;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Notes</button>
+  </div>`;
+  return`<div style="overflow:auto;max-height:calc(100vh - 160px)">
+    <table style="width:100%;border-collapse:collapse;min-width:480px">
+      <thead><tr style="background:var(--bg);position:sticky;top:0;z-index:2">
+        <th style="padding:10px 16px;text-align:left;font-size:10px;font-weight:600;color:var(--text-4);letter-spacing:.06em;border-bottom:1px solid var(--border-med)">TASK</th>
+        <th style="padding:10px 16px;text-align:left;font-size:10px;font-weight:600;color:var(--text-4);letter-spacing:.06em;border-bottom:1px solid var(--border-med);white-space:nowrap">STATUS</th>
+        <th style="padding:10px 16px;text-align:left;font-size:10px;font-weight:600;color:var(--text-4);letter-spacing:.06em;border-bottom:1px solid var(--border-med);white-space:nowrap">DUE DATE</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${notesSection}
+  </div>`;
+}
+
+function renderClientPortalCalendar(client){
+  const phases=client.phases||[];
+  const tasksByDate={};
+  phases.forEach(ph=>{
+    const phColor=cPhaseColor(ph.name,client.color);
+    (ph.tasks||[]).forEach((tk,ti)=>{
+      if(!tk.d)return;
+      const dt=new Date(tk.d);if(isNaN(dt))return;
+      const key=`${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`;
+      if(!tasksByDate[key])tasksByDate[key]=[];
+      tasksByDate[key].push({...tk,phColor,pi:phases.indexOf(ph),ti});
+    });
+  });
+  const allDts=Object.keys(tasksByDate).map(k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);});
+  const now=new Date();
+  const upcoming=allDts.filter(d=>d>=new Date(now.getFullYear(),now.getMonth(),now.getDate())).sort((a,b)=>a-b);
+  const focusDt=upcoming.length?upcoming[0]:(allDts.length?allDts.sort((a,b)=>a-b)[0]:now);
+  const yr=focusDt.getFullYear(),mo=focusDt.getMonth();
+  const firstDow=new Date(yr,mo,1).getDay();
+  const daysInMo=new Date(yr,mo+1,0).getDate();
+  const monthName=new Date(yr,mo,1).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const cells=[];
+  for(let i=0;i<firstDow;i++)cells.push(`<div style="min-height:72px"></div>`);
+  for(let d=1;d<=daysInMo;d++){
+    const key=`${yr}-${mo+1}-${d}`;
+    const dayTasks=tasksByDate[key]||[];
+    const isToday=now.getFullYear()===yr&&now.getMonth()===mo&&now.getDate()===d;
+    const taskItems=dayTasks.slice(0,3).map(tk=>`<div style="font-size:8px;padding:1px 4px;border-radius:3px;background:${tk.phColor}20;color:${tk.phColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;font-weight:600;cursor:pointer" onclick="updateClientTaskStatus('${client.id}',${tk.pi},${tk.ti})" title="${tk.t.replace(/"/g,'&quot;')} — click to cycle status">${tk.t.replace(/</g,'&lt;')}</div>`).join('');
+    const more=dayTasks.length>3?`<div style="font-size:8px;color:var(--text-4);padding:1px 4px">+${dayTasks.length-3} more</div>`:'';
+    cells.push(`<div style="min-height:72px;padding:5px;border:1px solid ${isToday?'var(--accent)':'var(--border)'};border-radius:6px;background:${isToday?'var(--accent-light)':'transparent'};box-sizing:border-box">
+      <div style="font-size:11px;font-weight:${isToday?'700':'500'};color:${isToday?'var(--accent-text)':'var(--text-2)'}">${d}</div>
+      ${taskItems}${more}
+    </div>`);
+  }
+  const wdHdr=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(w=>`<div style="text-align:center;font-size:9px;font-weight:600;color:var(--text-4);letter-spacing:.05em;padding:5px 0">${w}</div>`).join('');
+  return`<div style="overflow-y:auto;max-height:calc(100vh - 160px);padding:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;text-align:center;letter-spacing:-.01em">${monthName}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px">${wdHdr}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">${cells.join('')}</div>
+    <div style="margin-top:12px;font-size:10px;color:var(--text-4);text-align:center">Click a task to cycle its status</div>
+  </div>`;
+}
+
 // ─── DOCUMENTS PORTAL ─────────────────────────────────────────────────────────
 // Legacy inline-onclick helper (kept for reference; doc-list buttons use _docActBtn instead)
 function _docIconBtn(onclick,title,svgPath,hoverColor){
@@ -3913,10 +4100,10 @@ function verifyClientCode(clientId){
 }
 
 function showClientPortalView(clientId){
-  // Show the real project page — admin controls are hidden by body.client-mode CSS
+  // Show client portal — admin toolbar stays hidden (CSS handles it); portal uses its own tabs
   activeClientId=clientId;
-  clientActiveTab='tasks';
-  const tb=document.querySelector('.toolbar');if(tb)tb.style.display='';
+  clientActiveTab='timeline';
+  const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
   const mv=document.getElementById('main-view');if(mv){mv.style.overflowY='';mv.style.padding='';}
   render();
 }
