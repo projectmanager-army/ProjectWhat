@@ -3779,6 +3779,8 @@ function initClientMode(){
     isClientMode=true;
     // Mark body so CSS hides admin-only controls
     document.body.classList.add('client-mode');
+    // Hide admin login screen — client uses their own access-code overlay
+    const ls=document.getElementById('login-screen');if(ls)ls.classList.add('wa-hidden');
     // Hide header (all header actions are admin-only) and stats bar
     const hdr=document.querySelector('.header');if(hdr)hdr.style.display='none';
     const sp=document.getElementById('stats-bar');if(sp)sp.style.display='none';
