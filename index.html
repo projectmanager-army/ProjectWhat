@@ -1858,7 +1858,8 @@ function tlGripDown(e,id){
   e.preventDefault();e.stopPropagation();
   const p=projects.find(x=>x.id===id);
   if(!p)return;
-  _rowDrag={id,startY:e.clientY,startX:e.clientX,active:false,targetId:null,before:true};
+  const grip=e.currentTarget;
+  _rowDrag={id,startY:e.clientY,startX:e.clientX,active:false,targetId:null,before:true,grip,pid:e.pointerId};
   document.body.style.userSelect='none';
   // Ghost card
   const ghost=document.createElement('div');
@@ -1875,10 +1876,12 @@ function tlGripDown(e,id){
   ind.style.display='none';
   document.body.appendChild(ind);
   _dropIndicator=ind;
-  // Listen on document so events fire wherever the pointer moves
-  document.addEventListener('pointermove',_tlPtrMove);
-  document.addEventListener('pointerup',_tlPtrUp);
-  document.addEventListener('pointercancel',_tlPtrUp);
+  // Capture pointer so events follow the cursor reliably even off-element
+  try{grip.setPointerCapture(e.pointerId);}catch(_){}
+  grip.addEventListener('pointermove',_tlPtrMove);
+  grip.addEventListener('pointerup',_tlPtrUp);
+  grip.addEventListener('pointercancel',_tlPtrUp);
+  grip.addEventListener('lostpointercapture',_tlPtrUp);
 }
 
 function _tlPtrMove(e){
@@ -1913,10 +1916,13 @@ function _tlPtrMove(e){
 }
 
 function _tlPtrUp(e){
-  document.removeEventListener('pointermove',_tlPtrMove);
-  document.removeEventListener('pointerup',_tlPtrUp);
-  document.removeEventListener('pointercancel',_tlPtrUp);
   if(!_rowDrag)return;
+  const grip=_rowDrag.grip;
+  grip.removeEventListener('pointermove',_tlPtrMove);
+  grip.removeEventListener('pointerup',_tlPtrUp);
+  grip.removeEventListener('pointercancel',_tlPtrUp);
+  grip.removeEventListener('lostpointercapture',_tlPtrUp);
+  try{grip.releasePointerCapture(_rowDrag.pid);}catch(_){}
   document.body.style.cursor='';document.body.style.userSelect='';
   const{id,active,targetId,before}=_rowDrag;
   _rowDrag=null;
