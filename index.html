@@ -872,7 +872,7 @@ let projects = [];
 let nextId = 200;
 let currentView = 'timeline';
 let tlScrolledToToday = false;
-let sortCol = 'name';
+let sortCol = '';
 let sortDir = 1;
 let tlZoom='day'; // 'day' | 'week' | 'month'
 let tlPhaseFilter='all'; // 'all' | 'planning' | 'design' | 'development' | 'launch'
@@ -954,6 +954,7 @@ function getFiltered(){
   });
 }
 function getSorted(arr){
+  if(!sortCol)return[...arr];
   return [...arr].sort((a,b)=>{
     let av=a[sortCol]||'',bv=b[sortCol]||'';
     if(sortCol==='priority'){
@@ -1930,7 +1931,7 @@ function _tlPtrUp(e){
       const[moved]=projects.splice(fromIdx,1);
       toIdx=projects.findIndex(p=>p.id===targetId);
       projects.splice(before?toIdx:toIdx+1,0,moved);
-      persist();render();showToast('Order saved');return;
+      sortCol='';persist();render();showToast('Order saved');return;
     }
   }
   render();
