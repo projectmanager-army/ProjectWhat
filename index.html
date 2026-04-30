@@ -1876,12 +1876,10 @@ function tlGripDown(e,id){
   ind.style.display='none';
   document.body.appendChild(ind);
   _dropIndicator=ind;
-  // Capture pointer so events follow the cursor reliably even off-element
   try{grip.setPointerCapture(e.pointerId);}catch(_){}
-  grip.addEventListener('pointermove',_tlPtrMove);
-  grip.addEventListener('pointerup',_tlPtrUp);
-  grip.addEventListener('pointercancel',_tlPtrUp);
-  grip.addEventListener('lostpointercapture',_tlPtrUp);
+  document.addEventListener('pointermove',_tlPtrMove);
+  document.addEventListener('pointerup',_tlPtrUp);
+  document.addEventListener('pointercancel',_tlPtrUp);
 }
 
 function _tlPtrMove(e){
@@ -1916,13 +1914,11 @@ function _tlPtrMove(e){
 }
 
 function _tlPtrUp(e){
+  document.removeEventListener('pointermove',_tlPtrMove);
+  document.removeEventListener('pointerup',_tlPtrUp);
+  document.removeEventListener('pointercancel',_tlPtrUp);
   if(!_rowDrag)return;
-  const grip=_rowDrag.grip;
-  grip.removeEventListener('pointermove',_tlPtrMove);
-  grip.removeEventListener('pointerup',_tlPtrUp);
-  grip.removeEventListener('pointercancel',_tlPtrUp);
-  grip.removeEventListener('lostpointercapture',_tlPtrUp);
-  try{grip.releasePointerCapture(_rowDrag.pid);}catch(_){}
+  try{_rowDrag.grip.releasePointerCapture(_rowDrag.pid);}catch(_){}
   document.body.style.cursor='';document.body.style.userSelect='';
   const{id,active,targetId,before}=_rowDrag;
   _rowDrag=null;
@@ -1956,12 +1952,10 @@ function msDragDown(e,projId,msIdx){
   _msDrag={projId,msIdx,origMi:mi,origEi:ei,startX:e.clientX,el,origLeft,moved:false,dayDelta:0,pid:e.pointerId};
   document.body.style.userSelect='none';
   document.body.style.cursor='grabbing';
-  // Use pointer capture so events follow the pointer even outside the element
   try{el.setPointerCapture(e.pointerId);}catch(_){}
-  el.addEventListener('pointermove',_msDragMove);
-  el.addEventListener('pointerup',_msDragUp);
-  el.addEventListener('pointercancel',_msDragUp);
-  el.addEventListener('lostpointercapture',_msDragUp);
+  document.addEventListener('pointermove',_msDragMove);
+  document.addEventListener('pointerup',_msDragUp);
+  document.addEventListener('pointercancel',_msDragUp);
 }
 function _msDragMove(e){
   if(!_msDrag)return;
@@ -1973,13 +1967,11 @@ function _msDragMove(e){
   _msDrag.el.style.left=(_msDrag.origLeft+dayDelta*PX)+'px';
 }
 function _msDragUp(e){
+  document.removeEventListener('pointermove',_msDragMove);
+  document.removeEventListener('pointerup',_msDragUp);
+  document.removeEventListener('pointercancel',_msDragUp);
   if(!_msDrag)return;
-  const el=_msDrag.el;
-  el.removeEventListener('pointermove',_msDragMove);
-  el.removeEventListener('pointerup',_msDragUp);
-  el.removeEventListener('pointercancel',_msDragUp);
-  el.removeEventListener('lostpointercapture',_msDragUp);
-  try{el.releasePointerCapture(_msDrag.pid);}catch(_){}
+  try{_msDrag.el.releasePointerCapture(_msDrag.pid);}catch(_){}
   document.body.style.cursor='';document.body.style.userSelect='';
   const{projId,msIdx,origMi,origEi,moved,dayDelta}=_msDrag;
   _msDrag=null;
