@@ -3963,19 +3963,14 @@ function saveAccessCode(clientId){
   showToast('Access code saved');
 }
 
-// ─── CLIENT PORTAL MODE (?client=ID  OR  #client/id/view) ────────────────────
+// ─── CLIENT PORTAL MODE (?client=ID in URL) ───────────────────────────────────
 function initClientMode(){
   try{
-    // If already authenticated as admin — don't intercept; admin uses their own flow
-    if(sessionStorage.getItem(_WA_KEY)==='1')return;
-
-    // Detect client ID from ?client= query param OR from #client/id hash
+    // Only ?client= query param triggers client mode.
+    // The #client/id/view hash is an internal admin navigation pattern — never use it
+    // to activate client mode (it would lock out admins whose session expired).
     const params=new URLSearchParams(location.search);
-    let cid=params.get('client');
-    if(!cid){
-      const hm=(location.hash||'').replace(/^#\/?/,'').match(/^client\/([^/]+)/);
-      if(hm)cid=hm[1];
-    }
+    const cid=params.get('client');
     if(!cid)return;
 
     // Verify the client exists in our data
