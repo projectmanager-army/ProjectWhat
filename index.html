@@ -3963,26 +3963,36 @@ function saveAccessCode(clientId){
   showToast('Access code saved');
 }
 
-// ─── CLIENT PORTAL MODE (?client=ID in URL) ───────────────────────────────────
+// ─── CLIENT PORTAL MODE (?client=ID  OR  #client/id/view) ────────────────────
 function initClientMode(){
   try{
+    // If already authenticated as admin — don't intercept; admin uses their own flow
+    if(sessionStorage.getItem(_WA_KEY)==='1')return;
+
+    // Detect client ID from ?client= query param OR from #client/id hash
     const params=new URLSearchParams(location.search);
-    const cid=params.get('client');
+    let cid=params.get('client');
+    if(!cid){
+      const hm=(location.hash||'').replace(/^#\/?/,'').match(/^client\/([^/]+)/);
+      if(hm)cid=hm[1];
+    }
     if(!cid)return;
+
+    // Verify the client exists in our data
+    if(!portalClients.find(x=>x.id===cid))return;
+
     clientModeId=cid;
     isClientMode=true;
-    // Mark body so CSS hides admin-only controls
     document.body.classList.add('client-mode');
-    // Hide admin login screen — client uses their own access-code overlay
+    // Hide the admin login screen — client has their own access-code overlay
     const ls=document.getElementById('login-screen');if(ls)ls.classList.add('wa-hidden');
-    // Hide header (all header actions are admin-only) and stats bar
+    // Hide admin-only chrome
     const hdr=document.querySelector('.header');if(hdr)hdr.style.display='none';
     const sp=document.getElementById('stats-bar');if(sp)sp.style.display='none';
-    // Toolbar stays hidden until after login
     const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
-    // Always show the access-code login screen first — client must enter their code
+    // Always show the branded access-code screen first
     showClientLogin(cid);
-  }catch(e){}
+  }catch(e){console.error('initClientMode',e);}
 }
 
 function showClientLogin(clientId){
@@ -4076,8 +4086,12 @@ function verifyClientCode(clientId){
   const errEl=document.getElementById('client-login-err');
   if(!input)return;
   const entered=input.value.trim();
-  if(!c||!c.accessCode){
-    if(errEl)errEl.textContent='No access code set for this project. Contact your project manager.';
+  // If no access code has been set, grant access directly (no code required)
+  if(!c?.accessCode){
+    clientModeAuthed=true;
+    const overlay=document.getElementById('client-login-overlay');
+    if(overlay){overlay.style.opacity='0';overlay.style.transition='opacity .3s';setTimeout(()=>overlay.remove(),300);}
+    showClientPortalView(clientId);
     return;
   }
   if(entered.toLowerCase()!==c.accessCode.toLowerCase()){
