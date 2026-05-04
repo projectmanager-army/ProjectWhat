@@ -2907,18 +2907,18 @@ function showPortalHome(){
     // Bar color tied to % complete so all cards use the same scale
     const progColor=st.pct>=75?'#A7E000':st.pct>=40?'#F59E0B':'#E74C3C';
     return`<div class="pcard" onclick="openClientProject('${c.id}',event)">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px">
-        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">
           <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color};flex-shrink:0">${c.initials}</div>
-          <div style="min-width:0">
-            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.project}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+          <div style="min-width:0;flex:1">
+            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.project}</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap">
+              <div style="font-size:11px;color:var(--text-3);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:${hc};padding:2px 7px;border-radius:20px;background:${hc}18;white-space:nowrap;flex-shrink:0"><span style="width:5px;height:5px;border-radius:50%;background:${hc};flex-shrink:0"></span>${pHealthLabel(st.health)}</span>
+            </div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${hc};white-space:nowrap"><span style="width:7px;height:7px;border-radius:50%;background:${hc};box-shadow:0 0 0 3px ${hc}25;flex-shrink:0"></span>${pHealthLabel(st.health)}</span>
-          <button onclick="deletePortalClient('${c.id}',event)" title="Delete project" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
-        </div>
+        <button onclick="deletePortalClient('${c.id}',event)" title="Delete project" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s;margin-top:2px" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;margin-bottom:6px">
         <span style="font-size:11px;color:var(--text-3)">Overall completion</span>
@@ -4144,17 +4144,15 @@ function renderPortalBody(){
     const hc=pHealthColor(st.health);
     const progColor=st.health==='critical'?'#E74C3C':st.health==='warning'?'#F59E0B':'#A7E000';
     return`<div class="pcard" onclick="openClientProject('${c.id}',event)">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color}">${c.initials}</div>
-          <div>
-            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${c.project}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${c.name}</div>
+      <div style="display:flex;align-items:flex-start;gap:12px;min-width:0">
+        <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color};flex-shrink:0">${c.initials}</div>
+        <div style="min-width:0;flex:1">
+          <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.project}</div>
+          <div style="display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap">
+            <div style="font-size:11px;color:var(--text-3);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:${hc};padding:2px 7px;border-radius:20px;background:${hc}18;white-space:nowrap;flex-shrink:0"><span style="width:5px;height:5px;border-radius:50%;background:${hc};flex-shrink:0"></span>${pHealthLabel(st.health)}</span>
           </div>
         </div>
-        <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${hc};white-space:nowrap;flex-shrink:0">
-          <span style="width:7px;height:7px;border-radius:50%;background:${hc};box-shadow:0 0 0 3px ${hc}25"></span>${pHealthLabel(st.health)}
-        </span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;margin-bottom:6px">
         <span style="font-size:11px;color:var(--text-3)">Overall completion</span>
