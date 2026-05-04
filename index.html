@@ -1299,6 +1299,12 @@ function render(){
       </div>
     </div>${contentHtml}`;
     _wireDocListeners();
+    // Auto-scroll client portal timeline to today
+    const _cpTl=mv.querySelector('.cp-tl-scroll');
+    if(_cpTl){
+      const _todayPx=parseInt(_cpTl.dataset.todayPx||'0',10);
+      if(_todayPx>0)_cpTl.scrollLeft=Math.max(0,_todayPx-150);
+    }
   }else{
     mv.innerHTML=viewHtml;
   }
@@ -2870,7 +2876,7 @@ function cPhaseColor(name,fallback){return CLIENT_PHASE_COLORS[name]||fallback||
 function openClientProject(id,e){
   if(e)e.stopPropagation();
   activeClientId=id;
-  clientActiveTab='tasks';
+  clientActiveTab='timeline';
   closePortal();
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='';
   const mv=document.getElementById('main-view');
@@ -3069,9 +3075,15 @@ const _DEFAULT_PORTAL_CLIENTS=[
     ]},
   ]},
 ];
-if(!portalClients.length)portalClients=_DEFAULT_PORTAL_CLIENTS.map(function(c){return Object.assign({},c);});
-// Restore default phases for any client whose phases were stripped by an older save
-portalClients.forEach(function(c){if(!c.phases||!c.phases.length){var def=_DEFAULT_PORTAL_CLIENTS.find(function(d){return d.id===c.id;});if(def&&def.phases)c.phases=JSON.parse(JSON.stringify(def.phases));}});
+if(!portalClients.length)portalClients=JSON.parse(JSON.stringify(_DEFAULT_PORTAL_CLIENTS));
+// Restore default phases/tasks for any client whose data was stripped by an older save
+portalClients.forEach(function(c){
+  var totalTasks=c.phases?c.phases.reduce(function(a,p){return a+(p.tasks?p.tasks.length:0);},0):0;
+  if(!c.phases||!c.phases.length||totalTasks===0){
+    var def=_DEFAULT_PORTAL_CLIENTS.find(function(d){return d.id===c.id;});
+    if(def&&def.phases)c.phases=JSON.parse(JSON.stringify(def.phases));
+  }
+});
 
 function pResolveStatus(status,dueStr){
   if(status==='Complete'||status==='Blocked')return status;
@@ -3297,7 +3309,7 @@ function renderClientPortalTimeline(client){
   </div>`;
   const legend=['Complete','In Progress','Not Started','Blocked'].map(s=>`<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-3)"><span style="width:8px;height:8px;border-radius:50%;background:${_cpStatusColor(s)}"></span>${s}</span>`).join('');
   return`<div style="overflow:auto;max-height:calc(100vh - 160px)">
-    <div style="overflow-x:auto">
+    <div class="cp-tl-scroll" data-today-px="${Math.round(todayL)}" style="overflow-x:auto">
       <div style="min-width:${LW+totalDays*PX}px">
         <div style="display:flex;border-bottom:1px solid var(--border-med)">
           <div style="width:${LW}px;flex-shrink:0;height:26px;border-right:1px solid var(--border);background:var(--surface2)"></div>
