@@ -3073,9 +3073,9 @@ const _DEFAULT_PORTAL_CLIENTS=[
     ]},
   ]},
 ];
-if(!portalClients.length)portalClients=_DEFAULT_PORTAL_CLIENTS.map(c=>({...c}));
+if(!portalClients.length)portalClients=_DEFAULT_PORTAL_CLIENTS.map(function(c){return Object.assign({},c);});
 // Restore default phases for any client whose phases were stripped by an older save
-portalClients.forEach(c=>{if(!c.phases||!c.phases.length){const def=_DEFAULT_PORTAL_CLIENTS.find(d=>d.id===c.id);if(def&&def.phases)c.phases=def.phases.map(p=>({...p,tasks:(p.tasks||[]).map(t=>({...t}))});}});
+portalClients.forEach(function(c){if(!c.phases||!c.phases.length){var def=_DEFAULT_PORTAL_CLIENTS.find(function(d){return d.id===c.id;});if(def&&def.phases)c.phases=JSON.parse(JSON.stringify(def.phases));}});
 
 function pResolveStatus(status,dueStr){
   if(status==='Complete'||status==='Blocked')return status;
