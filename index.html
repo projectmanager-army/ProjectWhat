@@ -3092,6 +3092,20 @@ function pResolveStatus(status,dueStr){
 }
 
 function pClientStats(client){
+  // Prefer portal phases (client-facing data) when tasks have been entered
+  const phases=client.phases||[];
+  const hasTasks=phases.some(ph=>(ph.tasks||[]).length>0);
+  if(hasTasks){
+    const all=phases.flatMap(ph=>ph.tasks||[]);
+    const total=all.length;
+    const complete=all.filter(t=>t.s==='Complete').length;
+    const inProg=all.filter(t=>t.s==='In Progress').length;
+    const blocked=all.filter(t=>t.s==='Blocked').length;
+    const pct=total>0?Math.round(complete/total*100):0;
+    const health=blocked>2?'critical':blocked>0?'warning':'good';
+    return{total,complete,inProg,blocked,pct,health,nextDue:null};
+  }
+  // Fall back to admin projects when no portal phases exist
   const projs=projects.filter(p=>p.clientId===client.id);
   const total=projs.length;
   const complete=projs.filter(p=>p.status==='Complete').length;
@@ -3255,11 +3269,11 @@ function saveClientPortalNotes(clientId){
 }
 
 function _portalPhasesForClient(client){
-  // If portal phases have tasks with dates, use them directly
   const existing=client.phases||[];
-  const hasDates=existing.some(ph=>(ph.tasks||[]).some(t=>t.d));
-  if(hasDates)return existing;
-  // Fall back: build synthetic phases from admin projects tagged to this client
+  // Use portal phases if they have ANY tasks — dates are not required
+  const hasTasks=existing.some(ph=>(ph.tasks||[]).length>0);
+  if(hasTasks)return existing;
+  // Only fall back to admin projects when portal phases are completely empty
   const adminProjs=projects.filter(p=>p.clientId===client.id);
   if(!adminProjs.length)return existing;
   const months={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
