@@ -1305,7 +1305,18 @@ function render(){
         const _mnm=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         const todayNum=(mn=>MONTH_IDX[mn]?MONTH_IDX[mn]*100+_tn.getDate():null)(_mnm[_tn.getMonth()]);
         const todayIdx=dayNumToIdx(todayNum);
-        if(todayIdx>=0)newScroll.scrollLeft=Math.max(0,todayIdx*(TL_ZOOM_PX[tlZoom]||24)-200);
+        const PX=TL_ZOOM_PX[tlZoom]||24;
+        // Horizontal: center today on screen (account for sticky label columns ~280px wide)
+        if(todayIdx>=0)newScroll.scrollLeft=Math.max(0,todayIdx*PX-280);
+        // Vertical: find best row to center on — bar spanning today > In Progress > first non-Complete
+        requestAnimationFrame(()=>{
+          const rows=newScroll.querySelectorAll('tr[data-proj]');
+          let target=null;
+          if(!target&&todayNum){for(const r of rows){const p=data.find(x=>x.id===+r.dataset.proj);if(p){const s=parseDateNum(p.startDate),e=parseDateNum(p.endDate);if(s&&e&&todayNum>=s&&todayNum<=e){target=r;break;}}}}
+          if(!target){for(const r of rows){const p=data.find(x=>x.id===+r.dataset.proj);if(p&&(p.status==='In Progress'||p.status==='Blocked')){target=r;break;}}}
+          if(!target){for(const r of rows){const p=data.find(x=>x.id===+r.dataset.proj);if(p&&p.status!=='Complete'){target=r;break;}}}
+          if(target)newScroll.scrollTop=Math.max(0,target.offsetTop-newScroll.clientHeight/2+target.offsetHeight/2);
+        });
         tlScrolledToToday=true;
       }else{
         newScroll.scrollLeft=savedTlL;
@@ -2863,6 +2874,7 @@ function openClientProject(id,e){
   if(e)e.stopPropagation();
   activeClientId=id;
   clientActiveTab='tasks';
+  tlScrolledToToday=false;
   closePortal();
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='';
   const mv=document.getElementById('main-view');
@@ -3739,7 +3751,7 @@ function openAccessSettings(clientId){
   const c=portalClients.find(x=>x.id===clientId);
   if(!c)return;
   const existing=document.getElementById('access-modal');if(existing)existing.remove();
-  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}${c.accessCode?'&code='+encodeURIComponent(c.accessCode):''}`;
+  const clientUrl=`${location.origin}${location.pathname}?client=${clientId}${c.accessCode?'&code='+encodeURIComponent(c.accessCode):''}${c.name?'&cn='+encodeURIComponent(c.name):''}${c.project?'&pn='+encodeURIComponent(c.project):''}`;
   const modal=document.createElement('div');
   modal.id='access-modal';
   modal.style.cssText='position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center';
@@ -3809,8 +3821,10 @@ function initClientMode(){
 function showClientLogin(clientId){
   const existing=document.getElementById('client-login-overlay');if(existing)existing.remove();
   const c=portalClients.find(x=>x.id===clientId);
-  const projName=c?c.project:'Project';
-  const clientName=c?c.name:'';
+  // Fall back to URL params so the hero works even when portalClients data isn't on this device
+  const _urlP=new URLSearchParams(location.search);
+  const projName=c?c.project:(_urlP.get('pn')||'Your Project');
+  const clientName=c?c.name:(_urlP.get('cn')||'');
   const col=c?c.color:'#A7E000';
 
   // Completion from phases task data
@@ -3843,7 +3857,11 @@ function showClientLogin(clientId){
   overlay.style.cssText='position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:"Inter",sans-serif;padding:16px';
   overlay.innerHTML=`
   <div style="width:420px;max-width:100%">
-    <div style="font-size:13px;font-weight:800;font-family:var(--font-heading);letter-spacing:-0.02em;margin-bottom:20px;color:var(--text);text-align:center"><span style="font-style:italic">WHATARMY</span> <span style="color:var(--accent)">2026</span></div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:6px"><span style="font-style:italic;font-family:var(--font-heading)">WHATARMY</span> <span style="color:var(--accent)">2026</span></div>
+      ${clientName?`<div style="font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:.02em">${clientName}</div>`:''}
+      <div style="font-size:22px;font-weight:800;font-family:var(--font-heading);color:var(--text);letter-spacing:-0.03em;line-height:1.15;margin-top:${clientName?'3':'0'}px">${projName}</div>
+    </div>
     <div style="background:var(--surface);border:1px solid ${col}28;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45)">
 
       <!-- Hero banner -->
