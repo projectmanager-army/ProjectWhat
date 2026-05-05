@@ -2880,6 +2880,8 @@ function closeClientProject(){
 }
 
 function showPortalHome(){
+  // Clients must never see the all-projects page — redirect to their own project
+  if(isClientMode&&clientModeAuthed&&clientModeId){showClientPortalView(clientModeId);return;}
   activeClientId=null;
   _pushHash('#home');
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
@@ -4008,6 +4010,8 @@ function _pushHash(h){
 }
 
 function _routeFromHash(h){
+  // In client mode, always stay on the client's own project — never show home or another client's page
+  if(isClientMode&&clientModeAuthed&&clientModeId){showClientPortalView(clientModeId);return;}
   h=((h||location.hash)+'').replace(/^#\/?/,'');
   // Try hash first
   const m=h.match(/^client\/([^/]+)(?:\/([^/]+))?$/);
