@@ -2870,7 +2870,7 @@ function cPhaseColor(name,fallback){return CLIENT_PHASE_COLORS[name]||fallback||
 function openClientProject(id,e){
   if(e)e.stopPropagation();
   activeClientId=id;
-  clientActiveTab='timeline';
+  clientActiveTab='tasks';
   closePortal();
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='';
   const mv=document.getElementById('main-view');
@@ -3073,15 +3073,9 @@ const _DEFAULT_PORTAL_CLIENTS=[
     ]},
   ]},
 ];
-if(!portalClients.length)portalClients=JSON.parse(JSON.stringify(_DEFAULT_PORTAL_CLIENTS));
-// Restore default phases/tasks for any client whose data was stripped by an older save
-portalClients.forEach(function(c){
-  var totalTasks=c.phases?c.phases.reduce(function(a,p){return a+(p.tasks?p.tasks.length:0);},0):0;
-  if(!c.phases||!c.phases.length||totalTasks===0){
-    var def=_DEFAULT_PORTAL_CLIENTS.find(function(d){return d.id===c.id;});
-    if(def&&def.phases)c.phases=JSON.parse(JSON.stringify(def.phases));
-  }
-});
+if(!portalClients.length)portalClients=_DEFAULT_PORTAL_CLIENTS.map(c=>({...c}));
+// Restore default phases for any client whose phases were stripped by an older save
+portalClients.forEach(c=>{if(!c.phases||!c.phases.length){const def=_DEFAULT_PORTAL_CLIENTS.find(d=>d.id===c.id);if(def&&def.phases)c.phases=def.phases.map(p=>({...p,tasks:(p.tasks||[]).map(t=>({...t}))});}});
 
 function pResolveStatus(status,dueStr){
   if(status==='Complete'||status==='Blocked')return status;
@@ -3092,20 +3086,6 @@ function pResolveStatus(status,dueStr){
 }
 
 function pClientStats(client){
-  // Prefer portal phases (client-facing data) when tasks have been entered
-  const phases=client.phases||[];
-  const hasTasks=phases.some(ph=>(ph.tasks||[]).length>0);
-  if(hasTasks){
-    const all=phases.flatMap(ph=>ph.tasks||[]);
-    const total=all.length;
-    const complete=all.filter(t=>t.s==='Complete').length;
-    const inProg=all.filter(t=>t.s==='In Progress').length;
-    const blocked=all.filter(t=>t.s==='Blocked').length;
-    const pct=total>0?Math.round(complete/total*100):0;
-    const health=blocked>2?'critical':blocked>0?'warning':'good';
-    return{total,complete,inProg,blocked,pct,health,nextDue:null};
-  }
-  // Fall back to admin projects when no portal phases exist
   const projs=projects.filter(p=>p.clientId===client.id);
   const total=projs.length;
   const complete=projs.filter(p=>p.status==='Complete').length;
@@ -3268,36 +3248,8 @@ function saveClientPortalNotes(clientId){
   c.notes=ta.value;persist();showToast('Notes saved');
 }
 
-function _portalPhasesForClient(client){
-  const existing=client.phases||[];
-  // Use portal phases if they have ANY tasks — dates are not required
-  const hasTasks=existing.some(ph=>(ph.tasks||[]).length>0);
-  if(hasTasks)return existing;
-  // Only fall back to admin projects when portal phases are completely empty
-  const adminProjs=projects.filter(p=>p.clientId===client.id);
-  if(!adminProjs.length)return existing;
-  const months={Jan:'01',Feb:'02',Mar:'03',Apr:'04',May:'05',Jun:'06',Jul:'07',Aug:'08',Sep:'09',Oct:'10',Nov:'11',Dec:'12'};
-  const toIso=function(s){
-    if(!s)return'';
-    // "Mon DD, YYYY" or "Mon DD"
-    var m=s.match(/^(\w{3})\s+(\d+)(?:,\s*(\d{4}))?/);
-    if(!m||!months[m[1]])return'';
-    var yr=m[3]||(new Date().getFullYear()+'');
-    return yr+'-'+months[m[1]]+'-'+String(m[2]).padStart(2,'0');
-  };
-  const statusMap={Complete:'Complete','In Progress':'In Progress',Blocked:'Blocked',Pending:'Not Started'};
-  const byCategory={};
-  const catOrder=[];
-  adminProjs.forEach(function(p){
-    var cat=p.cat||'General';
-    if(!byCategory[cat]){byCategory[cat]=[];catOrder.push(cat);}
-    byCategory[cat].push({t:p.name,s:statusMap[p.status]||'Not Started',d:toIso(p.endDate)||toIso(p.startDate)});
-  });
-  return catOrder.map(function(cat){return{name:cat,tasks:byCategory[cat]};});
-}
-
 function renderClientPortalTimeline(client){
-  const phases=_portalPhasesForClient(client);
+  const phases=client.phases||[];
   const allDates=phases.flatMap(ph=>(ph.tasks||[]).map(t=>t.d)).filter(Boolean);
   if(!allDates.length)return`<div style="padding:60px;text-align:center;color:var(--text-3)">No timeline dates set yet.</div>`;
   const parsed=allDates.map(d=>new Date(d)).filter(d=>!isNaN(d));
@@ -3364,7 +3316,7 @@ function renderClientPortalTimeline(client){
 }
 
 function renderClientPortalTable(client){
-  const phases=_portalPhasesForClient(client);
+  const phases=client.phases||[];
   if(!phases.length)return`<div style="padding:60px;text-align:center;color:var(--text-3)">No tasks yet for this project.</div>`;
   const rows=phases.map((ph,pi)=>{
     const tasks=ph.tasks||[];
@@ -3412,7 +3364,7 @@ function renderClientPortalTable(client){
 }
 
 function renderClientPortalCalendar(client){
-  const phases=_portalPhasesForClient(client);
+  const phases=client.phases||[];
   const tasksByDate={};
   phases.forEach(ph=>{
     const phColor=cPhaseColor(ph.name,client.color);
@@ -4014,28 +3966,23 @@ function saveAccessCode(clientId){
 // ─── CLIENT PORTAL MODE (?client=ID in URL) ───────────────────────────────────
 function initClientMode(){
   try{
-    // Only ?client= query param triggers client mode.
-    // The #client/id/view hash is an internal admin navigation pattern — never use it
-    // to activate client mode (it would lock out admins whose session expired).
     const params=new URLSearchParams(location.search);
     const cid=params.get('client');
     if(!cid)return;
-
-    // Verify the client exists in our data
-    if(!portalClients.find(x=>x.id===cid))return;
-
     clientModeId=cid;
     isClientMode=true;
+    // Mark body so CSS hides admin-only controls
     document.body.classList.add('client-mode');
-    // Hide the admin login screen — client has their own access-code overlay
+    // Hide admin login screen — client uses their own access-code overlay
     const ls=document.getElementById('login-screen');if(ls)ls.classList.add('wa-hidden');
-    // Hide admin-only chrome
+    // Hide header (all header actions are admin-only) and stats bar
     const hdr=document.querySelector('.header');if(hdr)hdr.style.display='none';
     const sp=document.getElementById('stats-bar');if(sp)sp.style.display='none';
+    // Toolbar stays hidden until after login
     const tb=document.querySelector('.toolbar');if(tb)tb.style.display='none';
-    // Always show the branded access-code screen first
+    // Always show the access-code login screen first — client must enter their code
     showClientLogin(cid);
-  }catch(e){console.error('initClientMode',e);}
+  }catch(e){}
 }
 
 function showClientLogin(clientId){
@@ -4129,12 +4076,8 @@ function verifyClientCode(clientId){
   const errEl=document.getElementById('client-login-err');
   if(!input)return;
   const entered=input.value.trim();
-  // If no access code has been set, grant access directly (no code required)
-  if(!c?.accessCode){
-    clientModeAuthed=true;
-    const overlay=document.getElementById('client-login-overlay');
-    if(overlay){overlay.style.opacity='0';overlay.style.transition='opacity .3s';setTimeout(()=>overlay.remove(),300);}
-    showClientPortalView(clientId);
+  if(!c||!c.accessCode){
+    if(errEl)errEl.textContent='No access code set for this project. Contact your project manager.';
     return;
   }
   if(entered.toLowerCase()!==c.accessCode.toLowerCase()){
