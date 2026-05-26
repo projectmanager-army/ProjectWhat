@@ -2339,7 +2339,8 @@ function persist(){
 }
 function exportData(){
   try{
-    const payload={projects,categories,statuses,priorities,teamMembers,milestoneTypes,nextId,exportedAt:new Date().toISOString()};
+    const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode,phases})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||'',phases:phases||[]}));
+    const payload={projects,categories,statuses,priorities,teamMembers,milestoneTypes,nextId,portalClients:pcMeta,exportedAt:new Date().toISOString()};
     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
     const a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
@@ -2365,6 +2366,7 @@ function importData(){
         if(d.teamMembers)teamMembers=d.teamMembers;
         if(d.milestoneTypes!==undefined&&d.milestoneTypes!==null)milestoneTypes=d.milestoneTypes;
         if(d.nextId)nextId=d.nextId;
+        if(d.portalClients&&d.portalClients.length)portalClients=d.portalClients;
         render();
       }catch(err){alert('Import failed — make sure this is a valid WhatArmy export file.\n\n'+err.message);}
     };
@@ -2745,7 +2747,8 @@ function loadPersisted(){
   return false;
 }
 function downloadSnapshot(){
-  const snapshot=JSON.stringify({projects,categories,statuses,priorities,teamMembers,milestoneTypes,currentView,nextId});
+  const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode,phases})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||'',phases:phases||[]}));
+  const snapshot=JSON.stringify({projects,categories,statuses,priorities,teamMembers,milestoneTypes,currentView,nextId,portalClients:pcMeta});
   // Use outerHTML — works on file:// and https:// without needing fetch
   let html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
   html=html.replace(/var __DATA_SNAPSHOT__ = .*;/,()=>'var __DATA_SNAPSHOT__ = '+snapshot+';');
@@ -4004,6 +4007,7 @@ function showClientPortalView(clientId){
   // Show the real project page — admin controls are hidden by body.client-mode CSS
   activeClientId=clientId;
   clientActiveTab='tasks';
+  tlScrolledToToday=false;
   const tb=document.querySelector('.toolbar');if(tb)tb.style.display='';
   const mv=document.getElementById('main-view');if(mv){mv.style.overflowY='';mv.style.padding='';}
   render();
