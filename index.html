@@ -131,6 +131,14 @@
   /* Table */
   .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column}
   .tbl-scroll{overflow-x:auto;overflow-y:auto;flex:1;min-height:0}
+  .tbl-bulk-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border);flex-wrap:wrap;position:sticky;top:0;z-index:11}
+  .proj-check{width:14px;height:14px;cursor:pointer;accent-color:var(--accent);flex-shrink:0}
+  tr.row-sel td{background:color-mix(in srgb,var(--accent) 7%,transparent)!important}
+  .pcard-grip{cursor:grab;opacity:0;transition:opacity .15s;color:var(--text-4);padding:2px 3px;border-radius:3px;flex-shrink:0;align-self:center;line-height:1}
+  .pcard:hover .pcard-grip{opacity:0.45}
+  .pcard-grip:hover{opacity:1!important;color:var(--text-2);background:var(--surface2)}
+  .pcard.pcard-drag-over{border-color:var(--accent)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 40%,transparent)!important;transform:none!important}
+  .pcard.pcard-dragging{opacity:0.35;transform:none!important;box-shadow:none!important}
   table{width:auto;min-width:100%;border-collapse:collapse;font-size:13px}
   thead{position:sticky;top:0;z-index:10}
   th{padding:9px 12px;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;background:var(--surface2);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
@@ -1327,6 +1335,9 @@ function render(){
   if(currentView==='table'){
     const newTbl=mv.querySelector('.tbl-scroll');
     if(newTbl){newTbl.scrollLeft=savedTblL;newTbl.scrollTop=savedTblT;}
+    // Sync indeterminate state on the select-all checkbox (can't set via HTML attr)
+    const sa=document.getElementById('tbl-sel-all');
+    if(sa&&sa.dataset.indeterminate)sa.indeterminate=true;
   }
   persist();
 }
@@ -1473,7 +1484,8 @@ function renderTable(data){
     return `<th class="${cls}" onclick="setSort('${col}')">${lbl}<span class="sort-icon"></span></th>`;
   };
   const rows=data.map(p=>`
-    <tr>
+    <tr class="${_selProjIds.has(p.id)?'row-sel':''}">
+      <td style="width:28px;padding:9px 8px 9px 14px"><input type="checkbox" class="proj-check" data-id="${p.id}" ${_selProjIds.has(p.id)?'checked':''} onchange="tblRowCheck(${p.id},this.checked)"></td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'cat')" title="Click to edit category"><span class="cat-badge" style="${catStyle(p.cat)}">${p.cat}</span></td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'name')" style="font-weight:400;max-width:200px;min-width:150px" title="Click to edit name">${p.name}</td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'status')" title="Click to edit status"><span class="status-pill" style="${statusStyle(p.status)}">${p.status}</span></td>
@@ -1486,8 +1498,25 @@ function renderTable(data){
         <button class="btn-danger" onclick="deleteProject(${p.id})">✕</button>
       </div></td>
     </tr>`).join('');
-  return `<div class="table-wrap"><div class="tbl-scroll"><table>
+  const _allSelected=data.length>0&&data.every(p=>_selProjIds.has(p.id));
+  const _someSelected=!_allSelected&&data.some(p=>_selProjIds.has(p.id));
+  const bulkBar=`<div id="tbl-bulk-bar" class="tbl-bulk-bar" style="display:${_selProjIds.size?'flex':'none'}">
+    <span id="tbl-bulk-ct" style="font-size:12px;font-weight:600;color:var(--text-2);white-space:nowrap;min-width:70px">${_selProjIds.size} selected</span>
+    <div style="width:1px;height:18px;background:var(--border-med);flex-shrink:0"></div>
+    <select onchange="bulkChangeStatus(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
+      <option value="">Change status…</option>
+      ${statuses.map(s=>`<option value="${s.name}">${s.name}</option>`).join('')}
+    </select>
+    <select onchange="bulkChangeOwner(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
+      <option value="">Change owner…</option>
+      ${teamMembers.map(m=>`<option value="${m}">${m}</option>`).join('')}
+    </select>
+    <button onclick="bulkDeleteSelected()" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>
+    <button onclick="_selProjIds.clear();render()" style="margin-left:auto;width:26px;height:26px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center" title="Clear selection">×</button>
+  </div>`;
+  return `<div class="table-wrap">${bulkBar}<div class="tbl-scroll"><table>
     <thead><tr>
+      <th style="width:28px;padding:9px 8px 9px 14px"><input type="checkbox" id="tbl-sel-all" class="proj-check" onchange="tblSelectAll(this.checked)" ${_allSelected?'checked':''} ${_someSelected?'data-indeterminate="true"':''}></th>
       ${sortTh('cat','Category')}${sortTh('name','Item')}${sortTh('status','Status')}${sortTh('priority','Priority')}
       <th>Owner</th><th>Milestones</th><th>Notes</th><th style="width:1px;white-space:nowrap"></th>
     </tr></thead>
@@ -2910,14 +2939,15 @@ function showPortalHome(){
     <div class="pstat"><div class="pstat-num" style="color:${gs.blocked>0?'#F59E0B':'var(--text)'}">${gs.blocked}</div><div class="pstat-lbl">Blocked</div><div class="pstat-sub">waiting on input</div></div>
     <div class="pstat"><div class="pstat-num" style="color:var(--accent-text)">${gs.pct}%</div><div class="pstat-lbl">Completion</div><div class="pstat-sub">${gs.complete} of ${gs.total} tasks</div></div>
   </div>`;
-  const cardsHtml=portalClients.map(c=>{
+  const cardsHtml=portalClients.map((c,idx)=>{
     const st=pClientStats(c);
     const hc=pHealthColor(st.health);
     // Bar color tied to % complete so all cards use the same scale
     const progColor=st.pct>=75?'#A7E000':st.pct>=40?'#F59E0B':'#E74C3C';
-    return`<div class="pcard" onclick="openClientProject('${c.id}',event)">
+    return`<div class="pcard" draggable="true" ondragstart="pcardDragStart(event,${idx})" ondragend="pcardDragEnd(event)" ondragover="pcardDragOver(event,${idx})" ondragleave="pcardDragLeave(event)" ondrop="pcardDrop(event,${idx})" onclick="openClientProject('${c.id}',event)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px">
-        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1">
+          <svg class="pcard-grip" width="10" height="16" viewBox="0 0 10 16" fill="currentColor" title="Drag to reorder"><circle cx="3" cy="3" r="1.5"/><circle cx="7" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="7" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="7" cy="13" r="1.5"/></svg>
           <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color};flex-shrink:0">${c.initials}</div>
           <div style="min-width:0">
             <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.project}</div>
@@ -4192,6 +4222,74 @@ function logOut(){
 }
 
 _checkLogin();
+
+// ─── BULK SELECT (TABLE VIEW) ────────────────────────────────────────────────
+let _selProjIds=new Set();
+function tblSelectAll(checked){
+  const data=getSorted(getFiltered());
+  if(checked)data.forEach(p=>_selProjIds.add(p.id));else _selProjIds.clear();
+  document.querySelectorAll('.proj-check').forEach(cb=>cb.checked=checked);
+  _tblSyncBulkBar();
+}
+function tblRowCheck(id,checked){
+  if(checked)_selProjIds.add(id);else _selProjIds.delete(id);
+  const sa=document.getElementById('tbl-sel-all');
+  if(sa){const boxes=document.querySelectorAll('.proj-check');sa.indeterminate=_selProjIds.size>0&&_selProjIds.size<boxes.length;sa.checked=boxes.length>0&&_selProjIds.size===boxes.length;}
+  _tblSyncBulkBar();
+}
+function _tblSyncBulkBar(){
+  const bar=document.getElementById('tbl-bulk-bar');if(!bar)return;
+  if(_selProjIds.size===0){bar.style.display='none';return;}
+  bar.style.display='flex';
+  const ct=document.getElementById('tbl-bulk-ct');if(ct)ct.textContent=_selProjIds.size+' selected';
+}
+function bulkChangeStatus(v){
+  if(!v||!_selProjIds.size)return;
+  _selProjIds.forEach(id=>{const p=projects.find(x=>x.id===id);if(p)p.status=v;});
+  _selProjIds.clear();render();showToast('Status updated');
+}
+function bulkChangeOwner(v){
+  if(!v||!_selProjIds.size)return;
+  _selProjIds.forEach(id=>{const p=projects.find(x=>x.id===id);if(p)p.owner=v;});
+  _selProjIds.clear();render();showToast('Owner updated');
+}
+function bulkDeleteSelected(){
+  if(!_selProjIds.size)return;
+  if(!confirm('Delete '+_selProjIds.size+' item'+(_selProjIds.size>1?'s':'')+'?'))return;
+  projects=projects.filter(p=>!_selProjIds.has(p.id));
+  _selProjIds.clear();render();showToast('Deleted');
+}
+
+// ─── PORTAL CARD DRAG-TO-REORDER ─────────────────────────────────────────────
+let _dragCardIdx=-1;
+function pcardDragStart(e,idx){
+  _dragCardIdx=idx;
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain',String(idx));
+  requestAnimationFrame(()=>e.currentTarget.classList.add('pcard-dragging'));
+}
+function pcardDragEnd(e){
+  e.currentTarget.classList.remove('pcard-dragging');
+  document.querySelectorAll('.pcard-drag-over').forEach(c=>c.classList.remove('pcard-drag-over'));
+  _dragCardIdx=-1;
+}
+function pcardDragOver(e,idx){
+  if(_dragCardIdx<0||_dragCardIdx===idx)return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('.pcard-drag-over').forEach(c=>c.classList.remove('pcard-drag-over'));
+  e.currentTarget.classList.add('pcard-drag-over');
+}
+function pcardDragLeave(e){e.currentTarget.classList.remove('pcard-drag-over');}
+function pcardDrop(e,idx){
+  e.preventDefault();
+  e.currentTarget.classList.remove('pcard-drag-over');
+  if(_dragCardIdx<0||_dragCardIdx===idx){_dragCardIdx=-1;return;}
+  const moved=portalClients.splice(_dragCardIdx,1)[0];
+  portalClients.splice(idx,0,moved);
+  _dragCardIdx=-1;
+  persist();showPortalHome();
+}
 
 // ─── SELF-TEST SUITE ─────────────────────────────────────────────────────────
 // Run from browser console: runTests()
