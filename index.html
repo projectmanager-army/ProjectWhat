@@ -2944,7 +2944,7 @@ function showPortalHome(){
     const hc=pHealthColor(st.health);
     // Bar color tied to % complete so all cards use the same scale
     const progColor=st.pct>=75?'#A7E000':st.pct>=40?'#F59E0B':'#E74C3C';
-    return`<div class="pcard" draggable="true" ondragstart="pcardDragStart(event,${idx})" ondragend="pcardDragEnd(event)" ondragover="pcardDragOver(event,${idx})" ondragleave="pcardDragLeave(event)" ondrop="pcardDrop(event,${idx})" onclick="openClientProject('${c.id}',event)">
+    return`<div class="pcard" draggable="true" ondragstart="pcardDragStart(event,${idx})" ondragend="pcardDragEnd(event)" ondragover="pcardDragOver(event,${idx})" ondragleave="pcardDragLeave(event)" ondrop="pcardDrop(event,${idx})" onclick="if(_dragCardJustDropped)return;openClientProject('${c.id}',event)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px">
         <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1">
           <svg class="pcard-grip" width="10" height="16" viewBox="0 0 10 16" fill="currentColor" title="Drag to reorder"><circle cx="3" cy="3" r="1.5"/><circle cx="7" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="7" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="7" cy="13" r="1.5"/></svg>
@@ -4262,14 +4262,16 @@ function bulkDeleteSelected(){
 
 // ─── PORTAL CARD DRAG-TO-REORDER ─────────────────────────────────────────────
 let _dragCardIdx=-1;
+let _dragCardJustDropped=false;
 function pcardDragStart(e,idx){
   _dragCardIdx=idx;
   e.dataTransfer.effectAllowed='move';
   e.dataTransfer.setData('text/plain',String(idx));
-  requestAnimationFrame(()=>e.currentTarget.classList.add('pcard-dragging'));
+  const card=e.currentTarget;
+  requestAnimationFrame(()=>card.classList.add('pcard-dragging'));
 }
 function pcardDragEnd(e){
-  e.currentTarget.classList.remove('pcard-dragging');
+  document.querySelectorAll('.pcard-dragging').forEach(c=>c.classList.remove('pcard-dragging'));
   document.querySelectorAll('.pcard-drag-over').forEach(c=>c.classList.remove('pcard-drag-over'));
   _dragCardIdx=-1;
 }
@@ -4280,14 +4282,22 @@ function pcardDragOver(e,idx){
   document.querySelectorAll('.pcard-drag-over').forEach(c=>c.classList.remove('pcard-drag-over'));
   e.currentTarget.classList.add('pcard-drag-over');
 }
-function pcardDragLeave(e){e.currentTarget.classList.remove('pcard-drag-over');}
+function pcardDragLeave(e){
+  // only remove highlight if mouse actually left the card (not just crossed into a child element)
+  if(e.relatedTarget&&e.currentTarget.contains(e.relatedTarget))return;
+  e.currentTarget.classList.remove('pcard-drag-over');
+}
 function pcardDrop(e,idx){
   e.preventDefault();
+  e.stopPropagation();
   e.currentTarget.classList.remove('pcard-drag-over');
   if(_dragCardIdx<0||_dragCardIdx===idx){_dragCardIdx=-1;return;}
-  const moved=portalClients.splice(_dragCardIdx,1)[0];
-  portalClients.splice(idx,0,moved);
+  const from=_dragCardIdx;
   _dragCardIdx=-1;
+  _dragCardJustDropped=true;
+  setTimeout(()=>{_dragCardJustDropped=false;},300);
+  const moved=portalClients.splice(from,1)[0];
+  portalClients.splice(idx,0,moved);
   persist();showPortalHome();
 }
 
