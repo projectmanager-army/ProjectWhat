@@ -139,6 +139,7 @@
   .pcard-grip:hover{opacity:1!important;color:var(--text-2);background:var(--surface2)}
   .pcard.pcard-drag-over{border-color:var(--accent)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 40%,transparent)!important;transform:none!important}
   .pcard.pcard-dragging{opacity:0.35;transform:none!important;box-shadow:none!important}
+  body.pcard-is-dragging .pcard:not(.pcard-drag-over){transform:none!important}
   table{width:auto;min-width:100%;border-collapse:collapse;font-size:13px}
   thead{position:sticky;top:0;z-index:10}
   th{padding:9px 12px;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;background:var(--surface2);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
@@ -2985,7 +2986,7 @@ function showPortalHome(){
       Add New Project
     </button>
     <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px">Overview</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:250px;gap:16px">
+    <div id="pcard-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:250px;gap:16px" ondragover="event.preventDefault()" ondrop="event.preventDefault()">
       <div class="pcard" style="cursor:default;display:flex;flex-direction:column;justify-content:space-between;gap:14px">
         <div>
           <h1 style="font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.03em;margin:0 0 4px">Project Portal</h1>
@@ -4268,11 +4269,12 @@ function pcardDragStart(e,idx){
   e.dataTransfer.effectAllowed='move';
   e.dataTransfer.setData('text/plain',String(idx));
   const card=e.currentTarget;
-  requestAnimationFrame(()=>card.classList.add('pcard-dragging'));
+  requestAnimationFrame(()=>{card.classList.add('pcard-dragging');document.body.classList.add('pcard-is-dragging');});
 }
 function pcardDragEnd(e){
   document.querySelectorAll('.pcard-dragging').forEach(c=>c.classList.remove('pcard-dragging'));
   document.querySelectorAll('.pcard-drag-over').forEach(c=>c.classList.remove('pcard-drag-over'));
+  document.body.classList.remove('pcard-is-dragging');
   _dragCardIdx=-1;
 }
 function pcardDragOver(e,idx){
