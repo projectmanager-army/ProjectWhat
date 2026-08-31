@@ -2355,7 +2355,7 @@ let _saveToastTimer=null;
 let portalClients=[];
 function persist(){
   try{
-    const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||''}));
+    const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode,phases})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||'',phases:phases||[]}));
     const payload={projects,categories,statuses,priorities,teamMembers,milestoneTypes,currentView,nextId,portalClients:pcMeta,snapshotId:(__DATA_SNAPSHOT__&&__DATA_SNAPSHOT__.snapshotId)||0};
     localStorage.setItem(STORAGE_KEY,JSON.stringify(payload));
     // Flash save toast
@@ -2365,7 +2365,13 @@ function persist(){
       clearTimeout(_saveToastTimer);
       _saveToastTimer=setTimeout(()=>{t.style.opacity='0';},1400);
     }
-  }catch(e){}
+  }catch(e){
+    if(e&&e.name==='QuotaExceededError'){
+      alert('⚠️ Storage full — your changes could not be saved.\n\nExport your data (CSV button) to back it up, then remove unused documents to free space.');
+    }else{
+      alert('⚠️ Save failed: '+(e&&e.message||'unknown error')+'\n\nExport your data now to avoid losing changes.');
+    }
+  }
 }
 function exportData(){
   try{
