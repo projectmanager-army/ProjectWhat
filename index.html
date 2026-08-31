@@ -383,6 +383,17 @@
     .cats-col-hdr,.cat-row{grid-template-columns:44px 1fr 70px 32px}
     .cat-swatches-col,.cats-hdr-swatches{display:none}
   }
+  /* ── Mobile portal ── */
+  @media(max-width:768px){
+    #pcard-grid{grid-template-columns:1fr!important;grid-auto-rows:auto!important}
+    .pcard-stat-row{grid-template-columns:repeat(2,1fr)}
+    .pcard-stat:nth-child(3){border-left:none}
+    .pcard{padding:14px 16px}
+    .cv-nav{flex-direction:column;align-items:flex-start;gap:8px;padding:10px 12px}
+    .ph-task{flex-wrap:wrap;gap:8px}
+    .ph-task>div:last-child{flex-wrap:wrap}
+    .portal-stats-row{grid-template-columns:repeat(2,1fr)}
+  }
 
 /* ── Project Portal Panel ──────────────────────────────────────────────────── */
 .portal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;opacity:0;pointer-events:none;transition:opacity .22s ease}
@@ -771,7 +782,7 @@ const STATUS_BAR={
 const ALL_DAYS=(()=>{
   const md=[{name:'Jan',days:31},{name:'Feb',days:28},{name:'Mar',days:31},{name:'Apr',days:30},{name:'May',days:31},{name:'Jun',days:30},{name:'Jul',days:31},{name:'Aug',days:31},{name:'Sep',days:30},{name:'Oct',days:31},{name:'Nov',days:30},{name:'Dec',days:31}];
   const a=[];
-  md.forEach(m=>{for(let d=1;d<=m.days;d++)a.push({month:m.name,day:d,key:`${m.name} ${d}`,num:MONTH_IDX[m.name]*100+d});});
+  md.forEach(m=>{for(let d=1;d<=m.days;d++)a.push({month:m.name,day:d,key:`${esc(m.name)} ${d}`,num:MONTH_IDX[m.name]*100+d});});
   return a;
 })();
 function dayNumToDate(num){
@@ -1193,7 +1204,7 @@ function openMsEdit(projId,msIdx,anchor){
   document.querySelectorAll('.ms-popover').forEach(p=>p.remove());
   const proj=projects.find(x=>x.id===projId);if(!proj)return;
   const ms=proj.milestones[msIdx];if(!ms)return;
-  const typeOpts=milestoneTypes.map(t=>`<option${t.name===ms.event?' selected':''}>${t.name}</option>`).join('');
+  const typeOpts=milestoneTypes.map(t=>`<option${t.name===ms.event?' selected':''}>${esc(t.name)}</option>`).join('');
   const pop=document.createElement('div');
   pop.className='ms-popover';
   const lbl='font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px';
@@ -1293,7 +1304,7 @@ function render(){
     mv.innerHTML=`<div class="cv-nav">
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
         ${isClientMode?'':`<button onclick="closeClientProject()" class="cv-back-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All Projects</button><div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>`}
-        ${_c?`<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:8px;background:${_c.color}18;border:1.5px solid ${_c.color}40;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${_c.color};flex-shrink:0">${_c.initials}</div><div><div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${_c.project}</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${_c.name}</div></div></div>`:''}
+        ${_c?`<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:8px;background:${_c.color}18;border:1.5px solid ${_c.color}40;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${_c.color};flex-shrink:0">${esc(_c.initials)}</div><div><div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${esc(_c.project)}</div><div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${esc(_c.name)}</div></div></div>`:''}
         <div style="display:flex;gap:4px;margin-left:4px">
           <button class="cv-tab-btn ${clientActiveTab==='tasks'?'active':''}" onclick="setClientTab('tasks')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M1 5h14M1 9h14M5 5v9"/></svg>Tasks</button>
           <button class="cv-tab-btn ${clientActiveTab==='phases'?'active':''}" onclick="setClientTab('phases')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h10"/><circle cx="13" cy="8" r="2.5" fill="currentColor" stroke="none"/></svg>Phases</button>
@@ -1494,11 +1505,11 @@ function renderTable(data){
   const rows=data.map(p=>`
     <tr class="${_selProjIds.has(p.id)?'row-sel':''}">
       <td style="width:28px;padding:9px 8px 9px 14px"><input type="checkbox" class="proj-check" data-id="${p.id}" ${_selProjIds.has(p.id)?'checked':''} onchange="tblRowCheck(${p.id},this.checked)"></td>
-      <td class="editable" onclick="inlineEdit(event,${p.id},'cat')" title="Click to edit category"><span class="cat-badge" style="${catStyle(p.cat)}">${p.cat}</span></td>
-      <td class="editable" onclick="inlineEdit(event,${p.id},'name')" style="font-weight:400;max-width:200px;min-width:150px" title="Click to edit name">${p.name}</td>
+      <td class="editable" onclick="inlineEdit(event,${p.id},'cat')" title="Click to edit category"><span class="cat-badge" style="${catStyle(p.cat)}">${esc(p.cat)}</span></td>
+      <td class="editable" onclick="inlineEdit(event,${p.id},'name')" style="font-weight:400;max-width:200px;min-width:150px" title="Click to edit name">${esc(p.name)}</td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'status')" title="Click to edit status"><span class="status-pill" style="${statusStyle(p.status)}">${p.status}</span></td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'priority')" title="Click to edit priority"><span class="priority-badge" style="${priorityStyle(p.priority)}">${priorityDot(p.priority)} ${p.priority}</span></td>
-      <td class="editable" onclick="inlineEdit(event,${p.id},'owner')" title="Click to edit owner" style="max-width:110px;min-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ownerAvatar(p.owner)||'<span style="color:var(--text-3);font-size:11px">—</span>'} ${p.owner?`<span style="font-size:12px;color:var(--text-2)">${p.owner}</span>`:''}</td>
+      <td class="editable" onclick="inlineEdit(event,${p.id},'owner')" title="Click to edit owner" style="max-width:110px;min-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ownerAvatar(p.owner)||'<span style="color:var(--text-3);font-size:11px">—</span>'} ${p.owner?`<span style="font-size:12px;color:var(--text-2)">${esc(p.owner)}</span>`:''}</td>
       <td class="editable" onclick="openEdit(${p.id})" title="Click to edit milestones" style="max-width:140px;min-width:80px"><div class="ms-list">${p.milestones.map(m=>`<span class="ms-chip ${msClass(m.event)}">${m.date} · ${m.event}</span>`).join('')||'<span style="color:var(--text-3);font-size:11px">—</span>'}</div></td>
       <td class="editable" onclick="inlineEdit(event,${p.id},'statusNotes')" style="min-width:160px;max-width:220px;color:var(--text-2);font-size:11px" title="Click to edit status">${(p.statusNotes||'').slice(0,60)+((p.statusNotes||'').length>60?'…':'')}</td>
       <td><div class="row-actions">
@@ -1513,7 +1524,7 @@ function renderTable(data){
     <div style="width:1px;height:18px;background:var(--border-med);flex-shrink:0"></div>
     <select onchange="bulkChangeStatus(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
       <option value="">Change status…</option>
-      ${statuses.map(s=>`<option value="${s.name}">${s.name}</option>`).join('')}
+      ${statuses.map(s=>`<option value="${esc(s.name)}">${esc(s.name)}</option>`).join('')}
     </select>
     <select onchange="bulkChangeOwner(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
       <option value="">Change owner…</option>
@@ -1631,7 +1642,7 @@ function renderTimeline(data){
 
     if(has){
       const barW=(ei-si+1)*PX;
-      const labelHtml=barW>60?`<span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:rgba(255,255,255,0.92);white-space:nowrap;overflow:hidden;max-width:${barW-16}px;pointer-events:none;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,0.5)">${p.name}</span>`:'';
+      const labelHtml=barW>60?`<span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:rgba(255,255,255,0.92);white-space:nowrap;overflow:hidden;max-width:${barW-16}px;pointer-events:none;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,0.5)">${esc(p.name)}</span>`:'';
       barHtml=`<div class="gantt-bar" data-proj="${p.id}" style="position:absolute;top:50%;transform:translateY(-50%);left:${si*PX}px;width:${barW}px;height:20px;background:${catHex};border-radius:10px;opacity:.92;box-shadow:0 2px 8px ${catHex}55;z-index:3;pointer-events:none;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:rgba(255,255,255,0.25);border-radius:10px 0 0 10px;pointer-events:none"></div>${labelHtml}</div>${msMarkersHtml}`;
     }else{
       barHtml=`<div style="position:absolute;top:50%;transform:translateY(-50%);left:0;width:${PX*(ALL_DAYS.length+3)}px;height:1px;border-top:1px dashed ${catHex}22;pointer-events:none;z-index:1"></div>${msMarkersHtml}`;
@@ -1660,7 +1671,7 @@ function renderTimeline(data){
 
     const gripSvg=`<svg class="tl-grip" width="10" height="14" viewBox="0 0 10 14" fill="currentColor" onpointerdown="tlGripDown(event,${p.id})" style="touch-action:none"><circle cx="3" cy="2.5" r="1.2"/><circle cx="7" cy="2.5" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="11.5" r="1.2"/><circle cx="7" cy="11.5" r="1.2"/></svg>`;
     return`<tr data-proj="${p.id}">
-      <td class="sticky-col col-proj editable" title="Click to edit ${p.name}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${gripSvg}${p.name}</td>
+      <td class="sticky-col col-proj editable" title="Click to edit ${esc(p.name)}" onclick="openEdit(${p.id})" style="cursor:pointer;border-left:3px solid ${catHex}">${gripSvg}${esc(p.name)}</td>
       <td class="sticky-col col-status"><span class="status-pill" style="${statusStyle(p.status)};font-size:10px;padding:2px 8px" onclick="cycleStatus(${p.id})">${p.status}</span></td>
       <td class="sticky-col col-sn" onclick="tlNoteEdit(event,${p.id})" title="${snText||'Click to add status note'}">${snDisplay}</td>
       <td style="padding:0;width:0;overflow:visible;position:relative;border:none;z-index:4">${barHtml}</td>
@@ -1726,7 +1737,7 @@ function renderTimeline(data){
 
   // Row 1: month headers. In month zoom, also append "+" cell here.
   const plusInRow1 = tlZoom==='month' ? `<th style="${thStyle};border-left:2px solid var(--border-med)">+</th>` : '';
-  const hRow1 = monthDefs.map(m=>`<th colspan="${m.days}" style="${thStyle};border-left:2px solid var(--border-med)">${m.name}</th>`).join('') + plusInRow1;
+  const hRow1 = monthDefs.map(m=>`<th colspan="${m.days}" style="${thStyle};border-left:2px solid var(--border-med)">${esc(m.name)}</th>`).join('') + plusInRow1;
 
   // Row 2: day numbers (day zoom) or week labels (week zoom)
   let hRow2Html='';
@@ -1846,7 +1857,7 @@ function _inputToMsDate(v){
 }
 function addMsRow(date='',endDate='',event=''){
   const row=document.createElement('div');row.className='ms-row';
-  const typeOpts=milestoneTypes.map(t=>`<option${t.name===event?' selected':''}>${t.name}</option>`).join('');
+  const typeOpts=milestoneTypes.map(t=>`<option${t.name===event?' selected':''}>${esc(t.name)}</option>`).join('');
   const sv=_msDateToInput(date);
   const ev=_msDateToInput(endDate||'');
   row.innerHTML=`
@@ -1914,7 +1925,7 @@ function tlGripDown(e,id){
   const ghost=document.createElement('div');
   ghost.id='tl-drag-ghost';
   const cc=catColor(p.cat||'');
-  ghost.innerHTML=`<span class="ghost-cat" style="background:${cc}"></span><span>${p.name}</span><span style="margin-left:6px;font-size:11px;opacity:.55">${p.status||''}</span>`;
+  ghost.innerHTML=`<span class="ghost-cat" style="background:${cc}"></span><span>${esc(p.name)}</span><span style="margin-left:6px;font-size:11px;opacity:.55">${p.status||''}</span>`;
   ghost.style.left=(e.clientX+16)+'px';
   ghost.style.top=(e.clientY-14)+'px';
   document.body.appendChild(ghost);
@@ -2041,7 +2052,7 @@ function _msDragUp(e){
 function deleteProject(id){
   const p=projects.find(x=>x.id===id);
   if(!p)return;
-  if(!confirm(`Delete "${p.name}"?\nThis cannot be undone.`))return;
+  if(!confirm(`Delete "${esc(p.name)}"?\nThis cannot be undone.`))return;
   projects=projects.filter(x=>x.id!==id);
   closeModal();
   persist();
@@ -2233,12 +2244,12 @@ function renderCalendar(data){
         const isStart=dn===startDn,isEnd=dn===(endDn||startDn),isSpan=endDn&&endDn!==startDn;
         const bg=msBg(ms.event);
         const border=msBorder(ms.event);
-        const noteLine=p.statusNotes?`<div class="cal-ev-note">${p.statusNotes}</div>`:'';
-        const catLine=`<div class="cal-ev-meta">${p.cat}</div>`;
+        const noteLine=p.statusNotes?`<div class="cal-ev-note">${esc(p.statusNotes)}</div>`:'';
+        const catLine=`<div class="cal-ev-meta">${esc(p.cat)}</div>`;
         const spanIndicator=isSpan?`<div style="font-size:9px;opacity:.6;margin-top:1px">${isStart?'starts':isEnd?'ends':'continues'}</div>`:'';
         ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" draggable="true" ondragstart="calMsDragStart(event,${p.id},${idx},${dn})" ondragend="calDragEnd()" onclick="openMsEdit(${p.id},${idx},this)">
           <div class="cal-ev-ms-type" style="color:${border}">${ms.event}</div>
-          <div class="cal-ev-name">${p.name}</div>
+          <div class="cal-ev-name">${esc(p.name)}</div>
           ${catLine}${spanIndicator}${noteLine}
         </div>`;
       });
@@ -2257,7 +2268,7 @@ function renderCalendar(data){
   if(rem>0)for(let i=rem;i<7;i++)cells+=`<div class="cal-cell empty-cell"></div>`;
 
   // Legend — dynamic from milestoneTypes
-  const legend=`<div class="cal-legend">${milestoneTypes.map(t=>`<div class="cal-legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${hexRgba(t.color,0.22)};border-left:3px solid ${t.color}"></span> ${t.name}</div>`).join('')}</div>`;
+  const legend=`<div class="cal-legend">${milestoneTypes.map(t=>`<div class="cal-legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${hexRgba(t.color,0.22)};border-left:3px solid ${t.color}"></span> ${esc(t.name)}</div>`).join('')}</div>`;
 
   const viewToggle=`<div class="cal-view-toggle">
     <button class="cal-view-btn active" onclick="setCalView('month')">Month</button>
@@ -2306,12 +2317,12 @@ function renderCalendarWeek(data){
         if(!startDn||dn<startDn||dn>(endDn||startDn))return;
         const isStart=dn===startDn,isEnd=dn===(endDn||startDn),isSpan=endDn&&endDn!==startDn;
         const bg=msBg(ms.event);const border=msBorder(ms.event);
-        const noteLine=p.statusNotes?`<div class="cal-ev-note">${p.statusNotes}</div>`:'';
+        const noteLine=p.statusNotes?`<div class="cal-ev-note">${esc(p.statusNotes)}</div>`:'';
         const spanIndicator=isSpan?`<div style="font-size:9px;opacity:.6;margin-top:1px">${isStart?'starts':isEnd?'ends':'continues'}</div>`:'';
         ph+=`<div class="cal-ev-ms-card" style="background:${bg};border-left-color:${border};${isSpan&&!isStart?'opacity:.8;':''}" draggable="true" ondragstart="calMsDragStart(event,${p.id},${idx},${dn})" ondragend="calDragEnd()" onclick="openMsEdit(${p.id},${idx},this)">
           <div class="cal-ev-ms-type" style="color:${border}">${ms.event}</div>
-          <div class="cal-ev-name">${p.name}</div>
-          <div class="cal-ev-meta">${p.cat}</div>
+          <div class="cal-ev-name">${esc(p.name)}</div>
+          <div class="cal-ev-meta">${esc(p.cat)}</div>
           ${spanIndicator}${noteLine}
         </div>`;
       });
@@ -2328,7 +2339,7 @@ function renderCalendarWeek(data){
     </div>`;
   }).join('');
 
-  const legend=`<div class="cal-legend">${milestoneTypes.map(t=>`<div class="cal-legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${hexRgba(t.color,0.22)};border-left:3px solid ${t.color}"></span> ${t.name}</div>`).join('')}</div>`;
+  const legend=`<div class="cal-legend">${milestoneTypes.map(t=>`<div class="cal-legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${hexRgba(t.color,0.22)};border-left:3px solid ${t.color}"></span> ${esc(t.name)}</div>`).join('')}</div>`;
   const viewToggle=`<div class="cal-view-toggle">
     <button class="cal-view-btn" onclick="setCalView('month')">Month</button>
     <button class="cal-view-btn active" onclick="setCalView('week')">Week</button>
@@ -2360,6 +2371,7 @@ document.addEventListener('keydown',e=>{
 const STORAGE_KEY='whatarmy2026_v1';
 let _saveToastTimer=null;
 let portalClients=[];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function persist(){
   try{
     const pcMeta=portalClients.map(({id,name,project,pm,color,initials,launchDate,documents,accessCode,phases})=>({id,name,project,pm,color,initials,launchDate,documents:documents||[],accessCode:accessCode||'',phases:phases||[]}));
@@ -2560,7 +2572,7 @@ function renderDash(){
         return`<div style="display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)">
           <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px"></div>
           <div style="min-width:0">
-            <div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+            <div style="font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</div>
             <div style="font-size:10px;color:var(--text-3);margin-top:1px">${cl?cl.name+' · ':''}<span style="color:var(--text-4)">${p.cat||''}</span></div>
           </div>
         </div>`;
@@ -2573,7 +2585,7 @@ function renderDash(){
     const pct=total?Math.round((count/total)*100):0;
     const col=CAT_HEX[s.color]||'#9A9080';
     return`<div class="dash-bar-row">
-      <div class="dash-bar-labels"><span class="dash-bar-name">${s.name}</span><span class="dash-bar-val">${count}</span></div>
+      <div class="dash-bar-labels"><span class="dash-bar-name">${esc(s.name)}</span><span class="dash-bar-val">${count}</span></div>
       <div class="dash-bar-track"><div class="dash-bar-fill" style="width:${pct}%;background:${col}"></div></div>
     </div>`;
   }).join('');
@@ -2584,7 +2596,7 @@ function renderDash(){
     const pct=total?Math.round((count/total)*100):0;
     const col=CAT_HEX[c.color]||'#9A9080';
     return`<div class="dash-bar-row">
-      <div class="dash-bar-labels"><span class="dash-bar-name">${c.name}</span><span class="dash-bar-val">${count}</span></div>
+      <div class="dash-bar-labels"><span class="dash-bar-name">${esc(c.name)}</span><span class="dash-bar-val">${count}</span></div>
       <div class="dash-bar-track"><div class="dash-bar-fill" style="width:${pct}%;background:${col}"></div></div>
     </div>`;
   }).join('');
@@ -2679,7 +2691,7 @@ function buildDashDonut(segs,total,centerLabel){
   }).join('');
   const legend=segs.map(s=>`<div class="dash-legend-row">
     <div class="dash-legend-dot" style="background:${s.color}"></div>
-    <div class="dash-legend-name">${s.name}</div>
+    <div class="dash-legend-name">${esc(s.name)}</div>
     <div class="dash-legend-val">${s.count}</div>
   </div>`).join('');
   return`<div style="display:flex;align-items:center;gap:16px">
@@ -2948,29 +2960,42 @@ function showPortalHome(){
   mv.style.padding='0';
   const gs=pGlobalStats();
   const statsHtml=`<div class="portal-stats-row">
-    <div class="pstat"><div class="pstat-num" style="color:var(--text)">${portalClients.length}</div><div class="pstat-lbl">Active Projects</div><div class="pstat-sub">${portalClients.length} clients in flight</div></div>
+    <div class="pstat"><div class="pstat-num" style="color:var(--text)">${activeClients.length}</div><div class="pstat-lbl">Active Projects</div><div class="pstat-sub">${activeClients.length} clients in flight</div></div>
     <div class="pstat"><div class="pstat-num" style="color:var(--blue-text)">${gs.inProg}</div><div class="pstat-lbl">In Progress</div><div class="pstat-sub">tasks active now</div></div>
     <div class="pstat"><div class="pstat-num" style="color:${gs.blocked>0?'#F59E0B':'var(--text)'}">${gs.blocked}</div><div class="pstat-lbl">Blocked</div><div class="pstat-sub">waiting on input</div></div>
     <div class="pstat"><div class="pstat-num" style="color:var(--accent-text)">${gs.pct}%</div><div class="pstat-lbl">Completion</div><div class="pstat-sub">${gs.complete} of ${gs.total} tasks</div></div>
   </div>`;
-  const cardsHtml=portalClients.map((c,idx)=>{
+  const activeClients=portalClients.filter(c=>!c.archived);
+  const archivedClients=portalClients.filter(c=>c.archived);
+  const makeCard=(c,idx,isArchived)=>{
     const st=pClientStats(c);
     const hc=pHealthColor(st.health);
-    // Bar color tied to % complete so all cards use the same scale
     const progColor=st.pct>=75?'#A7E000':st.pct>=40?'#F59E0B':'#E74C3C';
-    return`<div class="pcard" draggable="true" ondragstart="pcardDragStart(event,${idx})" ondragend="pcardDragEnd(event)" ondragover="pcardDragOver(event,${idx})" ondragleave="pcardDragLeave(event)" ondrop="pcardDrop(event,${idx})" onclick="if(_dragCardJustDropped)return;openClientProject('${c.id}',event)">
+    if(isArchived){
+      return`<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0">
+          <div style="width:30px;height:30px;border-radius:7px;background:${c.color}18;border:1.5px solid ${c.color}40;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${c.color};flex-shrink:0;opacity:0.6">${esc(c.initials)}</div>
+          <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.project)}</div><div style="font-size:11px;color:var(--text-4)">${esc(c.name)}</div></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button onclick="unarchivePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Restore</button>
+          <button onclick="permanentDeletePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">Delete Forever</button>
+        </div>
+      </div>`;
+    }
+    return`<div class="pcard" data-client-id="${c.id}" draggable="true" ondragstart="pcardDragStart(event,${idx})" ondragend="pcardDragEnd(event)" ondragover="pcardDragOver(event,${idx})" ondragleave="pcardDragLeave(event)" ondrop="pcardDrop(event,${idx})" onclick="if(_dragCardJustDropped)return;openClientProject('${c.id}',event)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px">
         <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1">
           <svg class="pcard-grip" width="10" height="16" viewBox="0 0 10 16" fill="currentColor" title="Drag to reorder"><circle cx="3" cy="3" r="1.5"/><circle cx="7" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="7" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="7" cy="13" r="1.5"/></svg>
-          <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color};flex-shrink:0">${c.initials}</div>
+          <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color};flex-shrink:0">${esc(c.initials)}</div>
           <div style="min-width:0">
-            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.project}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.project)}</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
           <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${hc};white-space:nowrap"><span style="width:7px;height:7px;border-radius:50%;background:${hc};box-shadow:0 0 0 3px ${hc}25;flex-shrink:0"></span>${pHealthLabel(st.health)}</span>
-          <button onclick="deletePortalClient('${c.id}',event)" title="Delete project" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
+          <button onclick="deletePortalClient('${c.id}',event)" title="Archive project" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;margin-bottom:6px">
@@ -2986,19 +3011,27 @@ function showPortalHome(){
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:${st.blocked>0?'#F59E0B':'var(--text-4)'}">${st.blocked}</div><div class="pcard-stat-l">Blocked</div></div>
       </div>
       <div class="pcard-footer">
-        <span><span style="color:var(--text-4)">PM: </span><span style="color:var(--text-2);font-weight:500">${c.pm||'\u2014'}</span></span>
+        <span><span style="color:var(--text-4)">PM: </span><span style="color:var(--text-2);font-weight:500">${esc(c.pm)||'—'}</span></span>
         <div style="text-align:right">
-          ${c.launchDate&&c.launchDate!=='TBD'?`<div><span style="color:var(--text-4)">Launch: </span><span style="color:var(--accent-text);font-weight:600">${c.launchDate}</span></div>`:`<div style="color:var(--text-4);font-size:10px">Launch TBD</div>`}
+          ${c.launchDate&&c.launchDate!=='TBD'?`<div><span style="color:var(--text-4)">Launch: </span><span style="color:var(--accent-text);font-weight:600">${esc(c.launchDate)}</span></div>`:`<div style="color:var(--text-4);font-size:10px">Launch TBD</div>`}
         </div>
       </div>
     </div>`;
-  }).join('');
+  };
+  const cardsHtml=activeClients.map((c,idx)=>makeCard(c,idx,false)).join('');
+  const archiveHtml=archivedClients.length?`<div style="margin-top:28px;padding:0 32px 32px"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px">Archived (${archivedClients.length})</div><div style="display:flex;flex-direction:column;gap:8px">${archivedClients.map(c=>makeCard(c,-1,true)).join('')}</div></div>`:'';
   mv.innerHTML=`<div style="padding:80px 32px 32px;width:100%;box-sizing:border-box;position:relative">
     <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       Add New Project
     </button>
-    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px">Overview</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase">Overview</div>
+      <div style="position:relative;flex:1;max-width:260px;margin-left:auto">
+        <svg style="position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-3)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="portal-search" type="text" placeholder="Search projects…" oninput="filterPortalCards()" style="width:100%;box-sizing:border-box;padding:7px 10px 7px 30px;font-size:12px;font-family:'Inter',sans-serif;border:1px solid var(--border-med);border-radius:6px;background:var(--surface2);color:var(--text);outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-med)'"/>
+      </div>
+    </div>
     <div id="pcard-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:250px;gap:16px" ondragover="event.preventDefault()" ondrop="event.preventDefault()">
       <div class="pcard" style="cursor:default;display:flex;flex-direction:column;justify-content:space-between;gap:14px">
         <div>
@@ -3006,7 +3039,7 @@ function showPortalHome(){
           <div style="font-size:12px;color:var(--text-3)">All active client projects</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div><div class="pstat-num" style="color:var(--text);font-size:22px">${portalClients.length}</div><div class="pstat-lbl">Active Projects</div></div>
+          <div><div class="pstat-num" style="color:var(--text);font-size:22px">${activeClients.length}</div><div class="pstat-lbl">Active Projects</div></div>
           <div><div class="pstat-num" style="color:var(--blue-text);font-size:22px">${gs.inProg}</div><div class="pstat-lbl">In Progress</div></div>
           <div><div class="pstat-num" style="color:${gs.blocked>0?'#F59E0B':'var(--text)'};font-size:22px">${gs.blocked}</div><div class="pstat-lbl">Blocked</div></div>
           <div><div class="pstat-num" style="color:var(--accent-text);font-size:22px">${gs.pct}%</div><div class="pstat-lbl">Completion</div></div>
@@ -3014,7 +3047,7 @@ function showPortalHome(){
       </div>
       ${cardsHtml}
     </div>
-  </div>`;
+  </div>${archiveHtml}`;
   // Animate bars from 0 → actual value so all cards start from the same baseline
   requestAnimationFrame(()=>{
     document.querySelectorAll('.pcard-progress-fill[data-pct]').forEach(el=>{
@@ -3196,16 +3229,32 @@ function deletePortalClient(id,e){
   if(e)e.stopPropagation();
   const c=portalClients.find(x=>x.id===id);
   if(!c)return;
+  // Archive first; permanent delete requires a second explicit action
+  c.archived=true;
+  persist();
+  showToast(`"${esc(c.name)}" archived — find it in the Archived section`);
+  showPortalHome();
+}
+function unarchivePortalClient(id,e){
+  if(e)e.stopPropagation();
+  const c=portalClients.find(x=>x.id===id);
+  if(!c)return;
+  c.archived=false;
+  persist();showPortalHome();
+}
+function permanentDeletePortalClient(id,e){
+  if(e)e.stopPropagation();
+  const c=portalClients.find(x=>x.id===id);
+  if(!c)return;
   const taskCount=projects.filter(p=>(p.clientId||'atp')===id).length;
   const msg=taskCount
-    ?`Delete "${c.name}" and its ${taskCount} task${taskCount===1?'':'s'}? This cannot be undone.`
-    :`Delete "${c.name}"? This cannot be undone.`;
+    ?`Permanently delete "${esc(c.name)}" and its ${taskCount} task${taskCount===1?'':'s'}? This cannot be undone.`
+    :`Permanently delete "${esc(c.name)}"? This cannot be undone.`;
   if(!confirm(msg))return;
   const idx=portalClients.findIndex(x=>x.id===id);
   if(idx>-1)portalClients.splice(idx,1);
   projects=projects.filter(p=>(p.clientId||'atp')!==id);
-  persist();
-  showPortalHome();
+  persist();showPortalHome();
 }
 const PROJECT_TASK_TEMPLATES=[
   {cat:'Planning',name:'Research & Review project goals',status:'Pending',priority:'Medium'},
@@ -3271,6 +3320,16 @@ function openAddPortalClient(){
   if(activeClientId===null)showPortalHome();else renderPortalBody();
 }
 
+function filterPortalCards(){
+  const q=(document.getElementById('portal-search')?.value||'').toLowerCase().trim();
+  document.querySelectorAll('#pcard-grid .pcard[data-client-id]').forEach(el=>{
+    const id=el.dataset.clientId;
+    const c=portalClients.find(x=>x.id===id);
+    if(!c){el.style.display='';return;}
+    const match=!q||(c.name||'').toLowerCase().includes(q)||(c.project||'').toLowerCase().includes(q)||(c.pm||'').toLowerCase().includes(q);
+    el.style.display=match?'':'none';
+  });
+}
 // ─── CLIENT TABS ──────────────────────────────────────────────────────────────
 function setClientTab(tab){
   clientActiveTab=tab;
@@ -3884,7 +3943,7 @@ function showClientWelcome(clientId){
     const done=(ph.tasks||[]).filter(t=>t.s==='Complete').length;
     const tot=(ph.tasks||[]).length;
     const isActive=(ph.tasks||[]).some(t=>t.s==='In Progress');
-    return`<div style="flex:1;min-width:0"><div style="font-size:8px;font-weight:600;color:${isActive?col:'var(--text-4)'};letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">${ph.name}</div><div style="height:3px;border-radius:2px;background:${col}1a"><div style="height:100%;border-radius:2px;background:${col};width:${tot?Math.round(done/tot*100):0}%;transition:width .6s"></div></div></div>`;
+    return`<div style="flex:1;min-width:0"><div style="font-size:8px;font-weight:600;color:${isActive?col:'var(--text-4)'};letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">${esc(ph.name)}</div><div style="height:3px;border-radius:2px;background:${col}1a"><div style="height:100%;border-radius:2px;background:${col};width:${tot?Math.round(done/tot*100):0}%;transition:width .6s"></div></div></div>`;
   }).join('');
 
   const overlay=document.createElement('div');
@@ -4092,10 +4151,10 @@ function renderPortalBody(){
     return`<div class="pcard" onclick="openClientProject('${c.id}',event)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
         <div style="display:flex;align-items:center;gap:12px">
-          <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color}">${c.initials}</div>
+          <div class="pcard-avatar" style="background:${c.color}18;border:1.5px solid ${c.color}40;color:${c.color}">${esc(c.initials)}</div>
           <div>
-            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${c.project}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${c.name}</div>
+            <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.2;font-family:var(--font-heading)">${esc(c.project)}</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:500">${esc(c.name)}</div>
           </div>
         </div>
         <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${hc};white-space:nowrap;flex-shrink:0">
@@ -4115,9 +4174,9 @@ function renderPortalBody(){
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:${st.blocked>0?'#F59E0B':'var(--text-4)'}">${st.blocked}</div><div class="pcard-stat-l">Blocked</div></div>
       </div>
       <div class="pcard-footer">
-        <span><span style="color:var(--text-4)">PM: </span><span style="color:var(--text-2);font-weight:500">${c.pm||'\u2014'}</span></span>
+        <span><span style="color:var(--text-4)">PM: </span><span style="color:var(--text-2);font-weight:500">${esc(c.pm)||'—'}</span></span>
         <div style="text-align:right">
-          ${c.launchDate&&c.launchDate!=='TBD'?`<div><span style="color:var(--text-4)">Launch: </span><span style="color:var(--accent-text);font-weight:600">${c.launchDate}</span></div>`:`<div style="color:var(--text-4);font-size:10px">Launch TBD</div>`}
+          ${c.launchDate&&c.launchDate!=='TBD'?`<div><span style="color:var(--text-4)">Launch: </span><span style="color:var(--accent-text);font-weight:600">${esc(c.launchDate)}</span></div>`:`<div style="color:var(--text-4);font-size:10px">Launch TBD</div>`}
           <div style="margin-top:6px;font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.01em">Open project →</div>
         </div>
       </div>
@@ -4311,8 +4370,17 @@ function pcardDrop(e,idx){
   _dragCardIdx=-1;
   _dragCardJustDropped=true;
   setTimeout(()=>{_dragCardJustDropped=false;},300);
-  const moved=portalClients.splice(from,1)[0];
-  portalClients.splice(idx,0,moved);
+  // Operate on activeClients indices mapped back to portalClients
+  const activeClients=portalClients.filter(c=>!c.archived);
+  const fromId=activeClients[from]?.id;
+  const toId=activeClients[idx]?.id;
+  if(!fromId||!toId||fromId===toId)return;
+  const fromGlobal=portalClients.findIndex(c=>c.id===fromId);
+  const toGlobal=portalClients.findIndex(c=>c.id===toId);
+  if(fromGlobal<0||toGlobal<0)return;
+  const moved=portalClients.splice(fromGlobal,1)[0];
+  const newTo=portalClients.findIndex(c=>c.id===toId);
+  portalClients.splice(newTo,0,moved);
   persist();showPortalHome();
 }
 
@@ -4344,10 +4412,10 @@ function renderPhasesView(clientId){
       return`<div class="ph-task">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
           <button onclick="phaseToggleTask('${clientId}',${pi},${ti})" style="width:17px;height:17px;border-radius:4px;border:1.5px solid ${done?'#A7E000':'var(--border-med)'};background:${done?'#A7E000':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s">${done?chkSvg:''}</button>
-          <span style="font-size:13px;color:${done?'var(--text-4)':'var(--text)'};text-decoration:${done?'line-through':'none'};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${task.t}</span>
+          <span style="font-size:13px;color:${done?'var(--text-4)':'var(--text)'};text-decoration:${done?'line-through':'none'};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(task.t)}</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          ${task.d?`<span style="font-size:11px;color:var(--text-4);white-space:nowrap">${task.d}</span>`:''}
+          ${task.d?`<span style="font-size:11px;color:var(--text-4);white-space:nowrap">${esc(task.d)}</span>`:''}
           <select onchange="phaseSetTaskStatus('${clientId}',${pi},${ti},this.value)" style="font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--border-med);background:var(--surface2);color:${sc};cursor:pointer;font-weight:600;font-family:'Inter',sans-serif">${statusOpts(task.s)}</select>
           ${admin?`<button onclick="phaseEditTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--surface2)';this.style.color='var(--text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Edit">✎</button>
           <button onclick="phaseDeleteTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Delete">✕</button>`:''}
@@ -4357,7 +4425,7 @@ function renderPhasesView(clientId){
     return`<div class="ph-section">
       <div class="ph-header">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-          <span style="font-size:13px;font-weight:700;color:var(--text)">${ph.name}</span>
+          <span style="font-size:13px;font-weight:700;color:var(--text)">${esc(ph.name)}</span>
           <span style="font-size:11px;color:var(--text-4);white-space:nowrap">${done}/${tasks.length}</span>
           <div style="width:60px;height:4px;background:var(--border-med);border-radius:99px;overflow:hidden;flex-shrink:0"><div style="width:${pct}%;height:100%;background:${barCol};border-radius:99px;transition:width .4s"></div></div>
         </div>
@@ -4537,8 +4605,8 @@ window.runTests=function(){
   t('milestones have date+event',    ()=>{
     projects.forEach(p=>{
       p.milestones.forEach((m,i)=>{
-        if(!m.date)throw new Error(`${p.name} milestone ${i} missing date`);
-        if(!m.event)throw new Error(`${p.name} milestone ${i} missing event`);
+        if(!m.date)throw new Error(`${esc(p.name)} milestone ${i} missing date`);
+        if(!m.event)throw new Error(`${esc(p.name)} milestone ${i} missing event`);
       });
     });
     return true;
@@ -4547,8 +4615,8 @@ window.runTests=function(){
     projects.forEach(p=>{
       p.milestones.forEach((m,i)=>{
         const dn=parseDateNum(m.date);
-        if(!dn)throw new Error(`${p.name} ms ${i}: unparseable date "${m.date}"`);
-        if(dayNumToIdx(dn)<0)throw new Error(`${p.name} ms ${i}: date "${m.date}" not in ALL_DAYS`);
+        if(!dn)throw new Error(`${esc(p.name)} ms ${i}: unparseable date "${m.date}"`);
+        if(dayNumToIdx(dn)<0)throw new Error(`${esc(p.name)} ms ${i}: date "${m.date}" not in ALL_DAYS`);
       });
     });
     return true;
