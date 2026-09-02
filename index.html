@@ -2969,14 +2969,14 @@ function showPortalHome(){
   mv.style.overflowY='auto';
   mv.style.padding='0';
   const gs=pGlobalStats();
+  const activeClients=portalClients.filter(c=>!c.archived);
+  const archivedClients=portalClients.filter(c=>c.archived);
   const statsHtml=`<div class="portal-stats-row">
     <div class="pstat"><div class="pstat-num" style="color:var(--text)">${activeClients.length}</div><div class="pstat-lbl">Active Projects</div><div class="pstat-sub">${activeClients.length} clients in flight</div></div>
     <div class="pstat"><div class="pstat-num" style="color:var(--blue-text)">${gs.inProg}</div><div class="pstat-lbl">In Progress</div><div class="pstat-sub">tasks active now</div></div>
-    <div class="pstat"><div class="pstat-num" style="color:${gs.blocked>0?'#F59E0B':'var(--text)'}">${gs.blocked}</div><div class="pstat-lbl">Blocked</div><div class="pstat-sub">waiting on input</div></div>
+    <div class="pstat"><div class="pstat-num" style="color:${gs.blocked>0?'#CFC753':'var(--text)'}">${gs.blocked}</div><div class="pstat-lbl">Blocked</div><div class="pstat-sub">waiting on input</div></div>
     <div class="pstat"><div class="pstat-num" style="color:var(--accent-text)">${gs.pct}%</div><div class="pstat-lbl">Completion</div><div class="pstat-sub">${gs.complete} of ${gs.total} tasks</div></div>
   </div>`;
-  const activeClients=portalClients.filter(c=>!c.archived);
-  const archivedClients=portalClients.filter(c=>c.archived);
   const makeCard=(c,idx,isArchived)=>{
     const st=pClientStats(c);
     const hc=pHealthColor(st.health);
