@@ -2,66 +2,76 @@
 <html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WhatArmy 2026 Production Calendar</title>
+<title>Baton</title>
 <!-- Open Graph / social share -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://projectmanager-army.github.io/ProjectWhat/">
-<meta property="og:title" content="WhatArmy Project Management Portal">
-<meta property="og:description" content="WhatArmy 2026 Production Calendar — internal project management portal.">
+<meta property="og:title" content="Baton — Project Management Portal">
+<meta property="og:description" content="Baton — internal project management portal.">
 <meta property="og:image" content="https://projectmanager-army.github.io/ProjectWhat/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://projectmanager-army.github.io/ProjectWhat/og-image.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230D2B2D'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='900' font-style='italic' text-anchor='middle' fill='%23A7E000'>W</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%23F9F5E6'/><path d='M4 9h25v9H14v4a4.5 4.5 0 0 0 0 9H4Z' fill='%23154B27'/><rect x='14' y='22' width='19' height='9' rx='4.5' fill='%23DC5919'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0A2224;
-    --surface: #0D2B2D;
-    --surface2: #082022;
-    --surface3: #061A1C;
-    --border: rgba(255,255,255,0.08);
-    --border-med: rgba(255,255,255,0.14);
-    --text: #FFFBF0;
-    --text-2: #D4CFBA;
-    --text-3: #8A9688;
-    --text-4: #607068;
-    --text-5: #405050;
-    --accent: #A7E000;
-    --accent-light: rgba(167,224,0,0.12);
-    --accent-text: #BFF020;
-    --amber: #F59E0B;
-    --amber-light: rgba(245,158,11,0.12);
-    --amber-text: #FBB93A;
-    --blue: #2196F3;
-    --blue-light: rgba(33,150,243,0.12);
-    --blue-text: #60B8FF;
-    --red: #E74C3C;
-    --red-light: rgba(231,76,60,0.12);
-    --red-text: #FF6B6B;
-    --purple: #A855F7;
-    --purple-light: rgba(168,85,247,0.12);
-    --purple-text: #C880FF;
-    --teal: #10B981;
-    --teal-light: rgba(16,185,129,0.12);
-    --teal-text: #34D39A;
-    --coral: #E67E22;
-    --coral-light: rgba(230,126,34,0.12);
-    --coral-text: #F0A050;
-    --gray-light: rgba(255,255,255,0.06);
-    --gray-text: #9A9080;
+    /* Baton brand — Oat/Pine light theme */
+    --pine: #154B27; --pine-deep: #0D3119;
+    --oat: #F9F5E6; --oat-shade: #EFE9D6;
+    --jade: #76B9A5; --jade-tint: #C9E7DD;
+    --flame: #DC5919; --flame-deep: #B23E10;
+    --rose: #B03652; --blush: #F2A8B6; --blush-tint: #FBE0E5;
+    --sky: #A1CFF0; --sky-tint: #DDEBF8;
+    --cobalt: #2F6BB0; --brass: #CFC753; --brass-tint: #F6EED0;
+    /* Theme tokens */
+    --bg: #F9F5E6;
+    --surface: #FFFFFF;
+    --surface2: #EFE9D6;
+    --surface3: #E6DFC8;
+    --border: rgba(21,75,39,0.10);
+    --border-med: rgba(21,75,39,0.20);
+    --text: #154B27;
+    --text-2: #2D5A3A;
+    --text-3: #5A7A62;
+    --text-4: #8AA490;
+    --text-5: #AABBA8;
+    --accent: #DC5919;
+    --accent-light: rgba(220,89,25,0.10);
+    --accent-text: #B23E10;
+    --amber: #CFC753;
+    --amber-light: rgba(207,199,83,0.15);
+    --amber-text: #7A7800;
+    --blue: #2F6BB0;
+    --blue-light: rgba(47,107,176,0.12);
+    --blue-text: #2F6BB0;
+    --red: #B03652;
+    --red-light: rgba(176,54,82,0.10);
+    --red-text: #B03652;
+    --purple: #7B5EA7;
+    --purple-light: rgba(123,94,167,0.12);
+    --purple-text: #6040A0;
+    --teal: #76B9A5;
+    --teal-light: rgba(118,185,165,0.15);
+    --teal-text: #154B27;
+    --coral: #DC5919;
+    --coral-light: rgba(220,89,25,0.12);
+    --coral-text: #B23E10;
+    --gray-light: rgba(21,75,39,0.06);
+    --gray-text: #8AA490;
     --radius: 6px;
     --radius-lg: 10px;
     --radius-xl: 12px;
-    --shadow: 0 2px 8px rgba(0,0,0,0.4);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-    --font-heading: 'Syne', sans-serif;
+    --shadow: 0 2px 8px rgba(21,75,39,0.10);
+    --shadow-md: 0 4px 16px rgba(21,75,39,0.16);
+    --font-heading: 'Bricolage Grotesque', sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
-  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
   h1,h2,h3{font-family:var(--font-heading)}
 
   /* Layout */
@@ -75,7 +85,7 @@
   .icon-btn{width:32px;height:32px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s}
   .icon-btn:hover{background:var(--surface2);color:var(--text)}
   /* Dashboard */
-  .dash-btn{font-size:12px;font-family:'Inter',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+  .dash-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
   .dash-btn:hover,.dash-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   @keyframes dashSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
   .dash-panel{position:fixed;top:56px;left:0;right:0;z-index:45;background:var(--bg);border-bottom:2px solid var(--border-med);padding:20px 24px 24px;max-height:calc(100vh - 56px);overflow-y:auto;animation:dashSlide .18s ease}
@@ -106,23 +116,23 @@
   .toolbar{padding:14px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--surface)}
   .search-wrap{position:relative;flex:1;min-width:180px;max-width:280px}
   .search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-3)}
-  .search-wrap input{width:100%;padding:7px 10px 7px 30px;font-size:13px;font-family:'Inter',sans-serif;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);outline:none}
+  .search-wrap input{width:100%;padding:7px 10px 7px 30px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);outline:none}
   .search-wrap input:focus{border-color:var(--accent);background:var(--surface)}
-  select.filter{font-size:12px;font-family:'Inter',sans-serif;padding:6px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
+  select.filter{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
   select.filter:focus{border-color:var(--accent)}
   .divider{width:1px;height:24px;background:var(--border-med);margin:0 2px}
   .view-group{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px}
-  .view-btn{font-size:12px;font-family:'Inter',sans-serif;padding:5px 10px;border-radius:6px;border:none;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  .view-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border-radius:6px;border:none;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .view-btn svg{width:13px;height:13px}
   .view-btn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
-  .btn-primary{font-size:12px;font-family:'Inter',sans-serif;padding:7px 14px;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  .btn-primary{font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 14px;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .btn-primary:hover{opacity:0.9}
-  .btn-export{font-size:11px;font-family:'Inter',sans-serif;padding:5px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+  .btn-export{font-size:11px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
   .btn-export:hover{border-color:var(--accent);color:var(--accent)}
-  #save-toast{position:fixed;bottom:20px;right:20px;background:#1a2e1a;border:1px solid #2e7d2e;color:#81c784;font-size:12px;font-family:'Inter',sans-serif;padding:7px 14px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;display:flex;align-items:center;gap:6px}
-  .btn-secondary{font-size:12px;font-family:'Inter',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  #save-toast{position:fixed;bottom:20px;right:20px;background:#1a2e1a;border:1px solid #2e7d2e;color:#81c784;font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 14px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;display:flex;align-items:center;gap:6px}
+  .btn-secondary{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .btn-secondary:hover{background:var(--surface2);color:var(--text)}
-  .btn-danger{font-size:11px;padding:4px 8px;border:1px solid var(--red-light);border-radius:var(--radius);background:var(--red-light);color:var(--red-text);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+  .btn-danger{font-size:11px;padding:4px 8px;border:1px solid var(--red-light);border-radius:var(--radius);background:var(--red-light);color:var(--red-text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
   .btn-danger:hover{background:var(--red);color:#fff}
 
 
@@ -183,7 +193,7 @@
   td.editable{cursor:pointer;position:relative}
   td.editable:hover{background:rgba(167,224,0,0.06)!important}
   td.editable:hover::after{content:'✏';position:absolute;top:50%;right:5px;transform:translateY(-50%);font-size:9px;opacity:.35;pointer-events:none}
-  .inline-cell-input{width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:5px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;padding:3px 7px;outline:none;box-sizing:border-box;min-width:80px}
+  .inline-cell-input{width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:5px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;padding:3px 7px;outline:none;box-sizing:border-box;min-width:80px}
   .inline-cell-input:focus{box-shadow:0 0 0 2px rgba(255,92,26,0.25)}
   textarea.inline-cell-input{resize:vertical;min-height:52px;line-height:1.4}
   select.inline-cell-input{cursor:pointer;padding-right:20px}
@@ -223,13 +233,13 @@
   .tl-day-cell{text-align:center;padding:1px 0;border-right:1px solid var(--border);cursor:crosshair}
   .tl-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
   .tl-zoom-group{display:flex;background:var(--surface2);border-radius:6px;padding:2px;gap:1px}
-  .tl-zoom-btn{font-size:11px;font-family:'Inter',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}
+  .tl-zoom-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}
   .tl-zoom-btn.active{background:var(--accent);color:#fff;box-shadow:0 1px 4px rgba(167,224,0,0.4)}
   .tl-zoom-btn:hover:not(.active){color:var(--text-2);background:rgba(255,255,255,0.05)}
   .tl-phase-tabs{display:flex;gap:4px;align-items:center}
-  .tl-phase-tab{font-size:11px;font-family:'Inter',sans-serif;font-weight:600;padding:4px 13px;border-radius:20px;border:1.5px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;letter-spacing:.01em}
+  .tl-phase-tab{font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;padding:4px 13px;border-radius:20px;border:1.5px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;letter-spacing:.01em}
   .tl-phase-tab:hover:not(.active){color:var(--text-2);border-color:var(--accent);background:var(--accent-light)}
-  .tl-phase-tab.active{background:var(--accent);color:#0A2224;border-color:var(--accent);box-shadow:0 1px 6px rgba(167,224,0,0.35)}
+  .tl-phase-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 1px 6px rgba(220,89,25,0.30)}
   .month-dot{display:flex;flex-direction:column;gap:2px}
 
   /* Empty */
@@ -249,7 +259,7 @@
   .form-group{margin-bottom:12px}
   .form-group.full{grid-column:1/-1}
   .form-label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:5px}
-  .form-input{width:100%;padding:8px 10px;font-size:13px;font-family:'Inter',sans-serif;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);outline:none;transition:border-color .15s}
+  .form-input{width:100%;padding:8px 10px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border-med);border-radius:var(--radius);background:var(--surface2);color:var(--text);outline:none;transition:border-color .15s}
   .form-input:focus{border-color:var(--accent);background:var(--surface)}
   textarea.form-input{min-height:70px;resize:vertical;line-height:1.5}
   .ms-row{display:flex;gap:6px;margin-bottom:6px;align-items:center;flex-wrap:wrap}
@@ -257,7 +267,7 @@
   .ms-date-input{max-width:108px;flex-shrink:0}
   .ms-type-select{width:120px;flex-shrink:0}
   .ms-date-sep{font-size:11px;color:var(--text-4);flex-shrink:0}
-  .add-ms-btn{font-size:11px;padding:5px 10px;border:1px dashed var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;margin-top:4px}
+  .add-ms-btn{font-size:11px;padding:5px 10px;border:1px dashed var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;margin-top:4px}
   .add-ms-btn:hover{border-color:var(--accent);color:var(--accent)}
   .ms-del-btn{width:26px;height:26px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .15s}
   .ms-del-btn:hover{background:var(--red-light);color:var(--red-text);border-color:transparent}
@@ -266,7 +276,7 @@
   .toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:200;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none}
   .toast.show{opacity:1;transform:translateY(0)}
   /* Milestone edit popover */
-  .ms-popover{position:fixed;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);z-index:400;padding:14px 16px;width:300px;font-family:'Inter',sans-serif}
+  .ms-popover{position:fixed;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);z-index:400;padding:14px 16px;width:300px;font-family:'DM Sans',sans-serif}
   .ms-pop-type-row{margin-bottom:10px}
   .ms-pop-dates-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
   .ms-pop-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:10px}
@@ -305,7 +315,7 @@
   .cal-cell:hover .cal-add-btn{opacity:1}
   /* View toggle */
   .cal-view-toggle{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px;flex-shrink:0}
-  .cal-view-btn{font-size:11px;font-family:'Inter',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-2);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .cal-view-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-2);cursor:pointer;transition:all .15s;white-space:nowrap}
   .cal-view-btn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
   /* Week view */
   .cal-week-grid{display:grid;grid-template-columns:repeat(7,1fr);flex:1;min-height:0;border-top:1px solid var(--border)}
@@ -345,7 +355,7 @@
 
   /* Settings modal tabs */
   .settings-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
-  .settings-tab{font-size:12px;font-family:'Inter',sans-serif;padding:10px 16px;border:none;background:transparent;color:var(--text-3);cursor:pointer;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
+  .settings-tab{font-size:12px;font-family:'DM Sans',sans-serif;padding:10px 16px;border:none;background:transparent;color:var(--text-3);cursor:pointer;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
   .settings-tab:hover{color:var(--text)}
   .settings-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
   .sp{display:none}.sp.active{display:block}
@@ -439,9 +449,9 @@
 .ptask-badge{font-size:9px;padding:1px 7px;border-radius:99px;white-space:nowrap;font-weight:500;flex-shrink:0}
 /* ── Client Project View ──────────────────────────────────────────────────── */
 .cv-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;gap:12px;flex-wrap:wrap}
-.cv-back-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-3);padding:5px 10px;border-radius:6px;border:1px solid var(--border-med);background:transparent;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,color .15s}
+.cv-back-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-3);padding:5px 10px;border-radius:6px;border:1px solid var(--border-med);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s}
 .cv-back-btn:hover{background:var(--hover);color:var(--text)}
-.cv-tab-btn{font-size:11px;font-weight:600;padding:5px 13px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--text-3);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
+.cv-tab-btn{font-size:11px;font-weight:600;padding:5px 13px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
 .cv-tab-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border-med)}
 .cv-tab-btn.active{background:var(--accent-light);color:var(--accent-text);border-color:rgba(167,224,0,0.3)}
 .doc-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
@@ -462,7 +472,7 @@ body.client-mode #tb-manage-btn{display:none!important}
 .doc-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .doc-pending-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
 .doc-pending-row:last-child{border-bottom:none}
-.doc-name-edit{flex:1;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;min-width:0}
+.doc-name-edit{flex:1;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;min-width:0}
 .doc-name-edit:focus{color:var(--accent-text)}
 /* Timeline row drag-to-reorder */
 .tl-grip{width:16px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:grab;color:var(--text-4);flex-shrink:0;opacity:.25;transition:opacity .12s;vertical-align:middle;margin-right:5px}
@@ -470,22 +480,22 @@ tr:hover .tl-grip{opacity:.8}
 .tl-grip:hover{opacity:1!important;color:var(--accent)}
 .tl-grip:active{cursor:grabbing}
 tr.tl-row-dragging td{visibility:hidden!important}
-#tl-drag-ghost{position:fixed;z-index:9999;pointer-events:none;background:var(--surface2);border:1.5px solid var(--accent);border-radius:7px;padding:6px 14px 6px 10px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.45);font-size:13px;font-family:'Inter',sans-serif;color:var(--text);white-space:nowrap;max-width:320px;overflow:hidden;text-overflow:ellipsis;opacity:.95;transform:rotate(1.5deg);}
+#tl-drag-ghost{position:fixed;z-index:9999;pointer-events:none;background:var(--surface2);border:1.5px solid var(--accent);border-radius:7px;padding:6px 14px 6px 10px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.45);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);white-space:nowrap;max-width:320px;overflow:hidden;text-overflow:ellipsis;opacity:.95;transform:rotate(1.5deg);}
 #tl-drag-ghost .ghost-cat{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .tl-drop-indicator{position:fixed;left:0;right:0;height:3px;background:var(--accent);border-radius:2px;z-index:9998;pointer-events:none;box-shadow:0 0 8px var(--accent)}
 
 /* ── LOGIN SCREEN ─────────────────────────────────────────── */
 #login-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column}
 #login-screen.wa-hidden{display:none}
-.login-card{background:var(--surface);border:1px solid var(--border-med);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:20px;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.login-card{background:var(--surface);border:1px solid var(--border-med);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:20px;box-shadow:0 8px 32px rgba(21,75,39,0.14)}
 .login-logo{font-family:var(--font-heading);font-size:22px;font-weight:800;letter-spacing:-0.03em;text-align:center}
 .login-logo span{color:var(--accent)}
 .login-subtitle{font-size:12px;color:var(--text-3);text-align:center;margin-top:-12px}
 .login-field{display:flex;flex-direction:column;gap:6px}
 .login-field label{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
-.login-field input{background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.login-field input{background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
 .login-field input:focus{border-color:var(--accent)}
-.login-btn{background:var(--accent);color:#0A2224;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;padding:11px;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s;letter-spacing:-.01em}
+.login-btn{background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:11px;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s;letter-spacing:-.01em}
 .login-btn:hover{opacity:.88}
 .login-err{font-size:12px;color:var(--red-text);text-align:center;min-height:18px;transition:opacity .2s}
 @keyframes wa-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
@@ -497,8 +507,8 @@ tr.tl-row-dragging td{visibility:hidden!important}
 <!-- ── LOGIN SCREEN ─────────────────────────────────────── -->
 <div id="login-screen">
   <div class="login-card" id="login-card">
-    <div class="login-logo"><span style="font-style:italic;color:#fff">WHAT</span><span>ARMY</span></div>
-    <div class="login-subtitle">Project Management Portal</div>
+    <div class="login-logo" style="display:flex;align-items:center;justify-content:center;gap:10px"><svg width="32" height="30" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#154B27"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:22px;letter-spacing:-0.03em;color:#154B27">Baton</span></div>
+    <div class="login-subtitle">Project management, simplified.</div>
     <div class="login-field">
       <label>Username</label>
       <input type="text" id="login-user" autocomplete="username" placeholder="Enter username" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
@@ -517,7 +527,7 @@ tr.tl-row-dragging td{visibility:hidden!important}
 <!-- Header -->
 <header class="header">
   <div class="header-left">
-    <div class="logo" style="font-weight:800;font-size:14px;letter-spacing:-0.02em"><span style="font-style:italic;color:#fff">WHATARMY</span> <span style="color:var(--accent);font-family:'Inter',sans-serif">2026</span></div>
+    <div class="logo" style="display:flex;align-items:center;gap:8px"><svg width="22" height="20" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#154B27"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:-0.03em;color:var(--text)">Baton</span></div>
     <button class="dash-btn" id="dash-btn" onclick="toggleDash()">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1"></rect><rect x="9" y="1" width="6" height="6" rx="1"></rect><rect x="1" y="9" width="6" height="6" rx="1"></rect><rect x="9" y="9" width="6" height="6" rx="1"></rect></svg>
       Dashboard
@@ -723,7 +733,7 @@ tr.tl-row-dragging td{visibility:hidden!important}
 // Capture URL hash immediately — before showPortalHome() or any JS overwrites it
 var _startHash = location.hash;
 // ─── EMBEDDED SNAPSHOT (replaced by Download Snapshot) ───────────────────────
-var __DATA_SNAPSHOT__ = {"projects":[{"id":2,"cat":"Planning","name":"Review SOW/Create Kick Off Deck","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":3,"cat":"Planning","name":"Kick Off Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":4,"cat":"Planning","name":"Follow up Email/Create Timeline","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":5,"cat":"Planning","name":"Collect any necessary logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":6,"cat":"Planning","name":"Collect Content/Branding Assets","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":7,"cat":"Design","name":"Hand off site to designer","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":8,"cat":"Design","name":"Design Initial Wireframes/Mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":9,"cat":"Design","name":"Initial Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":10,"cat":"Design","name":"Design rest of wireframe/mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":11,"cat":"Design","name":"Internal Revision Cycle","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":12,"cat":"Design","name":"Final Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":13,"cat":"Design","name":"Design Responsive Mockups or Guidelines","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":14,"cat":"Design","name":"Prepare files for Development","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":15,"cat":"Development","name":"Create development brief & Instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":16,"cat":"Development","name":"Set up new instance - ensure up to date PHP","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":17,"cat":"Development","name":"Create Staging site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":18,"cat":"Development","name":"CMS, Plugins, Custom fields, etc. instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":19,"cat":"Development","name":"Provide any and all needed logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":20,"cat":"Development","name":"Initial development of site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":21,"cat":"Development","name":"Check developed site against design wireframes","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":22,"cat":"Development","name":"Perform initial QA of site for functionality","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":23,"cat":"Development","name":"Initial Development Review Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":24,"cat":"Development","name":"Collect and Implement any remaining content","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":25,"cat":"Development","name":"Test all plugins, ecommerce and features","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":26,"cat":"Development","name":"Set up External Volley for Client to QA","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":27,"cat":"Development","name":"Test Mobile Responsiveness","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":28,"cat":"Development","name":"Perform QA on backend CMS","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":29,"cat":"Development","name":"Implement all final edits and comments","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":30,"cat":"Development","name":"Privacy Policy Page","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":31,"cat":"Development","name":"Final Development Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":32,"cat":"Development","name":"Collect and connect analytics info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":33,"cat":"Development","name":"Collect and connect Mailchimp info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":34,"cat":"Launch","name":"Review redirects and search results","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":35,"cat":"Launch","name":"Cookies Banner & ReCaptcha","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":36,"cat":"Launch","name":"What address should forms be delivered to?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":37,"cat":"Launch","name":"Who is responsible for updating DNS?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":38,"cat":"Launch","name":"How will SSL be dealt with?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":39,"cat":"Launch","name":"Should any portion of this site be blocked from Search Engines?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":40,"cat":"Launch","name":"Is the site to be launched fully up to date? (WP and Plugins)","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":41,"cat":"Launch","name":"Check all unused plugins been removed from the site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":42,"cat":"Launch","name":"Is the favicon on the site updated","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":43,"cat":"Launch","name":"Check for any secondary domains","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":44,"cat":"Launch","name":"Does this site use Office 365 or Hosted?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":101,"cat":"Planning","name":"Requirements Gathering","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 6","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":102,"cat":"Planning","name":"Stakeholder Interviews","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 8","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":103,"cat":"Planning","name":"Competitive Analysis","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":104,"cat":"Planning","name":"Technical Audit","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 21","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":105,"cat":"Planning","name":"Discovery Report & Project Brief","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 24","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":106,"cat":"Design","name":"UX Research & User Flows","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 28","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":107,"cat":"Design","name":"Information Architecture","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":108,"cat":"Design","name":"Wireframes","status":"In Progress","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":109,"cat":"Design","name":"UI Design System","status":"In Progress","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":110,"cat":"Design","name":"High-Fidelity Mockups","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":111,"cat":"Design","name":"Accessibility Review","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":112,"cat":"Design","name":"Usability Testing","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":113,"cat":"Development","name":"Dev Environment Setup","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 16","endDate":"May 22","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":114,"cat":"Development","name":"Core Component Library","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"May 23","endDate":"Jun 12","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":115,"cat":"Development","name":"HIPAA Compliance Audit","status":"Pending","priority":"Critical","owner":"Sarah Chen","notes":"","startDate":"Jun 13","endDate":"Jun 26","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":116,"cat":"Development","name":"Integration Testing","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Jun 27","endDate":"Jul 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":121,"cat":"Planning","name":"Project Kickoff","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 7","endDate":"Nov 14","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":122,"cat":"Planning","name":"Requirements & Site Audit","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 15","endDate":"Nov 21","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":123,"cat":"Planning","name":"Competitive Research","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 22","endDate":"Nov 28","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":124,"cat":"Design","name":"Wireframes & User Flows","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Dec 2","endDate":"Dec 19","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":125,"cat":"Design","name":"Visual Design & Brand Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Dec 20","endDate":"Jan 16","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":126,"cat":"Design","name":"Client Design Approval","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Jan 17","endDate":"Jan 23","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":127,"cat":"Development","name":"Frontend Development","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Jan 24","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":128,"cat":"Development","name":"MLS Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":129,"cat":"Development","name":"QA & Browser Testing","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Mar 21","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":130,"cat":"Development","name":"Content Migration","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":131,"cat":"Launch","name":"Pre-Launch QA","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":132,"cat":"Launch","name":"DNS Transfer & Go Live","status":"Complete","priority":"Critical","owner":"James Wu","notes":"","startDate":"Apr 18","endDate":"Apr 22","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":133,"cat":"Launch","name":"Post-Launch Monitoring","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":134,"cat":"Launch","name":"Client Training Sessions","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"Apr 30","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":135,"cat":"Launch","name":"Final Documentation","status":"Pending","priority":"Low","owner":"James Wu","notes":"","startDate":"Apr 25","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":141,"cat":"Planning","name":"Project Kickoff & Goal Setting","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Mar 27","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":142,"cat":"Planning","name":"Brand Audit","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":143,"cat":"Planning","name":"Competitor Research","status":"In Progress","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":144,"cat":"Planning","name":"Collect Brand Assets from Client","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":145,"cat":"Planning","name":"Content Inventory","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":146,"cat":"Planning","name":"Define Target Audience & Personas","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":147,"cat":"Planning","name":"Discovery Report","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 25","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":148,"cat":"Design","name":"Moodboard & Creative Direction","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":149,"cat":"Design","name":"Logo & Brand Identity","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"May 16","endDate":"Jun 5","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":150,"cat":"Design","name":"Site Wireframes","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Jun 6","endDate":"Jun 19","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":151,"cat":"Design","name":"Visual Design","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"Jun 20","endDate":"Jul 10","milestones":[],"statusNotes":"","clientId":"verdant"}],"categories":[{"name":"Planning","color":"blue","short":"PLN"},{"name":"Design","color":"purple","short":"DSN"},{"name":"Development","color":"teal","short":"DEV"},{"name":"Launch","color":"green","short":"LNC"}],"statuses":[{"name":"Pending","color":"gray"},{"name":"In Progress","color":"blue"},{"name":"Complete","color":"green"},{"name":"Blocked","color":"red"}],"priorities":[{"name":"Critical","color":"red"},{"name":"High","color":"accent"},{"name":"Medium","color":"amber"},{"name":"Low","color":"blue"}],"teamMembers":[],"milestoneTypes":[{"name":"Kick Off","color":"#A7E000"},{"name":"Status Call","color":"#2196F3"},{"name":"Design Handoff","color":"#A855F7"},{"name":"Dev Handoff","color":"#10B981"},{"name":"Launch","color":"#E74C3C"},{"name":"Follow Up","color":"#F59E0B"},{"name":"Meeting","color":"#60B8FF"},{"name":"Event","color":"#E67E22"},{"name":"Vacation","color":"#9A9080"}],"currentView":"timeline","nextId":200,"snapshotId":20260429002};
+var __DATA_SNAPSHOT__ = {"projects":[{"id":2,"cat":"Planning","name":"Review SOW/Create Kick Off Deck","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":3,"cat":"Planning","name":"Kick Off Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":4,"cat":"Planning","name":"Follow up Email/Create Timeline","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":5,"cat":"Planning","name":"Collect any necessary logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":6,"cat":"Planning","name":"Collect Content/Branding Assets","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":7,"cat":"Design","name":"Hand off site to designer","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":8,"cat":"Design","name":"Design Initial Wireframes/Mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":9,"cat":"Design","name":"Initial Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":10,"cat":"Design","name":"Design rest of wireframe/mockups","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":11,"cat":"Design","name":"Internal Revision Cycle","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":12,"cat":"Design","name":"Final Design Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":13,"cat":"Design","name":"Design Responsive Mockups or Guidelines","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":14,"cat":"Design","name":"Prepare files for Development","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":15,"cat":"Development","name":"Create development brief & Instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":16,"cat":"Development","name":"Set up new instance - ensure up to date PHP","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":17,"cat":"Development","name":"Create Staging site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":18,"cat":"Development","name":"CMS, Plugins, Custom fields, etc. instructions","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":19,"cat":"Development","name":"Provide any and all needed logins","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":20,"cat":"Development","name":"Initial development of site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":21,"cat":"Development","name":"Check developed site against design wireframes","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":22,"cat":"Development","name":"Perform initial QA of site for functionality","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":23,"cat":"Development","name":"Initial Development Review Call","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":24,"cat":"Development","name":"Collect and Implement any remaining content","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":25,"cat":"Development","name":"Test all plugins, ecommerce and features","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":26,"cat":"Development","name":"Set up External Volley for Client to QA","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":27,"cat":"Development","name":"Test Mobile Responsiveness","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":28,"cat":"Development","name":"Perform QA on backend CMS","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":29,"cat":"Development","name":"Implement all final edits and comments","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":30,"cat":"Development","name":"Privacy Policy Page","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":31,"cat":"Development","name":"Final Development Approval","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":32,"cat":"Development","name":"Collect and connect analytics info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":33,"cat":"Development","name":"Collect and connect Mailchimp info","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":34,"cat":"Launch","name":"Review redirects and search results","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":35,"cat":"Launch","name":"Cookies Banner & ReCaptcha","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":36,"cat":"Launch","name":"What address should forms be delivered to?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":37,"cat":"Launch","name":"Who is responsible for updating DNS?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":38,"cat":"Launch","name":"How will SSL be dealt with?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":39,"cat":"Launch","name":"Should any portion of this site be blocked from Search Engines?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":40,"cat":"Launch","name":"Is the site to be launched fully up to date? (WP and Plugins)","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":41,"cat":"Launch","name":"Check all unused plugins been removed from the site","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":42,"cat":"Launch","name":"Is the favicon on the site updated","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":43,"cat":"Launch","name":"Check for any secondary domains","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":44,"cat":"Launch","name":"Does this site use Office 365 or Hosted?","status":"Pending","priority":"Medium","owner":"","notes":"","startDate":"","endDate":"","milestones":[],"statusNotes":""},{"id":101,"cat":"Planning","name":"Requirements Gathering","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 6","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":102,"cat":"Planning","name":"Stakeholder Interviews","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 8","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":103,"cat":"Planning","name":"Competitive Analysis","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":104,"cat":"Planning","name":"Technical Audit","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 21","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":105,"cat":"Planning","name":"Discovery Report & Project Brief","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 24","endDate":"Mar 27","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":106,"cat":"Design","name":"UX Research & User Flows","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Mar 28","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":107,"cat":"Design","name":"Information Architecture","status":"Complete","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":108,"cat":"Design","name":"Wireframes","status":"In Progress","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":109,"cat":"Design","name":"UI Design System","status":"In Progress","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Apr 18","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":110,"cat":"Design","name":"High-Fidelity Mockups","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":111,"cat":"Design","name":"Accessibility Review","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 2","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":112,"cat":"Design","name":"Usability Testing","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":113,"cat":"Development","name":"Dev Environment Setup","status":"Pending","priority":"Medium","owner":"Sarah Chen","notes":"","startDate":"May 16","endDate":"May 22","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":114,"cat":"Development","name":"Core Component Library","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"May 23","endDate":"Jun 12","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":115,"cat":"Development","name":"HIPAA Compliance Audit","status":"Pending","priority":"Critical","owner":"Sarah Chen","notes":"","startDate":"Jun 13","endDate":"Jun 26","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":116,"cat":"Development","name":"Integration Testing","status":"Pending","priority":"High","owner":"Sarah Chen","notes":"","startDate":"Jun 27","endDate":"Jul 17","milestones":[],"statusNotes":"","clientId":"meridian"},{"id":121,"cat":"Planning","name":"Project Kickoff","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 7","endDate":"Nov 14","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":122,"cat":"Planning","name":"Requirements & Site Audit","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 15","endDate":"Nov 21","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":123,"cat":"Planning","name":"Competitive Research","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Nov 22","endDate":"Nov 28","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":124,"cat":"Design","name":"Wireframes & User Flows","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Dec 2","endDate":"Dec 19","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":125,"cat":"Design","name":"Visual Design & Brand Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Dec 20","endDate":"Jan 16","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":126,"cat":"Design","name":"Client Design Approval","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Jan 17","endDate":"Jan 23","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":127,"cat":"Development","name":"Frontend Development","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Jan 24","endDate":"Mar 13","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":128,"cat":"Development","name":"MLS Integration","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Mar 14","endDate":"Mar 20","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":129,"cat":"Development","name":"QA & Browser Testing","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Mar 21","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":130,"cat":"Development","name":"Content Migration","status":"Complete","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":131,"cat":"Launch","name":"Pre-Launch QA","status":"Complete","priority":"High","owner":"James Wu","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":132,"cat":"Launch","name":"DNS Transfer & Go Live","status":"Complete","priority":"Critical","owner":"James Wu","notes":"","startDate":"Apr 18","endDate":"Apr 22","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":133,"cat":"Launch","name":"Post-Launch Monitoring","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":134,"cat":"Launch","name":"Client Training Sessions","status":"In Progress","priority":"Medium","owner":"James Wu","notes":"","startDate":"Apr 23","endDate":"Apr 30","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":135,"cat":"Launch","name":"Final Documentation","status":"Pending","priority":"Low","owner":"James Wu","notes":"","startDate":"Apr 25","endDate":"May 1","milestones":[],"statusNotes":"","clientId":"coastal"},{"id":141,"cat":"Planning","name":"Project Kickoff & Goal Setting","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Mar 27","endDate":"Apr 3","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":142,"cat":"Planning","name":"Brand Audit","status":"Complete","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 4","endDate":"Apr 10","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":143,"cat":"Planning","name":"Competitor Research","status":"In Progress","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":144,"cat":"Planning","name":"Collect Brand Assets from Client","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 11","endDate":"Apr 17","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":145,"cat":"Planning","name":"Content Inventory","status":"Blocked","priority":"High","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":146,"cat":"Planning","name":"Define Target Audience & Personas","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 18","endDate":"Apr 24","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":147,"cat":"Planning","name":"Discovery Report","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Apr 25","endDate":"May 8","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":148,"cat":"Design","name":"Moodboard & Creative Direction","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"May 9","endDate":"May 15","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":149,"cat":"Design","name":"Logo & Brand Identity","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"May 16","endDate":"Jun 5","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":150,"cat":"Design","name":"Site Wireframes","status":"Pending","priority":"Medium","owner":"Madison Moore","notes":"","startDate":"Jun 6","endDate":"Jun 19","milestones":[],"statusNotes":"","clientId":"verdant"},{"id":151,"cat":"Design","name":"Visual Design","status":"Pending","priority":"High","owner":"Madison Moore","notes":"","startDate":"Jun 20","endDate":"Jul 10","milestones":[],"statusNotes":"","clientId":"verdant"}],"categories":[{"name":"Planning","color":"blue","short":"PLN"},{"name":"Design","color":"purple","short":"DSN"},{"name":"Development","color":"teal","short":"DEV"},{"name":"Launch","color":"green","short":"LNC"}],"statuses":[{"name":"Pending","color":"gray"},{"name":"In Progress","color":"blue"},{"name":"Complete","color":"green"},{"name":"Blocked","color":"red"}],"priorities":[{"name":"Critical","color":"red"},{"name":"High","color":"accent"},{"name":"Medium","color":"amber"},{"name":"Low","color":"blue"}],"teamMembers":[],"milestoneTypes":[{"name":"Kick Off","color":"#76B9A5"},{"name":"Status Call","color":"#2196F3"},{"name":"Design Handoff","color":"#A855F7"},{"name":"Dev Handoff","color":"#76B9A5"},{"name":"Launch","color":"#E74C3C"},{"name":"Follow Up","color":"#F59E0B"},{"name":"Meeting","color":"#60B8FF"},{"name":"Event","color":"#E67E22"},{"name":"Vacation","color":"#9A9080"}],"currentView":"timeline","nextId":200,"snapshotId":20260429002};
 // ─── DATA ────────────────────────────────────────────────────────────────────
 let statuses=[
   {name:'Planning', color:'blue'},
@@ -814,7 +824,7 @@ function showBarMenu(e,id){
   document.querySelectorAll('.bar-ctx-menu').forEach(m=>m.remove());
   const menu=document.createElement('div');
   menu.className='bar-ctx-menu';
-  menu.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius);box-shadow:var(--shadow-md);z-index:200;min-width:150px;padding:4px 0;font-family:'Inter',sans-serif`;
+  menu.style.cssText=`position:fixed;left:${e.clientX}px;top:${e.clientY}px;background:var(--surface);border:1px solid var(--border-med);border-radius:var(--radius);box-shadow:var(--shadow-md);z-index:200;min-width:150px;padding:4px 0;font-family:'DM Sans',sans-serif`;
   const btn=(label,color,fn)=>{
     const b=document.createElement('button');
     b.textContent=label;
@@ -920,11 +930,11 @@ const CAT_PALETTE={
   teal:   'background:var(--teal-light);color:var(--teal-text)',
   red:    'background:var(--red-light);color:var(--red-text)',
   gray:   'background:var(--gray-light);color:var(--gray-text)',
-  green:  'background:rgba(167,224,0,0.14);color:#A7E000',
+  green:  'background:rgba(118,185,165,0.20);color:#154B27',
 };
 const CAT_PALETTE_LABELS={blue:'Blue',accent:'Orange',coral:'Coral',amber:'Amber',purple:'Purple',teal:'Teal',red:'Red',gray:'Gray',green:'Green'};
 // Solid hex colours for each palette key — used for swatches and chart bars
-const CAT_HEX={blue:'#2196F3',accent:'#FF5C1A',coral:'#E67E22',amber:'#F59E0B',purple:'#A855F7',teal:'#10B981',red:'#E74C3C',gray:'#9A9080',green:'#A7E000'};
+const CAT_HEX={blue:'#2196F3',accent:'#FF5C1A',coral:'#E67E22',amber:'#CFC753',purple:'#A855F7',teal:'#10B981',red:'#E74C3C',gray:'#9A9080',green:'#76B9A5'};
 let categories=[
   {name:'Planning',    color:'blue',   short:'PLN'},
   {name:'Design',      color:'purple', short:'DSN'},
@@ -1314,7 +1324,7 @@ function render(){
       <div style="display:flex;align-items:center;gap:8px">
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${_hc};padding:4px 10px;border-radius:20px;background:${_hc}18;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:${_hc}"></span>${pHealthLabel(_st.health)}</span>
         <span style="font-size:11px;color:var(--text-3);white-space:nowrap">${_st.pct}% complete</span>
-        ${(!isClientMode&&_c)?`<button onclick="openAccessSettings('${_c.id}')" style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><path d="M12 2l-1.5 1.5M4 14L2.5 12.5M14 4l-1.5 1.5M2 12L3.5 10.5M14 12l-1.5-1.5M2 4l1.5 1.5M12 14l-1.5-1.5M4 2l1.5 1.5"/></svg>Share</button>`:''}
+        ${(!isClientMode&&_c)?`<button onclick="openAccessSettings('${_c.id}')" style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><path d="M12 2l-1.5 1.5M4 14L2.5 12.5M14 4l-1.5 1.5M2 12L3.5 10.5M14 12l-1.5-1.5M2 4l1.5 1.5M12 14l-1.5-1.5M4 2l1.5 1.5"/></svg>Share</button>`:''}
       </div>
     </div>${contentHtml}`;
     _wireDocListeners();
@@ -1522,11 +1532,11 @@ function renderTable(data){
   const bulkBar=`<div id="tbl-bulk-bar" class="tbl-bulk-bar" style="display:${_selProjIds.size?'flex':'none'}">
     <span id="tbl-bulk-ct" style="font-size:12px;font-weight:600;color:var(--text-2);white-space:nowrap;min-width:70px">${_selProjIds.size} selected</span>
     <div style="width:1px;height:18px;background:var(--border-med);flex-shrink:0"></div>
-    <select onchange="bulkChangeStatus(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
+    <select onchange="bulkChangeStatus(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif">
       <option value="">Change status…</option>
       ${statuses.map(s=>`<option value="${esc(s.name)}">${esc(s.name)}</option>`).join('')}
     </select>
-    <select onchange="bulkChangeOwner(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif">
+    <select onchange="bulkChangeOwner(this.value);this.value=''" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif">
       <option value="">Change owner…</option>
       ${teamMembers.map(m=>`<option value="${m}">${m}</option>`).join('')}
     </select>
@@ -1642,7 +1652,7 @@ function renderTimeline(data){
 
     if(has){
       const barW=(ei-si+1)*PX;
-      const labelHtml=barW>60?`<span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:rgba(255,255,255,0.92);white-space:nowrap;overflow:hidden;max-width:${barW-16}px;pointer-events:none;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,0.5)">${esc(p.name)}</span>`:'';
+      const labelHtml=barW>60?`<span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:rgba(255,255,255,0.92);white-space:nowrap;overflow:hidden;max-width:${barW-16}px;pointer-events:none;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,0.5)">${esc(p.name)}</span>`:'';
       barHtml=`<div class="gantt-bar" data-proj="${p.id}" style="position:absolute;top:50%;transform:translateY(-50%);left:${si*PX}px;width:${barW}px;height:20px;background:${catHex};border-radius:10px;opacity:.92;box-shadow:0 2px 8px ${catHex}55;z-index:3;pointer-events:none;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:rgba(255,255,255,0.25);border-radius:10px 0 0 10px;pointer-events:none"></div>${labelHtml}</div>${msMarkersHtml}`;
     }else{
       barHtml=`<div style="position:absolute;top:50%;transform:translateY(-50%);left:0;width:${PX*(ALL_DAYS.length+3)}px;height:1px;border-top:1px dashed ${catHex}22;pointer-events:none;z-index:1"></div>${msMarkersHtml}`;
@@ -1688,7 +1698,7 @@ function renderTimeline(data){
       <td class="sticky-col col-proj" style="background:#171410;z-index:20;padding:4px 10px;border-bottom:1px solid var(--border)">
         <div style="display:flex;align-items:center;gap:7px">
           <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${cc};flex-shrink:0"></span>
-          <span style="font-family:'Inter',sans-serif;font-weight:800;font-size:10px;letter-spacing:.05em;color:${cc};text-transform:uppercase">${displayCat}</span>
+          <span style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:10px;letter-spacing:.05em;color:${cc};text-transform:uppercase">${displayCat}</span>
           <span style="font-family:'Inter',monospace;font-size:10px;color:var(--text-4)">${ps.length}</span>
         </div>
       </td>
@@ -1720,7 +1730,7 @@ function renderTimeline(data){
     }).join('');
     rows+=`<tr style="background:var(--surface2);border-top:2px solid var(--border-med)">
       <td class="sticky-col col-proj" style="background:var(--surface2);z-index:20;padding:4px 10px">
-        <span style="font-size:10px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:.04em;color:var(--text-3);text-transform:uppercase">◆ Milestones</span>
+        <span style="font-size:10px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.04em;color:var(--text-3);text-transform:uppercase">◆ Milestones</span>
       </td>
       <td class="sticky-col col-status" style="background:var(--surface2)"></td>
       <td class="sticky-col col-sn" style="background:var(--surface2);border-right:2px solid var(--border-med)"></td>
@@ -1731,7 +1741,7 @@ function renderTimeline(data){
 
   // ── Headers ──────────────────────────────────────────────────────────────────
   const numHeaderRows = tlZoom==='month' ? 1 : 2;
-  const thStyle=`position:sticky;top:0;z-index:14;background:var(--surface2);border-bottom:1px solid var(--border);padding:9px 4px;font-size:10px;font-weight:800;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);text-align:center`;
+  const thStyle=`position:sticky;top:0;z-index:14;background:var(--surface2);border-bottom:1px solid var(--border);padding:9px 4px;font-size:10px;font-weight:800;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);text-align:center`;
   const subThBase=`position:sticky;top:30px;z-index:14;text-align:center;padding:3px 1px;font-size:9px;font-weight:500;font-family:'Inter',monospace;color:var(--text-3);background:var(--surface2);border-bottom:1px solid var(--border);border-right:1px solid var(--border)`;
   const dayThStyle=`${subThBase};min-width:${PX}px;max-width:${PX}px`;
 
@@ -1766,7 +1776,7 @@ function renderTimeline(data){
   return`<div class="timeline-wrap">
     <div class="tl-controls">
       <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:11px;color:var(--text-3);font-family:'Inter',sans-serif;font-weight:500">Zoom</span>
+        <span style="font-size:11px;color:var(--text-3);font-family:'DM Sans',sans-serif;font-weight:500">Zoom</span>
         <div class="tl-zoom-group">${zoomBtns}</div>
       </div>
     </div>
@@ -2076,7 +2086,7 @@ function exportCSV(){
   const blob=new Blob([csv],{type:'text/csv'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='WhatArmy_Production_Calendar_2026.csv';
+  a.download='Baton_Production_Calendar.csv';
   a.click();
   showToast('CSV exported');
 }
@@ -2423,14 +2433,14 @@ function importData(){
         if(d.nextId)nextId=d.nextId;
         if(d.portalClients&&d.portalClients.length)portalClients=d.portalClients;
         render();
-      }catch(err){alert('Import failed — make sure this is a valid WhatArmy export file.\n\n'+err.message);}
+      }catch(err){alert('Import failed — make sure this is a valid Baton export file.\n\n'+err.message);}
     };
     reader.readAsText(file);
   };
   document.body.appendChild(input);input.click();document.body.removeChild(input);
 }
 function importSheetStatus(){
-  // Status notes from Column C of WhatArmy - 2026 Production Calendar.xlsx
+  // Status notes from Column C of Baton Production Calendar
   const SHEET_STATUS=[
     {name:"Big Orange Event",statusNotes:"Live as of April 1"},
     {name:"Spring Campaign",statusNotes:"Live as of April 1"},
@@ -2850,12 +2860,12 @@ function openCloudSettings(){
     3. Set <strong style="color:var(--text)">Signing mode</strong> to <strong style="color:var(--accent-text)">Unsigned</strong><br>
     4. Copy the preset name and your Cloud Name below</p>
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">Cloud Name</label>
-    <input id="cs-cloudname" type="text" value="${cloudConfig.cloudName}" placeholder="e.g. my-cloud-123" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box;margin-bottom:14px">
+    <input id="cs-cloudname" type="text" value="${cloudConfig.cloudName}" placeholder="e.g. my-cloud-123" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;margin-bottom:14px">
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">Upload Preset <span style="color:var(--accent-text)">(must be Unsigned)</span></label>
-    <input id="cs-preset" type="text" value="${cloudConfig.uploadPreset}" placeholder="e.g. whatarmy_unsigned" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box;margin-bottom:22px">
+    <input id="cs-preset" type="text" value="${cloudConfig.uploadPreset}" placeholder="e.g. baton_unsigned" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;margin-bottom:22px">
     <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Cancel</button>
-      <button onclick="_saveCloudSettingsFromModal()" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save</button>
+      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="_saveCloudSettingsFromModal()" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save</button>
     </div>
   </div>`;
   document.body.appendChild(m);
@@ -2877,10 +2887,10 @@ function _syncCloudHeaderBtn(){
   if(!btn)return;
   if(cloudReady()){
     btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 10a3 3 0 00-1-5.83A5 5 0 003 8H2a2 2 0 000 4h11"/><path d="M10 13l2-2-2-2M12 11H8"/></svg> Cloudinary`;
-    btn.style.cssText='font-size:11px;font-family:"Inter",sans-serif;padding:4px 10px;border:1px solid rgba(167,224,0,.35);border-radius:var(--radius);background:var(--accent-light);color:var(--accent-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
+    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(167,224,0,.35);border-radius:var(--radius);background:var(--accent-light);color:var(--accent-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
   }else{
     btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 10a3 3 0 00-1-5.83A5 5 0 003 8H2a2 2 0 000 4h11"/><line x1="4" y1="4" x2="12" y2="12"/></svg> Cloud Storage`;
-    btn.style.cssText='font-size:11px;font-family:"Inter",sans-serif;padding:4px 10px;border:1px solid rgba(245,158,11,.35);border-radius:var(--radius);background:var(--amber-light);color:var(--amber-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
+    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(245,158,11,.35);border-radius:var(--radius);background:var(--amber-light);color:var(--amber-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
   }
 }
 
@@ -2925,7 +2935,7 @@ let isClientMode=false;
 let clientModeId=null;
 let clientModeAuthed=false;
 
-const CLIENT_PHASE_COLORS={'Discovery':'#2196F3','Design':'#A855F7','Development':'#10B981','Launch':'#A7E000'};
+const CLIENT_PHASE_COLORS={'Discovery':'#2196F3','Design':'#A855F7','Development':'#10B981','Launch':'#DC5919'};
 function cPhaseColor(name,fallback){return CLIENT_PHASE_COLORS[name]||fallback||'#9A9080';}
 
 function openClientProject(id,e){
@@ -2970,7 +2980,7 @@ function showPortalHome(){
   const makeCard=(c,idx,isArchived)=>{
     const st=pClientStats(c);
     const hc=pHealthColor(st.health);
-    const progColor=st.pct>=75?'#A7E000':st.pct>=40?'#F59E0B':'#E74C3C';
+    const progColor=st.pct>=75?'#76B9A5':st.pct>=40?'#CFC753':'#B03652';
     if(isArchived){
       return`<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px">
         <div style="display:flex;align-items:center;gap:10px;min-width:0">
@@ -3006,7 +3016,7 @@ function showPortalHome(){
       <div class="pcard-divider"></div>
       <div class="pcard-stat-row">
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:var(--text)">${st.total}</div><div class="pcard-stat-l">Total</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-n" style="color:#A7E000">${st.complete}</div><div class="pcard-stat-l">Done</div></div>
+        <div class="pcard-stat"><div class="pcard-stat-n" style="color:#76B9A5">${st.complete}</div><div class="pcard-stat-l">Done</div></div>
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:var(--blue-text)">${st.inProg}</div><div class="pcard-stat-l">Active</div></div>
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:${st.blocked>0?'#F59E0B':'var(--text-4)'}">${st.blocked}</div><div class="pcard-stat-l">Blocked</div></div>
       </div>
@@ -3021,7 +3031,7 @@ function showPortalHome(){
   const cardsHtml=activeClients.map((c,idx)=>makeCard(c,idx,false)).join('');
   const archiveHtml=archivedClients.length?`<div style="margin-top:28px;padding:0 32px 32px"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px">Archived (${archivedClients.length})</div><div style="display:flex;flex-direction:column;gap:8px">${archivedClients.map(c=>makeCard(c,-1,true)).join('')}</div></div>`:'';
   mv.innerHTML=`<div style="padding:80px 32px 32px;width:100%;box-sizing:border-box;position:relative">
-    <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
+    <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       Add New Project
     </button>
@@ -3029,7 +3039,7 @@ function showPortalHome(){
       <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase">Overview</div>
       <div style="position:relative;flex:1;max-width:260px;margin-left:auto">
         <svg style="position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-3)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="portal-search" type="text" placeholder="Search projects…" oninput="filterPortalCards()" style="width:100%;box-sizing:border-box;padding:7px 10px 7px 30px;font-size:12px;font-family:'Inter',sans-serif;border:1px solid var(--border-med);border-radius:6px;background:var(--surface2);color:var(--text);outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-med)'"/>
+        <input id="portal-search" type="text" placeholder="Search projects…" oninput="filterPortalCards()" style="width:100%;box-sizing:border-box;padding:7px 10px 7px 30px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid var(--border-med);border-radius:6px;background:var(--surface2);color:var(--text);outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-med)'"/>
       </div>
     </div>
     <div id="pcard-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:250px;gap:16px" ondragover="event.preventDefault()" ondrop="event.preventDefault()">
@@ -3197,12 +3207,12 @@ function pFmtDate(iso){
 }
 
 function pStatusColor(s){
-  return({'Complete':'#A7E000','In Progress':'#2196F3','Not Started':'rgba(255,255,255,0.28)','Overdue':'#E74C3C','Blocked':'#F59E0B'})[s]||'rgba(255,255,255,0.28)';
+  return({'Complete':'#76B9A5','In Progress':'#2196F3','Not Started':'rgba(255,255,255,0.28)','Overdue':'#E74C3C','Blocked':'#F59E0B'})[s]||'rgba(255,255,255,0.28)';
 }
 function pStatusBg(s){
   return({'Complete':'rgba(167,224,0,0.14)','In Progress':'rgba(33,150,243,0.14)','Not Started':'rgba(255,255,255,0.05)','Overdue':'rgba(231,76,60,0.16)','Blocked':'rgba(245,158,11,0.16)'})[s]||'rgba(255,255,255,0.05)';
 }
-function pHealthColor(h){return{good:'#A7E000',warning:'#F59E0B',critical:'#E74C3C'}[h]||'#A7E000';}
+function pHealthColor(h){return{good:'#76B9A5',warning:'#CFC753',critical:'#B03652'}[h]||'#76B9A5';}
 function pHealthLabel(h){return{good:'On Track',warning:'Needs Attention',critical:'At Risk'}[h]||'On Track';}
 
 function openPortal(){
@@ -3465,7 +3475,7 @@ function previewDocument(clientId,docId){
       <div style="color:rgba(255,255,255,.5);font-size:13px;font-family:\'Inter\',sans-serif">Preview not available for ${d.type||'this file type'}</div>`;
     const dlBtn2=document.createElement('button');
     dlBtn2.textContent='Download File';
-    dlBtn2.style.cssText='padding:10px 24px;background:var(--accent);color:#0A2224;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
+    dlBtn2.style.cssText='padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
     dlBtn2.addEventListener('click',()=>downloadDocument(clientId,docId));
     previewEl.appendChild(dlBtn2);
   }
@@ -3493,7 +3503,7 @@ function previewDocument(clientId,docId){
 
   if(!isLink){
     const dlBtn=document.createElement('button');
-    dlBtn.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#0A2224;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
+    dlBtn.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
     dlBtn.innerHTML='<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download';
     dlBtn.addEventListener('click',()=>downloadDocument(clientId,docId));
     hdrRight.appendChild(dlBtn);
@@ -3574,14 +3584,14 @@ function renderDocumentsView(clientId){
   </div>`;
   const cloudStatus=cloudReady()
     ?`<span style="font-size:11px;color:var(--accent-text);display:flex;align-items:center;gap:5px;cursor:pointer" onclick="openCloudSettings()" title="Cloud storage settings"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>Cloudinary</span>`
-    :`<button onclick="openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px">&#x26A0; Set up cloud storage</button>`;
+    :`<button onclick="openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px">&#x26A0; Set up cloud storage</button>`;
   return`<div style="padding:28px 32px;flex:1;overflow-y:auto;min-height:0">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <div>
         <h2 style="font-size:18px;font-weight:700;letter-spacing:-0.02em;font-family:var(--font-heading);margin:0 0 3px">Documents</h2>
         <div style="font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:10px">${docs.length} file${docs.length===1?'':'s'} shared &nbsp;${cloudStatus}</div>
       </div>
-      <button onclick="addDocument('${clientId}')" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-heading)">
+      <button onclick="addDocument('${clientId}')" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-heading)">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         Add Document
       </button>
@@ -3591,8 +3601,8 @@ function renderDocumentsView(clientId){
     </div>
     ${docs.length?`<div id="doc-bulk-bar" data-cid="${clientId}" style="display:none;margin-top:10px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;align-items:center;gap:8px;flex-wrap:wrap">
       <span id="doc-bulk-count" style="font-size:12px;font-weight:600;color:var(--text);flex:1;white-space:nowrap">0 selected</span>
-      <button data-bulk-action="selectall" data-cid="${clientId}" style="font-size:11px;font-weight:600;padding:5px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer;font-family:'Inter',sans-serif">Select all</button>
-      <button data-bulk-action="download" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#0A2224;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download</button>
+      <button data-bulk-action="selectall" data-cid="${clientId}" style="font-size:11px;font-weight:600;padding:5px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer;font-family:'DM Sans',sans-serif">Select all</button>
+      <button data-bulk-action="download" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download</button>
       ${isClientMode?'':` <button data-bulk-action="delete" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>`}
       <button data-bulk-action="clear" data-cid="${clientId}" style="width:26px;height:26px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px" title="Clear selection">&times;</button>
     </div>`:''}
@@ -3712,7 +3722,7 @@ function _renderDocPending(clientId){
       row.innerHTML=`
         <span class="doc-type-badge" style="background:${tc}20;color:${tc}">${f.type}</span>
         <input data-pname="${f.id}" value="${f.name.replace(/"/g,'&quot;')}" placeholder="Display title…"
-          style="flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid var(--border-med);border-radius:5px;padding:5px 8px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s"
+          style="flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid var(--border-med);border-radius:5px;padding:5px 8px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s"
           onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-med)'">
         <span data-pstatus="${f.id}"></span>
         <span data-premove="${f.id}"></span>`;
@@ -3761,7 +3771,7 @@ function addDocument(clientId){
       <div style="display:flex;align-items:center;gap:8px">
         ${isCloud
           ?`<span style="font-size:11px;color:var(--accent-text);display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></span>Cloudinary</span>`
-          :`<button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600">&#x26A0; Set up cloud storage</button>`}
+          :`<button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">&#x26A0; Set up cloud storage</button>`}
         <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
       </div>
     </div>
@@ -3776,7 +3786,7 @@ function addDocument(clientId){
     <div style="background:var(--amber-light);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:16px;text-align:center;margin-bottom:4px">
       <div style="font-size:13px;font-weight:600;color:var(--amber-text);margin-bottom:6px">Cloud storage not configured</div>
       <div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Connect Cloudinary to enable file uploads. It's free and takes 2 minutes.</div>
-      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="padding:8px 18px;border-radius:7px;border:none;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Set Up Cloud Storage</button>
+      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="padding:8px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Set Up Cloud Storage</button>
     </div>`}
     <div style="display:flex;align-items:center;gap:10px;margin:18px 0 14px">
       <div style="flex:1;height:1px;background:var(--border)"></div>
@@ -3784,18 +3794,18 @@ function addDocument(clientId){
       <div style="flex:1;height:1px;background:var(--border)"></div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:8px">
-      <input id="doc-link-url" type="url" placeholder="https://drive.google.com/…" style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box">
-      <input id="doc-link-name" type="text" placeholder="Display name" style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box">
+      <input id="doc-link-url" type="url" placeholder="https://drive.google.com/…" style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box">
+      <input id="doc-link-name" type="text" placeholder="Display name" style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box">
     </div>
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
-      <select id="doc-link-type" style="padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer">
+      <select id="doc-link-type" style="padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">
         <option>Link</option><option>PDF</option><option>Doc</option><option>Image</option><option>Video</option><option>Other</option>
       </select>
-      <button onclick="_addLinkDoc('${clientId}')" style="padding:9px 16px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Add Link</button>
+      <button onclick="_addLinkDoc('${clientId}')" style="padding:9px 16px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Add Link</button>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px">
-      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Cancel</button>
-      ${isCloud?`<button id="doc-submit-btn" onclick="_submitDocFiles('${clientId}')" disabled style="padding:9px 20px;border-radius:7px;border:none;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading);opacity:.5">Add</button>`:''}
+      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      ${isCloud?`<button id="doc-submit-btn" onclick="_submitDocFiles('${clientId}')" disabled style="padding:9px 20px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading);opacity:.5">Add</button>`:''}
     </div>
   </div>`;
   document.body.appendChild(modal);
@@ -3868,15 +3878,15 @@ function openAccessSettings(clientId){
     </div>
     <div style="font-size:12px;color:var(--text-3);margin-bottom:20px">Share the URL below with your client. They'll enter the access code to view project progress and documents.</div>
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Access Code</label>
-    <input id="ac-code-input" type="text" value="${c.accessCode||''}" placeholder="e.g. meridian2026" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box;margin-bottom:16px;transition:border-color .15s">
+    <input id="ac-code-input" type="text" value="${c.accessCode||''}" placeholder="e.g. meridian2026" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;margin-bottom:16px;transition:border-color .15s">
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Client Portal URL</label>
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:24px">
-      <input type="text" value="${clientUrl}" readonly style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border);background:var(--surface3);color:var(--text-3);font-size:11px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box">
-      <button onclick="navigator.clipboard.writeText('${clientUrl}').then(()=>{this.textContent='✓ Copied';this.style.color='var(--accent-text)';setTimeout(()=>{this.textContent='Copy';this.style.color='';},2000)})" style="padding:9px 14px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .15s">Copy</button>
+      <input type="text" value="${clientUrl}" readonly style="flex:1;padding:9px 12px;border-radius:7px;border:1px solid var(--border);background:var(--surface3);color:var(--text-3);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box">
+      <button onclick="navigator.clipboard.writeText('${clientUrl}').then(()=>{this.textContent='✓ Copied';this.style.color='var(--accent-text)';setTimeout(()=>{this.textContent='Copy';this.style.color='';},2000)})" style="padding:9px 14px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all .15s">Copy</button>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="document.getElementById('access-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Cancel</button>
-      <button onclick="saveAccessCode('${clientId}')" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#0A2224;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Code</button>
+      <button onclick="document.getElementById('access-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="saveAccessCode('${clientId}')" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Code</button>
     </div>
   </div>`;
   document.body.appendChild(modal);
@@ -3930,7 +3940,7 @@ function showClientWelcome(clientId){
   const _urlP=new URLSearchParams(location.search);
   const projName=c?c.project:(_urlP.get('pn')||'Your Project');
   const clientName=c?c.name:(_urlP.get('cn')||'');
-  const col=c?c.color:'#A7E000';
+  const col=c?c.color:'#DC5919';
 
   const allTasks=(c?.phases||[]).flatMap(ph=>ph.tasks||[]);
   const doneTasks=allTasks.filter(t=>t.s==='Complete').length;
@@ -3948,11 +3958,11 @@ function showClientWelcome(clientId){
 
   const overlay=document.createElement('div');
   overlay.id='client-login-overlay';
-  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:"Inter",sans-serif;padding:16px';
+  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:"DM Sans",sans-serif;padding:16px';
   overlay.innerHTML=`
   <div style="width:420px;max-width:100%">
     <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:6px"><span style="font-style:italic;font-family:var(--font-heading)">WHATARMY</span> <span style="color:var(--accent)">2026</span></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><svg width="16" height="14" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#154B27"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:13px;color:var(--text);letter-spacing:-0.02em">Baton</span></div>
       ${clientName?`<div style="font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:.02em">${clientName}</div>`:''}
       <div style="font-size:22px;font-weight:800;font-family:var(--font-heading);color:var(--text);letter-spacing:-0.03em;line-height:1.15;margin-top:${clientName?'3':'0'}px">${projName}</div>
     </div>
@@ -3985,7 +3995,7 @@ function showClientWelcome(clientId){
       ${phasePills?`<div style="display:flex;gap:6px;padding:10px 20px 8px;background:${col}05;border-bottom:1px solid ${col}12">${phasePills}</div>`:''}
       <div style="padding:22px 28px 28px;text-align:center">
         <div style="font-size:12px;color:var(--text-3);margin-bottom:16px">Your project portal is ready</div>
-        <button onclick="document.getElementById('client-login-overlay').remove();showClientPortalView('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#0A2224;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">Enter Project →</button>
+        <button onclick="document.getElementById('client-login-overlay').remove();showClientPortalView('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">Enter Project →</button>
       </div>
     </div>
   </div>`;
@@ -3999,7 +4009,7 @@ function showClientLogin(clientId){
   const _urlP=new URLSearchParams(location.search);
   const projName=c?c.project:(_urlP.get('pn')||'Your Project');
   const clientName=c?c.name:(_urlP.get('cn')||'');
-  const col=c?c.color:'#A7E000';
+  const col=c?c.color:'#DC5919';
 
   // Completion from phases task data
   const allTasks=(c?.phases||[]).flatMap(ph=>ph.tasks||[]);
@@ -4028,11 +4038,11 @@ function showClientLogin(clientId){
 
   const overlay=document.createElement('div');
   overlay.id='client-login-overlay';
-  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:"Inter",sans-serif;padding:16px';
+  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:"DM Sans",sans-serif;padding:16px';
   overlay.innerHTML=`
   <div style="width:420px;max-width:100%">
     <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:6px"><span style="font-style:italic;font-family:var(--font-heading)">WHATARMY</span> <span style="color:var(--accent)">2026</span></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><svg width="16" height="14" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#154B27"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:13px;color:var(--text);letter-spacing:-0.02em">Baton</span></div>
       ${clientName?`<div style="font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:.02em">${clientName}</div>`:''}
       <div style="font-size:22px;font-weight:800;font-family:var(--font-heading);color:var(--text);letter-spacing:-0.03em;line-height:1.15;margin-top:${clientName?'3':'0'}px">${projName}</div>
     </div>
@@ -4073,9 +4083,9 @@ function showClientLogin(clientId){
       <!-- Login form -->
       <div style="padding:22px 28px 28px">
         <div style="font-size:12px;color:var(--text-3);margin-bottom:12px;text-align:center">Enter your access code to continue</div>
-        <input id="client-code-input" type="password" placeholder="••••••••" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:16px;font-family:'Inter',sans-serif;outline:none;box-sizing:border-box;text-align:center;letter-spacing:.25em;margin-bottom:8px;transition:border-color .15s" onkeydown="if(event.key==='Enter')verifyClientCode('${clientId}')">
+        <input id="client-code-input" type="password" placeholder="••••••••" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;text-align:center;letter-spacing:.25em;margin-bottom:8px;transition:border-color .15s" onkeydown="if(event.key==='Enter')verifyClientCode('${clientId}')">
         <div id="client-login-err" style="font-size:12px;color:var(--red-text);margin-bottom:10px;min-height:18px;text-align:center"></div>
-        <button onclick="verifyClientCode('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#0A2224;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">View Project</button>
+        <button onclick="verifyClientCode('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">View Project</button>
       </div>
     </div>
   </div>`;
@@ -4147,7 +4157,7 @@ function renderPortalBody(){
   const cardsHtml=portalClients.map(c=>{
     const st=pClientStats(c);
     const hc=pHealthColor(st.health);
-    const progColor=st.health==='critical'?'#E74C3C':st.health==='warning'?'#F59E0B':'#A7E000';
+    const progColor=st.health==='critical'?'#B03652':st.health==='warning'?'#CFC753':'#76B9A5';
     return`<div class="pcard" onclick="openClientProject('${c.id}',event)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
         <div style="display:flex;align-items:center;gap:12px">
@@ -4169,7 +4179,7 @@ function renderPortalBody(){
       <div class="pcard-divider"></div>
       <div class="pcard-stat-row">
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:var(--text)">${st.total}</div><div class="pcard-stat-l">Total</div></div>
-        <div class="pcard-stat"><div class="pcard-stat-n" style="color:#A7E000">${st.complete}</div><div class="pcard-stat-l">Done</div></div>
+        <div class="pcard-stat"><div class="pcard-stat-n" style="color:#76B9A5">${st.complete}</div><div class="pcard-stat-l">Done</div></div>
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:var(--blue-text)">${st.inProg}</div><div class="pcard-stat-l">Active</div></div>
         <div class="pcard-stat"><div class="pcard-stat-n" style="color:${st.blocked>0?'#F59E0B':'var(--text-4)'}">${st.blocked}</div><div class="pcard-stat-l">Blocked</div></div>
       </div>
@@ -4390,33 +4400,33 @@ function renderPhasesView(clientId){
   if(!c)return'<div style="padding:40px;color:var(--text-4);text-align:center">Client not found.</div>';
   const phases=c.phases||[];
   const admin=!isClientMode;
-  const chkSvg=`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0A2224" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const chkSvg=`<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const statusOpts=s=>['Pending','In Progress','Complete','Blocked'].map(o=>`<option value="${o}"${s===o?' selected':''}>${o}</option>`).join('');
-  const statusColor={Complete:'#A7E000','In Progress':'var(--blue-text)',Blocked:'#F59E0B',Pending:'var(--text-4)'};
+  const statusColor={Complete:'#76B9A5','In Progress':'var(--blue-text)',Blocked:'#F59E0B',Pending:'var(--text-4)'};
   if(!phases.length){
     return`<div style="padding:60px 24px;text-align:center">
       <div style="font-size:36px;margin-bottom:14px">📋</div>
       <div style="font-size:15px;font-weight:700;color:var(--text-3);margin-bottom:6px">No phases yet</div>
       <div style="font-size:12px;color:var(--text-4);margin-bottom:22px">Add phases to track milestones and deliverables for this project</div>
-      ${admin?`<button onclick="phaseAddPhase('${clientId}')" style="padding:9px 20px;border-radius:8px;border:none;background:var(--accent);color:#0A2224;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">+ Add First Phase</button>`:''}
+      ${admin?`<button onclick="phaseAddPhase('${clientId}')" style="padding:9px 20px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">+ Add First Phase</button>`:''}
     </div>`;
   }
   const sectionsHtml=phases.map((ph,pi)=>{
     const tasks=ph.tasks||[];
     const done=tasks.filter(t=>t.s==='Complete').length;
     const pct=tasks.length?Math.round(done/tasks.length*100):0;
-    const barCol=pct===100?'#A7E000':'var(--accent)';
+    const barCol=pct===100?'#76B9A5':'var(--accent)';
     const tasksHtml=tasks.map((task,ti)=>{
       const done=task.s==='Complete';
       const sc=statusColor[task.s]||'var(--text-4)';
       return`<div class="ph-task">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-          <button onclick="phaseToggleTask('${clientId}',${pi},${ti})" style="width:17px;height:17px;border-radius:4px;border:1.5px solid ${done?'#A7E000':'var(--border-med)'};background:${done?'#A7E000':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s">${done?chkSvg:''}</button>
+          <button onclick="phaseToggleTask('${clientId}',${pi},${ti})" style="width:17px;height:17px;border-radius:4px;border:1.5px solid ${done?'#76B9A5':'var(--border-med)'};background:${done?'#76B9A5':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s">${done?chkSvg:''}</button>
           <span style="font-size:13px;color:${done?'var(--text-4)':'var(--text)'};text-decoration:${done?'line-through':'none'};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(task.t)}</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
           ${task.d?`<span style="font-size:11px;color:var(--text-4);white-space:nowrap">${esc(task.d)}</span>`:''}
-          <select onchange="phaseSetTaskStatus('${clientId}',${pi},${ti},this.value)" style="font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--border-med);background:var(--surface2);color:${sc};cursor:pointer;font-weight:600;font-family:'Inter',sans-serif">${statusOpts(task.s)}</select>
+          <select onchange="phaseSetTaskStatus('${clientId}',${pi},${ti},this.value)" style="font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--border-med);background:var(--surface2);color:${sc};cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif">${statusOpts(task.s)}</select>
           ${admin?`<button onclick="phaseEditTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--surface2)';this.style.color='var(--text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Edit">✎</button>
           <button onclick="phaseDeleteTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Delete">✕</button>`:''}
         </div>
@@ -4435,12 +4445,12 @@ function renderPhasesView(clientId){
         </div>`:''}
       </div>
       ${tasks.length?`<div class="ph-task-list">${tasksHtml}</div>`:`<div style="padding:12px 16px;font-size:12px;color:var(--text-4)">No tasks in this phase${admin?' — add one below':''}</div>`}
-      ${admin?`<button onclick="phaseAddTask('${clientId}',${pi})" style="display:flex;align-items:center;gap:6px;width:100%;padding:8px 16px;background:transparent;border:none;border-top:1px solid var(--border);color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s" onmouseenter="this.style.background='var(--accent-light)'" onmouseleave="this.style.background='transparent'">
+      ${admin?`<button onclick="phaseAddTask('${clientId}',${pi})" style="display:flex;align-items:center;gap:6px;width:100%;padding:8px 16px;background:transparent;border:none;border-top:1px solid var(--border);color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s" onmouseenter="this.style.background='var(--accent-light)'" onmouseleave="this.style.background='transparent'">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Task
       </button>`:''}
     </div>`;
   }).join('');
-  return`<div style="padding:20px 24px 40px">${sectionsHtml}${admin?`<button onclick="phaseAddPhase('${clientId}')" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 16px;border-radius:8px;border:1.5px dashed var(--border-med);background:transparent;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;justify-content:center" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-med)';this.style.color='var(--text-3)'"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Phase</button>`:''}</div>`;
+  return`<div style="padding:20px 24px 40px">${sectionsHtml}${admin?`<button onclick="phaseAddPhase('${clientId}')" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 16px;border-radius:8px;border:1.5px dashed var(--border-med);background:transparent;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;justify-content:center" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-med)';this.style.color='var(--text-3)'"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Phase</button>`:''}</div>`;
 }
 function phaseAddPhase(clientId){
   const name=prompt('Phase name:');
@@ -4482,24 +4492,24 @@ function _showPhaseTaskModal(clientId,pi,ti){
     <div style="display:flex;flex-direction:column;gap:14px">
       <div>
         <label style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Task Name</label>
-        <input id="pt-name" type="text" value="${task?task.t.replace(/</g,'&lt;').replace(/"/g,'&quot;'):''}" placeholder="Enter task name" style="width:100%;box-sizing:border-box;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none"/>
+        <input id="pt-name" type="text" value="${task?task.t.replace(/</g,'&lt;').replace(/"/g,'&quot;'):''}" placeholder="Enter task name" style="width:100%;box-sizing:border-box;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none"/>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div>
           <label style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Status</label>
-          <select id="pt-status" style="width:100%;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;cursor:pointer">
+          <select id="pt-status" style="width:100%;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer">
             ${['Pending','In Progress','Complete','Blocked'].map(s=>`<option value="${s}"${task&&task.s===s?' selected':''}>${s}</option>`).join('')}
           </select>
         </div>
         <div>
           <label style="font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Due Date</label>
-          <input id="pt-date" type="text" value="${task&&task.d?task.d:''}" placeholder="e.g. Jun 15, 2026" style="width:100%;box-sizing:border-box;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none"/>
+          <input id="pt-date" type="text" value="${task&&task.d?task.d:''}" placeholder="e.g. Jun 15, 2026" style="width:100%;box-sizing:border-box;padding:9px 12px;background:var(--surface2);border:1px solid var(--border-med);border-radius:7px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none"/>
         </div>
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end">
-      <button onclick="document.getElementById('phase-task-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Cancel</button>
-      <button onclick="_savePhaseTask('${clientId}',${pi},${isEdit?ti:'null'})" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#0A2224;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">${isEdit?'Save Changes':'Add Task'}</button>
+      <button onclick="document.getElementById('phase-task-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="_savePhaseTask('${clientId}',${pi},${isEdit?ti:'null'})" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">${isEdit?'Save Changes':'Add Task'}</button>
     </div>
   </div>`;
   ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
@@ -4671,11 +4681,11 @@ window.runTests=function(){
   // ── Output ───────────────────────────────────────────────────────────────────
   const div=document.createElement('div');
   div.style.cssText='position:fixed;top:12px;right:12px;z-index:9999;background:#111;border:1px solid #333;border-radius:10px;padding:14px 18px;font-family:Inter,monospace;font-size:12px;max-height:80vh;overflow-y:auto;min-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
-  div.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><b style="font-size:13px;color:${fail?'#E74C3C':'#A7E000'}">WhatArmy Tests — ${fail?fail+' FAILED':'All Passed ✓'}</b><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;padding:0 4px">×</button></div>`+
+  div.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><b style="font-size:13px;color:${fail?'#B03652':'#DC5919'}">Baton Tests — ${fail?fail+' FAILED':'All Passed ✓'}</b><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;padding:0 4px">×</button></div>`+
     R.map(r=>`<div style="display:flex;gap:7px;padding:2px 0;color:${r.ok?'#8aff8a':'#ff6b6b'}"><span>${r.ok?'✓':'✗'}</span><span style="flex:1;color:${r.ok?'#aaa':'#ff6b6b'}">${r.name}${r.msg?` — <i>${r.msg}</i>`:''}</span></div>`).join('')+
     `<div style="margin-top:10px;padding-top:8px;border-top:1px solid #333;color:#666">${pass}/${pass+fail} tests passed</div>`;
   document.body.appendChild(div);
-  console.group('%cWhatArmy runTests()','color:'+(fail?'#E74C3C':'#A7E000')+';font-weight:bold');
+  console.group('%cBaton runTests()','color:'+(fail?'#B03652':'#DC5919')+';font-weight:bold');
   R.forEach(r=>console.log(r.ok?'%c✓ '+r.name:'%c✗ '+r.name+(r.msg?' — '+r.msg:''),'color:'+(r.ok?'#8aff8a':'#ff6b6b')));
   console.log(`${pass}/${pass+fail} passed`);
   console.groupEnd();
@@ -4693,7 +4703,7 @@ window.runTests=function(){
       <div style="font-size:11px;color:var(--text-3);margin-top:1px" id="portal-date"></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <button onclick="event.stopPropagation();openAddPortalClient()" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer">+ Add Client</button>
+      <button onclick="event.stopPropagation();openAddPortalClient()" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer">+ Add Client</button>
       <button onclick="closePortal()" style="width:30px;height:30px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-2);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
     </div>
   </div>
