@@ -65,6 +65,7 @@
     --radius: 6px;
     --radius-lg: 10px;
     --radius-xl: 12px;
+    --radius-pill: 40px;
     --shadow: 0 2px 8px rgba(21,75,39,0.10);
     --shadow-md: 0 4px 16px rgba(21,75,39,0.16);
     --font-heading: 'Bricolage Grotesque', sans-serif;
@@ -82,10 +83,10 @@
   .logo span{color:var(--accent)}
   .year-badge{font-size:11px;font-weight:500;background:var(--accent-light);color:var(--accent-text);padding:2px 8px;border-radius:4px;font-family:'Inter',monospace}
   .header-right{display:flex;align-items:center;gap:8px}
-  .icon-btn{width:32px;height:32px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s}
+  .icon-btn{width:32px;height:32px;border:1px solid var(--border-med);border-radius:50%;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s}
   .icon-btn:hover{background:var(--surface2);color:var(--text)}
   /* Dashboard */
-  .dash-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+  .dash-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
   .dash-btn:hover,.dash-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   @keyframes dashSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
   .dash-panel{position:fixed;top:56px;left:0;right:0;z-index:45;background:var(--bg);border-bottom:2px solid var(--border-med);padding:20px 24px 24px;max-height:calc(100vh - 56px);overflow-y:auto;animation:dashSlide .18s ease}
@@ -122,17 +123,17 @@
   select.filter:focus{border-color:var(--accent)}
   .divider{width:1px;height:24px;background:var(--border-med);margin:0 2px}
   .view-group{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px}
-  .view-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border-radius:6px;border:none;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  .view-btn{font-size:12px;font-family:'DM Sans',sans-serif;padding:5px 10px;border-radius:40px;border:none;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .view-btn svg{width:13px;height:13px}
   .view-btn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
-  .btn-primary{font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 14px;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  .btn-primary{font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 14px;border:none;border-radius:40px;background:var(--accent);color:#fff;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .btn-primary:hover{opacity:0.9}
-  .btn-export{font-size:11px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+  .btn-export{font-size:11px;font-family:'DM Sans',sans-serif;padding:5px 10px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
   .btn-export:hover{border-color:var(--accent);color:var(--accent)}
   #save-toast{position:fixed;bottom:20px;right:20px;background:#1a2e1a;border:1px solid #2e7d2e;color:#81c784;font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 14px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;display:flex;align-items:center;gap:6px}
-  .btn-secondary{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+  .btn-secondary{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 12px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
   .btn-secondary:hover{background:var(--surface2);color:var(--text)}
-  .btn-danger{font-size:11px;padding:4px 8px;border:1px solid var(--red-light);border-radius:var(--radius);background:var(--red-light);color:var(--red-text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+  .btn-danger{font-size:11px;padding:4px 8px;border:1px solid var(--red-light);border-radius:40px;background:var(--red-light);color:var(--red-text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
   .btn-danger:hover{background:var(--red);color:#fff}
 
 
@@ -233,11 +234,11 @@
   .tl-day-cell{text-align:center;padding:1px 0;border-right:1px solid var(--border);cursor:crosshair}
   .tl-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
   .tl-zoom-group{display:flex;background:var(--surface2);border-radius:6px;padding:2px;gap:1px}
-  .tl-zoom-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}
+  .tl-zoom-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:40px;border:none;background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;font-weight:500}
   .tl-zoom-btn.active{background:var(--accent);color:#fff;box-shadow:0 1px 4px rgba(167,224,0,0.4)}
   .tl-zoom-btn:hover:not(.active){color:var(--text-2);background:rgba(255,255,255,0.05)}
   .tl-phase-tabs{display:flex;gap:4px;align-items:center}
-  .tl-phase-tab{font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;padding:4px 13px;border-radius:20px;border:1.5px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;letter-spacing:.01em}
+  .tl-phase-tab{font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;padding:4px 13px;border-radius:40px;border:1.5px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap;letter-spacing:.01em}
   .tl-phase-tab:hover:not(.active){color:var(--text-2);border-color:var(--accent);background:var(--accent-light)}
   .tl-phase-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 1px 6px rgba(220,89,25,0.30)}
   .month-dot{display:flex;flex-direction:column;gap:2px}
@@ -267,7 +268,7 @@
   .ms-date-input{max-width:108px;flex-shrink:0}
   .ms-type-select{width:120px;flex-shrink:0}
   .ms-date-sep{font-size:11px;color:var(--text-4);flex-shrink:0}
-  .add-ms-btn{font-size:11px;padding:5px 10px;border:1px dashed var(--border-med);border-radius:var(--radius);background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;margin-top:4px}
+  .add-ms-btn{font-size:11px;padding:5px 10px;border:1px dashed var(--border-med);border-radius:40px;background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;margin-top:4px}
   .add-ms-btn:hover{border-color:var(--accent);color:var(--accent)}
   .ms-del-btn{width:26px;height:26px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .15s}
   .ms-del-btn:hover{background:var(--red-light);color:var(--red-text);border-color:transparent}
@@ -315,7 +316,7 @@
   .cal-cell:hover .cal-add-btn{opacity:1}
   /* View toggle */
   .cal-view-toggle{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px;flex-shrink:0}
-  .cal-view-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:5px;border:none;background:transparent;color:var(--text-2);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .cal-view-btn{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 12px;border-radius:40px;border:none;background:transparent;color:var(--text-2);cursor:pointer;transition:all .15s;white-space:nowrap}
   .cal-view-btn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
   /* Week view */
   .cal-week-grid{display:grid;grid-template-columns:repeat(7,1fr);flex:1;min-height:0;border-top:1px solid var(--border)}
@@ -449,9 +450,9 @@
 .ptask-badge{font-size:9px;padding:1px 7px;border-radius:99px;white-space:nowrap;font-weight:500;flex-shrink:0}
 /* ── Client Project View ──────────────────────────────────────────────────── */
 .cv-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;border-bottom:none;background:var(--surface);flex-shrink:0;gap:12px;flex-wrap:wrap}
-.cv-back-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-3);padding:5px 10px;border-radius:6px;border:1px solid var(--border-med);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s}
+.cv-back-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-3);padding:5px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s}
 .cv-back-btn:hover{background:var(--hover);color:var(--text)}
-.cv-tab-btn{font-size:11px;font-weight:600;padding:5px 13px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
+.cv-tab-btn{font-size:11px;font-weight:600;padding:5px 13px;border-radius:40px;border:1px solid transparent;background:transparent;color:var(--text-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px}
 .cv-tab-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border-med)}
 .cv-tab-btn.active{background:var(--accent-light);color:var(--accent-text);border-color:rgba(167,224,0,0.3)}
 .doc-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
@@ -495,7 +496,7 @@ tr.tl-row-dragging td{visibility:hidden!important}
 .login-field label{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
 .login-field input{background:var(--surface2);border:1px solid rgba(21,75,39,0.18);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
 .login-field input:focus{border-color:var(--accent)}
-.login-btn{background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:11px;border:none;border-radius:8px;cursor:pointer;transition:opacity .15s;letter-spacing:-.01em}
+.login-btn{background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:11px;border:none;border-radius:40px;cursor:pointer;transition:opacity .15s;letter-spacing:-.01em}
 .login-btn:hover{opacity:.88}
 .login-err{font-size:12px;color:var(--red-text);text-align:center;min-height:18px;transition:opacity .2s}
 @keyframes wa-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
@@ -1324,7 +1325,7 @@ function render(){
       <div style="display:flex;align-items:center;gap:8px">
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${_hc};padding:4px 10px;border-radius:20px;background:${_hc}18;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:${_hc}"></span>${pHealthLabel(_st.health)}</span>
         <span style="font-size:11px;color:var(--text-3);white-space:nowrap">${_st.pct}% complete</span>
-        ${(!isClientMode&&_c)?`<button onclick="openAccessSettings('${_c.id}')" style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><path d="M12 2l-1.5 1.5M4 14L2.5 12.5M14 4l-1.5 1.5M2 12L3.5 10.5M14 12l-1.5-1.5M2 4l1.5 1.5M12 14l-1.5-1.5M4 2l1.5 1.5"/></svg>Share</button>`:''}
+        ${(!isClientMode&&_c)?`<button onclick="openAccessSettings('${_c.id}')" style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><path d="M12 2l-1.5 1.5M4 14L2.5 12.5M14 4l-1.5 1.5M2 12L3.5 10.5M14 12l-1.5-1.5M2 4l1.5 1.5M12 14l-1.5-1.5M4 2l1.5 1.5"/></svg>Share</button>`:''}
       </div>
     </div>${contentHtml}`;
     _wireDocListeners();
@@ -1540,8 +1541,8 @@ function renderTable(data){
       <option value="">Change owner…</option>
       ${teamMembers.map(m=>`<option value="${m}">${m}</option>`).join('')}
     </select>
-    <button onclick="bulkDeleteSelected()" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>
-    <button onclick="_selProjIds.clear();render()" style="margin-left:auto;width:26px;height:26px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center" title="Clear selection">×</button>
+    <button onclick="bulkDeleteSelected()" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:40px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>
+    <button onclick="_selProjIds.clear();render()" style="margin-left:auto;width:26px;height:26px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center" title="Clear selection">×</button>
   </div>`;
   return `<div class="table-wrap">${bulkBar}<div class="tbl-scroll"><table>
     <thead><tr>
@@ -2646,7 +2647,7 @@ function renderDash(){
   document.getElementById('dash-panel').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
       <div style="font-family:var(--font-heading);font-weight:800;font-size:15px;letter-spacing:-.02em;color:var(--text)">Dashboard</div>
-      <button onclick="closeDash()" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:20px;line-height:1;padding:2px 6px;border-radius:4px" onmouseenter="this.style.color='var(--text)'" onmouseleave="this.style.color='var(--text-3)'">✕</button>
+      <button onclick="closeDash()" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:20px;line-height:1;padding:2px 6px;border-radius:40px" onmouseenter="this.style.color='var(--text)'" onmouseleave="this.style.color='var(--text-3)'">✕</button>
     </div>
     <div class="dash-stat-grid">${statsHtml}</div>
     <div class="dash-charts" style="grid-template-columns:1.2fr 1fr 1fr 1fr">
@@ -2852,7 +2853,7 @@ function openCloudSettings(){
   m.innerHTML=`<div style="background:var(--surface);border:1px solid var(--border-med);border-radius:14px;padding:32px;width:480px;max-width:92vw">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h2 style="font-size:16px;font-weight:700;font-family:var(--font-heading);margin:0">Cloud Storage</h2>
-      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center">&times;</button>
+      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center">&times;</button>
     </div>
     <p style="font-size:12px;color:var(--text-3);margin:0 0 20px;line-height:1.6">Files are uploaded to <strong style="color:var(--text)">Cloudinary</strong> — free up to 25 GB. <a href="https://cloudinary.com/users/register_free" target="_blank" style="color:var(--accent-text)">Create a free account</a>, then follow these steps:<br><br>
     1. Go to <strong style="color:var(--text)">Settings → Upload</strong><br>
@@ -2864,8 +2865,8 @@ function openCloudSettings(){
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px">Upload Preset <span style="color:var(--accent-text)">(must be Unsigned)</span></label>
     <input id="cs-preset" type="text" value="${cloudConfig.uploadPreset}" placeholder="e.g. baton_unsigned" autocomplete="off" style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;margin-bottom:22px">
     <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-      <button onclick="_saveCloudSettingsFromModal()" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save</button>
+      <button onclick="document.getElementById('cloud-settings-modal').remove()" style="padding:9px 18px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="_saveCloudSettingsFromModal()" style="padding:9px 18px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save</button>
     </div>
   </div>`;
   document.body.appendChild(m);
@@ -2887,10 +2888,10 @@ function _syncCloudHeaderBtn(){
   if(!btn)return;
   if(cloudReady()){
     btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 10a3 3 0 00-1-5.83A5 5 0 003 8H2a2 2 0 000 4h11"/><path d="M10 13l2-2-2-2M12 11H8"/></svg> Cloudinary`;
-    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(167,224,0,.35);border-radius:var(--radius);background:var(--accent-light);color:var(--accent-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
+    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(167,224,0,.35);border-radius:40px;background:var(--accent-light);color:var(--accent-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
   }else{
     btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 10a3 3 0 00-1-5.83A5 5 0 003 8H2a2 2 0 000 4h11"/><line x1="4" y1="4" x2="12" y2="12"/></svg> Cloud Storage`;
-    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(245,158,11,.35);border-radius:var(--radius);background:var(--amber-light);color:var(--amber-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
+    btn.style.cssText='font-size:11px;font-family:"DM Sans",sans-serif;padding:4px 10px;border:1px solid rgba(245,158,11,.35);border-radius:40px;background:var(--amber-light);color:var(--amber-text);cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600;transition:all .15s';
   }
 }
 
@@ -2988,8 +2989,8 @@ function showPortalHome(){
           <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.project)}</div><div style="font-size:11px;color:var(--text-4)">${esc(c.name)}</div></div>
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0">
-          <button onclick="unarchivePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Restore</button>
-          <button onclick="permanentDeletePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">Delete Forever</button>
+          <button onclick="unarchivePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Restore</button>
+          <button onclick="permanentDeletePortalClient('${c.id}',event)" style="padding:4px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">Delete Forever</button>
         </div>
       </div>`;
     }
@@ -3005,7 +3006,7 @@ function showPortalHome(){
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
           <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:${hc};white-space:nowrap"><span style="width:7px;height:7px;border-radius:50%;background:${hc};box-shadow:0 0 0 3px ${hc}25;flex-shrink:0"></span>${pHealthLabel(st.health)}</span>
-          <button onclick="deletePortalClient('${c.id}',event)" title="Archive project" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
+          <button onclick="deletePortalClient('${c.id}',event)" title="Archive project" style="width:22px;height:22px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">✕</button>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;margin-bottom:6px">
@@ -3031,7 +3032,7 @@ function showPortalHome(){
   const cardsHtml=activeClients.map((c,idx)=>makeCard(c,idx,false)).join('');
   const archiveHtml=archivedClients.length?`<div style="margin-top:28px;padding:0 32px 32px"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px">Archived (${archivedClients.length})</div><div style="display:flex;flex-direction:column;gap:8px">${archivedClients.map(c=>makeCard(c,-1,true)).join('')}</div></div>`:'';
   mv.innerHTML=`<div style="padding:80px 32px 32px;width:100%;box-sizing:border-box;position:relative">
-    <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
+    <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:40px;cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       Add New Project
     </button>
@@ -3350,11 +3351,11 @@ function setClientTab(tab){
 // ─── DOCUMENTS PORTAL ─────────────────────────────────────────────────────────
 // Legacy inline-onclick helper (kept for reference; doc-list buttons use _docActBtn instead)
 function _docIconBtn(onclick,title,svgPath,hoverColor){
-  return`<button onclick="${onclick}" title="${title}" style="width:28px;height:28px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">${svgPath}</svg></button>`;
+  return`<button onclick="${onclick}" title="${title}" style="width:28px;height:28px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">${svgPath}</svg></button>`;
 }
 // Data-attribute based button — no inline onclick, no quoting issues with filenames or URLs
 function _docActBtn(action,cid,did,title,svgInner){
-  return`<button data-doc-action="${action}" data-cid="${cid}" data-did="${did}" title="${title}" style="width:28px;height:28px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">${svgInner}</svg></button>`;
+  return`<button data-doc-action="${action}" data-cid="${cid}" data-did="${did}" title="${title}" style="width:28px;height:28px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">${svgInner}</svg></button>`;
 }
 // Wire delegated listeners on the doc list and bulk bar after render() sets mv.innerHTML
 function _wireDocListeners(){
@@ -3503,7 +3504,7 @@ function previewDocument(clientId,docId){
 
   if(!isLink){
     const dlBtn=document.createElement('button');
-    dlBtn.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
+    dlBtn.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:40px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)';
     dlBtn.innerHTML='<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download';
     dlBtn.addEventListener('click',()=>downloadDocument(clientId,docId));
     hdrRight.appendChild(dlBtn);
@@ -3584,14 +3585,14 @@ function renderDocumentsView(clientId){
   </div>`;
   const cloudStatus=cloudReady()
     ?`<span style="font-size:11px;color:var(--accent-text);display:flex;align-items:center;gap:5px;cursor:pointer" onclick="openCloudSettings()" title="Cloud storage settings"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0"></span>Cloudinary</span>`
-    :`<button onclick="openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px">&#x26A0; Set up cloud storage</button>`;
+    :`<button onclick="openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:40px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px">&#x26A0; Set up cloud storage</button>`;
   return`<div style="padding:28px 32px;flex:1;overflow-y:auto;min-height:0">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <div>
         <h2 style="font-size:18px;font-weight:700;letter-spacing:-0.02em;font-family:var(--font-heading);margin:0 0 3px">Documents</h2>
         <div style="font-size:12px;color:var(--text-3);display:flex;align-items:center;gap:10px">${docs.length} file${docs.length===1?'':'s'} shared &nbsp;${cloudStatus}</div>
       </div>
-      <button onclick="addDocument('${clientId}')" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--font-heading)">
+      <button onclick="addDocument('${clientId}')" style="display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:40px;cursor:pointer;font-family:var(--font-heading)">
         <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         Add Document
       </button>
@@ -3601,10 +3602,10 @@ function renderDocumentsView(clientId){
     </div>
     ${docs.length?`<div id="doc-bulk-bar" data-cid="${clientId}" style="display:none;margin-top:10px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border-med);border-radius:8px;align-items:center;gap:8px;flex-wrap:wrap">
       <span id="doc-bulk-count" style="font-size:12px;font-weight:600;color:var(--text);flex:1;white-space:nowrap">0 selected</span>
-      <button data-bulk-action="selectall" data-cid="${clientId}" style="font-size:11px;font-weight:600;padding:5px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer;font-family:'DM Sans',sans-serif">Select all</button>
-      <button data-bulk-action="download" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download</button>
-      ${isClientMode?'':` <button data-bulk-action="delete" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>`}
-      <button data-bulk-action="clear" data-cid="${clientId}" style="width:26px;height:26px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px" title="Clear selection">&times;</button>
+      <button data-bulk-action="selectall" data-cid="${clientId}" style="font-size:11px;font-weight:600;padding:5px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer;font-family:'DM Sans',sans-serif">Select all</button>
+      <button data-bulk-action="download" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:40px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>Download</button>
+      ${isClientMode?'':` <button data-bulk-action="delete" data-cid="${clientId}" style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:40px;border:none;background:#E74C3C22;color:#E74C3C;cursor:pointer;font-family:var(--font-heading)"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M4 4l1 9h6l1-9"/></svg>Delete</button>`}
+      <button data-bulk-action="clear" data-cid="${clientId}" style="width:26px;height:26px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px" title="Clear selection">&times;</button>
     </div>`:''}
   </div>`;
 }
@@ -3771,8 +3772,8 @@ function addDocument(clientId){
       <div style="display:flex;align-items:center;gap:8px">
         ${isCloud
           ?`<span style="font-size:11px;color:var(--accent-text);display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></span>Cloudinary</span>`
-          :`<button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:5px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">&#x26A0; Set up cloud storage</button>`}
-        <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
+          :`<button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="font-size:11px;color:var(--amber-text);background:var(--amber-light);border:1px solid rgba(245,158,11,.3);border-radius:40px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">&#x26A0; Set up cloud storage</button>`}
+        <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
       </div>
     </div>
     ${isCloud?`
@@ -3786,7 +3787,7 @@ function addDocument(clientId){
     <div style="background:var(--amber-light);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:16px;text-align:center;margin-bottom:4px">
       <div style="font-size:13px;font-weight:600;color:var(--amber-text);margin-bottom:6px">Cloud storage not configured</div>
       <div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Connect Cloudinary to enable file uploads. It's free and takes 2 minutes.</div>
-      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="padding:8px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Set Up Cloud Storage</button>
+      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[];openCloudSettings()" style="padding:8px 18px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Set Up Cloud Storage</button>
     </div>`}
     <div style="display:flex;align-items:center;gap:10px;margin:18px 0 14px">
       <div style="flex:1;height:1px;background:var(--border)"></div>
@@ -3801,11 +3802,11 @@ function addDocument(clientId){
       <select id="doc-link-type" style="padding:9px 12px;border-radius:7px;border:1px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer">
         <option>Link</option><option>PDF</option><option>Doc</option><option>Image</option><option>Video</option><option>Other</option>
       </select>
-      <button onclick="_addLinkDoc('${clientId}')" style="padding:9px 16px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Add Link</button>
+      <button onclick="_addLinkDoc('${clientId}')" style="padding:9px 16px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Add Link</button>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px">
-      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-      ${isCloud?`<button id="doc-submit-btn" onclick="_submitDocFiles('${clientId}')" disabled style="padding:9px 20px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading);opacity:.5">Add</button>`:''}
+      <button onclick="document.getElementById('add-doc-modal').remove();_pendingDocFiles=[]" style="padding:9px 18px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      ${isCloud?`<button id="doc-submit-btn" onclick="_submitDocFiles('${clientId}')" disabled style="padding:9px 20px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading);opacity:.5">Add</button>`:''}
     </div>
   </div>`;
   document.body.appendChild(modal);
@@ -3874,7 +3875,7 @@ function openAccessSettings(clientId){
   modal.innerHTML=`<div style="background:var(--surface);border:1px solid var(--border-med);border-radius:14px;padding:32px;width:440px;max-width:92vw">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <h2 style="font-size:16px;font-weight:700;font-family:var(--font-heading);margin:0">Client Access</h2>
-      <button onclick="document.getElementById('access-modal').remove()" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
+      <button onclick="document.getElementById('access-modal').remove()" style="width:28px;height:28px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-3);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
     </div>
     <div style="font-size:12px;color:var(--text-3);margin-bottom:20px">Share the URL below with your client. They'll enter the access code to view project progress and documents.</div>
     <label style="display:block;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Access Code</label>
@@ -3885,8 +3886,8 @@ function openAccessSettings(clientId){
       <button onclick="navigator.clipboard.writeText('${clientUrl}').then(()=>{this.textContent='✓ Copied';this.style.color='var(--accent-text)';setTimeout(()=>{this.textContent='Copy';this.style.color='';},2000)})" style="padding:9px 14px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all .15s">Copy</button>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="document.getElementById('access-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-      <button onclick="saveAccessCode('${clientId}')" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Code</button>
+      <button onclick="document.getElementById('access-modal').remove()" style="padding:9px 18px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="saveAccessCode('${clientId}')" style="padding:9px 18px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">Save Code</button>
     </div>
   </div>`;
   document.body.appendChild(modal);
@@ -3995,7 +3996,7 @@ function showClientWelcome(clientId){
       ${phasePills?`<div style="display:flex;gap:6px;padding:10px 20px 8px;background:${col}05;border-bottom:1px solid ${col}12">${phasePills}</div>`:''}
       <div style="padding:22px 28px 28px;text-align:center">
         <div style="font-size:12px;color:var(--text-3);margin-bottom:16px">Your project portal is ready</div>
-        <button onclick="document.getElementById('client-login-overlay').remove();showClientPortalView('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">Enter Project →</button>
+        <button onclick="document.getElementById('client-login-overlay').remove();showClientPortalView('${clientId}')" style="width:100%;padding:13px;border-radius:40px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">Enter Project →</button>
       </div>
     </div>
   </div>`;
@@ -4085,7 +4086,7 @@ function showClientLogin(clientId){
         <div style="font-size:12px;color:var(--text-3);margin-bottom:12px;text-align:center">Enter your access code to continue</div>
         <input id="client-code-input" type="password" placeholder="••••••••" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border-med);background:var(--surface2);color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;text-align:center;letter-spacing:.25em;margin-bottom:8px;transition:border-color .15s" onkeydown="if(event.key==='Enter')verifyClientCode('${clientId}')">
         <div id="client-login-err" style="font-size:12px;color:var(--red-text);margin-bottom:10px;min-height:18px;text-align:center"></div>
-        <button onclick="verifyClientCode('${clientId}')" style="width:100%;padding:13px;border-radius:10px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">View Project</button>
+        <button onclick="verifyClientCode('${clientId}')" style="width:100%;padding:13px;border-radius:40px;border:none;background:${col};color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading);letter-spacing:-.01em;transition:filter .15s" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">View Project</button>
       </div>
     </div>
   </div>`;
@@ -4408,7 +4409,7 @@ function renderPhasesView(clientId){
       <div style="font-size:36px;margin-bottom:14px">📋</div>
       <div style="font-size:15px;font-weight:700;color:var(--text-3);margin-bottom:6px">No phases yet</div>
       <div style="font-size:12px;color:var(--text-4);margin-bottom:22px">Add phases to track milestones and deliverables for this project</div>
-      ${admin?`<button onclick="phaseAddPhase('${clientId}')" style="padding:9px 20px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">+ Add First Phase</button>`:''}
+      ${admin?`<button onclick="phaseAddPhase('${clientId}')" style="padding:9px 20px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">+ Add First Phase</button>`:''}
     </div>`;
   }
   const sectionsHtml=phases.map((ph,pi)=>{
@@ -4421,14 +4422,14 @@ function renderPhasesView(clientId){
       const sc=statusColor[task.s]||'var(--text-4)';
       return`<div class="ph-task">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-          <button onclick="phaseToggleTask('${clientId}',${pi},${ti})" style="width:17px;height:17px;border-radius:4px;border:1.5px solid ${done?'#76B9A5':'var(--border-med)'};background:${done?'#76B9A5':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s">${done?chkSvg:''}</button>
+          <button onclick="phaseToggleTask('${clientId}',${pi},${ti})" style="width:17px;height:17px;border-radius:40px;border:1.5px solid ${done?'#76B9A5':'var(--border-med)'};background:${done?'#76B9A5':'transparent'};cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s">${done?chkSvg:''}</button>
           <span style="font-size:13px;color:${done?'var(--text-4)':'var(--text)'};text-decoration:${done?'line-through':'none'};flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(task.t)}</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
           ${task.d?`<span style="font-size:11px;color:var(--text-4);white-space:nowrap">${esc(task.d)}</span>`:''}
           <select onchange="phaseSetTaskStatus('${clientId}',${pi},${ti},this.value)" style="font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--border-med);background:var(--surface2);color:${sc};cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif">${statusOpts(task.s)}</select>
-          ${admin?`<button onclick="phaseEditTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--surface2)';this.style.color='var(--text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Edit">✎</button>
-          <button onclick="phaseDeleteTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:4px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Delete">✕</button>`:''}
+          ${admin?`<button onclick="phaseEditTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--surface2)';this.style.color='var(--text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Edit">✎</button>
+          <button onclick="phaseDeleteTask('${clientId}',${pi},${ti})" style="width:22px;height:22px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'" title="Delete">✕</button>`:''}
         </div>
       </div>`;
     }).join('');
@@ -4440,8 +4441,8 @@ function renderPhasesView(clientId){
           <div style="width:60px;height:4px;background:var(--border-med);border-radius:99px;overflow:hidden;flex-shrink:0"><div style="width:${pct}%;height:100%;background:${barCol};border-radius:99px;transition:width .4s"></div></div>
         </div>
         ${admin?`<div style="display:flex;gap:6px">
-          <button onclick="phaseEditPhase('${clientId}',${pi})" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Rename</button>
-          <button onclick="phaseDeletePhase('${clientId}',${pi})" style="padding:4px 10px;border-radius:5px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">Delete</button>
+          <button onclick="phaseEditPhase('${clientId}',${pi})" style="padding:4px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background='transparent'">Rename</button>
+          <button onclick="phaseDeletePhase('${clientId}',${pi})" style="padding:4px 10px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-4);font-size:11px;cursor:pointer;font-weight:600;transition:all .15s" onmouseenter="this.style.background='var(--red-light)';this.style.color='var(--red-text)'" onmouseleave="this.style.background='transparent';this.style.color='var(--text-4)'">Delete</button>
         </div>`:''}
       </div>
       ${tasks.length?`<div class="ph-task-list">${tasksHtml}</div>`:`<div style="padding:12px 16px;font-size:12px;color:var(--text-4)">No tasks in this phase${admin?' — add one below':''}</div>`}
@@ -4450,7 +4451,7 @@ function renderPhasesView(clientId){
       </button>`:''}
     </div>`;
   }).join('');
-  return`<div style="padding:20px 24px 40px">${sectionsHtml}${admin?`<button onclick="phaseAddPhase('${clientId}')" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 16px;border-radius:8px;border:1.5px dashed var(--border-med);background:transparent;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;justify-content:center" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-med)';this.style.color='var(--text-3)'"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Phase</button>`:''}</div>`;
+  return`<div style="padding:20px 24px 40px">${sectionsHtml}${admin?`<button onclick="phaseAddPhase('${clientId}')" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 16px;border-radius:40px;border:1.5px dashed var(--border-med);background:transparent;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;justify-content:center" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-med)';this.style.color='var(--text-3)'"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Phase</button>`:''}</div>`;
 }
 function phaseAddPhase(clientId){
   const name=prompt('Phase name:');
@@ -4508,8 +4509,8 @@ function _showPhaseTaskModal(clientId,pi,ti){
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end">
-      <button onclick="document.getElementById('phase-task-modal').remove()" style="padding:9px 18px;border-radius:7px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-      <button onclick="_savePhaseTask('${clientId}',${pi},${isEdit?ti:'null'})" style="padding:9px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">${isEdit?'Save Changes':'Add Task'}</button>
+      <button onclick="document.getElementById('phase-task-modal').remove()" style="padding:9px 18px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+      <button onclick="_savePhaseTask('${clientId}',${pi},${isEdit?ti:'null'})" style="padding:9px 18px;border-radius:40px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-heading)">${isEdit?'Save Changes':'Add Task'}</button>
     </div>
   </div>`;
   ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
@@ -4703,8 +4704,8 @@ window.runTests=function(){
       <div style="font-size:11px;color:var(--text-3);margin-top:1px" id="portal-date"></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <button onclick="event.stopPropagation();openAddPortalClient()" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer">+ Add Client</button>
-      <button onclick="closePortal()" style="width:30px;height:30px;border:1px solid var(--border-med);border-radius:6px;background:transparent;color:var(--text-2);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+      <button onclick="event.stopPropagation();openAddPortalClient()" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 12px;border-radius:40px;border:1px solid var(--border-med);background:transparent;color:var(--text-2);cursor:pointer">+ Add Client</button>
+      <button onclick="closePortal()" style="width:30px;height:30px;border:1px solid var(--border-med);border-radius:40px;background:transparent;color:var(--text-2);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
     </div>
   </div>
   <div class="portal-body" id="portal-body"></div>
