@@ -114,12 +114,12 @@
   .mini-cal-day.has-ms::after{content:'';position:absolute;bottom:0px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--accent);opacity:.7}
   .mini-cal-day.today::after{background:#fff}
 
-  .toolbar{padding:14px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:none;background:var(--surface)}
-  .search-wrap{position:relative;flex:1;min-width:180px;max-width:280px}
+  .toolbar{padding:8px 16px;display:flex;align-items:center;gap:6px;flex-wrap:nowrap;border-bottom:none;background:var(--surface)}
+  .search-wrap{position:relative;flex:1;min-width:140px;max-width:220px}
   .search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-3)}
-  .search-wrap input{width:100%;padding:7px 10px 7px 30px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid rgba(21,75,39,0.18);border-radius:var(--radius);background:var(--surface2);color:var(--text);outline:none}
+  .search-wrap input{width:100%;padding:5px 10px 5px 28px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid rgba(21,75,39,0.18);border-radius:40px;background:var(--surface2);color:var(--text);outline:none}
   .search-wrap input:focus{border-color:var(--accent);background:var(--surface)}
-  select.filter{font-size:12px;font-family:'DM Sans',sans-serif;padding:6px 10px;border:1px solid rgba(21,75,39,0.18);border-radius:var(--radius);background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
+  select.filter{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 8px;border:1px solid rgba(21,75,39,0.18);border-radius:40px;background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
   select.filter:focus{border-color:var(--accent)}
   .divider{width:1px;height:24px;background:var(--border-med);margin:0 2px}
   .view-group{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px}
@@ -3031,17 +3031,16 @@ function showPortalHome(){
   };
   const cardsHtml=activeClients.map((c,idx)=>makeCard(c,idx,false)).join('');
   const archiveHtml=archivedClients.length?`<div style="margin-top:28px;padding:0 32px 32px"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px">Archived (${archivedClients.length})</div><div style="display:flex;flex-direction:column;gap:8px">${archivedClients.map(c=>makeCard(c,-1,true)).join('')}</div></div>`:'';
-  mv.innerHTML=`<div style="padding:80px 32px 32px;width:100%;box-sizing:border-box;position:relative">
-    <button onclick="openAddPortalClient()" style="position:absolute;top:40px;right:32px;display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:40px;cursor:pointer;white-space:nowrap;font-family:var(--font-heading);z-index:1">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      Add New Project
-    </button>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:.07em;text-transform:uppercase">Overview</div>
-      <div style="position:relative;flex:1;max-width:260px;margin-left:auto">
+  mv.innerHTML=`<div style="padding:20px 32px 16px;width:100%;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="position:relative;flex:1;max-width:280px">
         <svg style="position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:var(--text-3)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="portal-search" type="text" placeholder="Search projects…" oninput="filterPortalCards()" style="width:100%;box-sizing:border-box;padding:7px 10px 7px 30px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid var(--border-med);border-radius:6px;background:var(--surface2);color:var(--text);outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-med)'"/>
+        <input id="portal-search" type="text" placeholder="Search projects…" oninput="filterPortalCards()" style="width:100%;box-sizing:border-box;padding:6px 10px 6px 30px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid rgba(21,75,39,0.18);border-radius:40px;background:var(--surface2);color:var(--text);outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='rgba(21,75,39,0.18)'"/>
       </div>
+      <button onclick="openAddPortalClient()" style="display:flex;align-items:center;gap:7px;padding:6px 16px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border:none;border-radius:40px;cursor:pointer;white-space:nowrap;font-family:var(--font-heading)">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><line x1="6" y1="1" x2="6" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Add New Project
+      </button>
     </div>
     <div id="pcard-grid" style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:250px;gap:16px" ondragover="event.preventDefault()" ondrop="event.preventDefault()">
       <div class="pcard" style="cursor:default;display:flex;flex-direction:column;justify-content:space-between;gap:14px">
