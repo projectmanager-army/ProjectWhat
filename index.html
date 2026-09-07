@@ -77,7 +77,13 @@
 
   /* Layout */
   .app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-  .header{background:var(--surface);border-bottom:none;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50}
+  .header{background:#154B27;border-bottom:none;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(21,75,39,0.25)}
+  .header .dash-btn{color:rgba(249,245,230,0.7);border-color:rgba(249,245,230,0.18)}
+  .header .dash-btn:hover{background:rgba(249,245,230,0.12);color:#F9F5E6;border-color:rgba(249,245,230,0.3)}
+  .header .btn-secondary{color:rgba(249,245,230,0.7);border-color:rgba(249,245,230,0.18);background:transparent}
+  .header .btn-secondary:hover{background:rgba(249,245,230,0.12);color:#F9F5E6}
+  .header .icon-btn{color:rgba(249,245,230,0.7);border-color:rgba(249,245,230,0.18)}
+  .header .icon-btn:hover{background:rgba(249,245,230,0.12);color:#F9F5E6}
   .header-left{display:flex;align-items:center;gap:12px}
   .logo{font-size:15px;font-weight:600;letter-spacing:-0.3px;color:var(--text);font-family:var(--font-heading)}
   .logo span{color:var(--accent)}
@@ -528,7 +534,7 @@ tr.tl-row-dragging td{visibility:hidden!important}
 <!-- Header -->
 <header class="header">
   <div class="header-left">
-    <div class="logo" style="display:flex;align-items:center;gap:8px"><svg width="22" height="20" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#154B27"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:-0.03em;color:var(--text)">Baton</span></div>
+    <div class="logo" style="display:flex;align-items:center;gap:8px"><svg width="22" height="20" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#F9F5E6"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#76B9A5"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:-0.03em;color:#F9F5E6">Baton</span></div>
     <button class="dash-btn" id="dash-btn" onclick="toggleDash()">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1"></rect><rect x="9" y="1" width="6" height="6" rx="1"></rect><rect x="1" y="9" width="6" height="6" rx="1"></rect><rect x="9" y="9" width="6" height="6" rx="1"></rect></svg>
       Dashboard
