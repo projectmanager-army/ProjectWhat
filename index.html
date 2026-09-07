@@ -27,47 +27,47 @@
     --rose: #B03652; --blush: #F2A8B6; --blush-tint: #FBE0E5;
     --sky: #A1CFF0; --sky-tint: #DDEBF8;
     --cobalt: #2F6BB0; --brass: #CFC753; --brass-tint: #F6EED0;
-    /* Theme tokens */
-    --bg: #F4F4F2;
-    --surface: #FFFFFF;
-    --surface2: #EBEBEA;
-    --surface3: #E2E2E0;
+    /* Theme tokens — dark forest */
+    --bg: #111D15;
+    --surface: #192B1F;
+    --surface2: #1E3325;
+    --surface3: #253D2C;
     --border: transparent;
     --border-med: transparent;
-    --text: #154B27;
-    --text-2: #2D5A3A;
-    --text-3: #5A7A62;
-    --text-4: #8AA490;
-    --text-5: #AABBA8;
+    --text: #EFE9D6;
+    --text-2: #C2DACC;
+    --text-3: #8AA490;
+    --text-4: #5A7A62;
+    --text-5: #3A5C42;
     --accent: #DC5919;
-    --accent-light: rgba(220,89,25,0.10);
-    --accent-text: #B23E10;
+    --accent-light: rgba(220,89,25,0.18);
+    --accent-text: #F09050;
     --amber: #CFC753;
-    --amber-light: rgba(207,199,83,0.15);
-    --amber-text: #7A7800;
+    --amber-light: rgba(207,199,83,0.16);
+    --amber-text: #D4CD50;
     --blue: #2F6BB0;
-    --blue-light: rgba(47,107,176,0.12);
-    --blue-text: #2F6BB0;
+    --blue-light: rgba(107,174,232,0.14);
+    --blue-text: #6BAEE8;
     --red: #B03652;
-    --red-light: rgba(176,54,82,0.10);
-    --red-text: #B03652;
+    --red-light: rgba(176,54,82,0.14);
+    --red-text: #E0688A;
     --purple: #7B5EA7;
-    --purple-light: rgba(123,94,167,0.12);
-    --purple-text: #6040A0;
+    --purple-light: rgba(123,94,167,0.14);
+    --purple-text: #A880D0;
     --teal: #76B9A5;
-    --teal-light: rgba(118,185,165,0.15);
-    --teal-text: #154B27;
+    --teal-light: rgba(118,185,165,0.16);
+    --teal-text: #76B9A5;
     --coral: #DC5919;
-    --coral-light: rgba(220,89,25,0.12);
-    --coral-text: #B23E10;
-    --gray-light: rgba(21,75,39,0.06);
-    --gray-text: #8AA490;
+    --coral-light: rgba(220,89,25,0.18);
+    --coral-text: #F09050;
+    --gray-light: rgba(249,245,230,0.06);
+    --gray-text: #A0B8A8;
     --radius: 6px;
     --radius-lg: 10px;
     --radius-xl: 12px;
     --radius-pill: 40px;
-    --shadow: 0 2px 8px rgba(21,75,39,0.10);
-    --shadow-md: 0 4px 16px rgba(21,75,39,0.16);
+    --shadow: 0 2px 8px rgba(0,0,0,0.32);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.45);
     --font-heading: 'Bricolage Grotesque', sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -77,7 +77,7 @@
 
   /* Layout */
   .app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-  .header{background:#154B27;border-bottom:none;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(21,75,39,0.25)}
+  .header{background:#0D3119;border-bottom:none;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,0,0,0.4)}
   .header .dash-btn{color:rgba(249,245,230,0.7);border-color:rgba(249,245,230,0.18)}
   .header .dash-btn:hover{background:rgba(249,245,230,0.12);color:#F9F5E6;border-color:rgba(249,245,230,0.3)}
   .header .btn-secondary{color:rgba(249,245,230,0.7);border-color:rgba(249,245,230,0.18);background:transparent}
@@ -123,9 +123,9 @@
   .toolbar{padding:8px 16px;display:flex;align-items:center;gap:6px;flex-wrap:nowrap;border-bottom:none;background:var(--surface)}
   .search-wrap{position:relative;flex:1;min-width:140px;max-width:220px}
   .search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-3)}
-  .search-wrap input{width:100%;padding:5px 10px 5px 28px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid rgba(21,75,39,0.18);border-radius:40px;background:var(--surface2);color:var(--text);outline:none}
+  .search-wrap input{width:100%;padding:5px 10px 5px 28px;font-size:12px;font-family:'DM Sans',sans-serif;border:1px solid rgba(249,245,230,0.12);border-radius:40px;background:var(--surface2);color:var(--text);outline:none}
   .search-wrap input:focus{border-color:var(--accent);background:var(--surface)}
-  select.filter{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 8px;border:1px solid rgba(21,75,39,0.18);border-radius:40px;background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
+  select.filter{font-size:11px;font-family:'DM Sans',sans-serif;padding:4px 8px;border:1px solid rgba(249,245,230,0.12);border-radius:40px;background:var(--surface2);color:var(--text);cursor:pointer;outline:none}
   select.filter:focus{border-color:var(--accent)}
   .divider{width:1px;height:24px;background:var(--border-med);margin:0 2px}
   .view-group{display:flex;background:var(--surface2);border-radius:var(--radius);padding:2px;gap:1px}
@@ -534,7 +534,7 @@ tr.tl-row-dragging td{visibility:hidden!important}
 <!-- Header -->
 <header class="header">
   <div class="header-left">
-    <div class="logo" style="display:flex;align-items:center;gap:8px"><svg width="22" height="20" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#F9F5E6"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#76B9A5"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:-0.03em;color:#F9F5E6">Baton</span></div>
+    <div class="logo" style="display:flex;align-items:center;gap:8px"><svg width="22" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 22A5.5 5.5 0 0 0 13 33L18.5 33A5.5 5.5 0 0 1 18.5 22Z" fill="#CFC753"/><path d="M3 7H33V18H13V22a5.5 5.5 0 0 0 0 11H3Z" fill="#F9F5E6"/><rect x="13" y="22" width="24" height="11" rx="5.5" fill="#DC5919"/></svg><span style="font-family:var(--font-heading);font-weight:800;font-size:16px;letter-spacing:-0.03em;color:#F9F5E6">Baton</span></div>
     <button class="dash-btn" id="dash-btn" onclick="toggleDash()">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1"></rect><rect x="9" y="1" width="6" height="6" rx="1"></rect><rect x="1" y="9" width="6" height="6" rx="1"></rect><rect x="9" y="9" width="6" height="6" rx="1"></rect></svg>
       Dashboard
